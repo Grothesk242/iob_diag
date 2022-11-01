@@ -32,6 +32,7 @@ fi;
 # else
 #    echo "I'm living in real world!";
 # fi
+echo -e "LXC: `systemd-detect-virt`"
 lsb_release -idrc;
 echo "";
 echo "Systemuptime und Load:";
