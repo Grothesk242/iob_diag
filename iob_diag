@@ -61,14 +61,14 @@ pwd;
 groups;
 echo "";
 echo "*** X-Server-Setup ***";
-echo -e "Konsole: $XDG_SESSION_TYPE";
-echo -e "Desktop: $DESKTOP_SESSION";
 XORGTEST=`ps aux | grep -c 'Xorg'`
 if (("$XORGTEST" > 1)); then
     echo "X-Server: Ja"
 else
     echo "X-Server: Nein"
 fi
+echo -e "Desktop: $DESKTOP_SESSION";
+echo -e "Konsole: $XDG_SESSION_TYPE";
 echo "";
 echo "*** Repositories und OS-Updates ***";
 sudo apt update &> /dev/null;
