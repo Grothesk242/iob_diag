@@ -1,0 +1,69 @@
+#!/bin/bash
+# iobroker diagnostics
+# written to help getting information about the environment the ioBroker installation is running in
+clear;
+echo "";
+echo "*** ioBroker Diagnose ***";
+echo "";
+echo "Bitte das Fenster von puTTY breit ziehen oder auf Vollbild setzen"
+echo "Den nachfolgenden Output 1:1 in das ioBroker-Forum unter";
+echo "https://forum.iobroker.net";
+echo "vollständig posten ,inkl der jeweils drei Steuerzeichen \`\`\` am Anfang und Ende:";
+echo "";
+echo "===========Ab hier kopieren =========";
+echo "";
+echo "\`\`\`";
+echo "*** BASISSYSTEM ***";
+echo -n "CPU-Architektur: ";
+uname -m;
+DOCKER=/opt/scripts/.docker_config/.thisisdocker
+if [ -f "$DOCKER" ]; then
+    echo "Docker: Ja"
+else
+    echo "Docker: Nein"
+fi
+# Alternativer DockerCheck - Nicht getestet:
+#
+# if [ -f /.dockerenv ]; then
+#    echo "I'm inside matrix ;(";
+# else
+#    echo "I'm living in real world!";
+# fi
+lsb_release -a
+echo "";
+echo "*** Zeit und Zeitzonen ***";
+timedatectl;
+echo "";
+echo "*** ARBEITSSPEICHER ***";
+free -mth;
+echo ""
+echo "*** Nodejs-Installation ***"
+sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null
+echo -e "`type -P nodejs` \t`nodejs -v`"
+echo -e "`type -P node` \t\t`node -v`"
+echo -e "`type -P npm` \t\t`npm -v`"
+echo  "";
+echo "*** ioBroker-Installation ***"
+echo -e "js-controller: \t`iob -v`"
+echo "Updates + Repos:";
+iob update -u
+echo ""
+echo "*** User und Gruppen ***"
+whoami
+pwd
+groups
+echo ""
+echo "*** Server-Setup ***"
+echo -e "Konsole: $XDG_SESSION_TYPE"
+echo -e "Desktop: $DESKTOP_SESSION"
+echo ""
+echo "*** Repositories und OS-Updates ***"
+sudo apt update &> /dev/null
+sudo apt update
+apt policy nodejs
+echo "\`\`\`";
+echo "";
+echo "========== Bis hier kopieren ==========="
+echo "";
+echo "iob diag wurde beendet."
+echo ""
