@@ -3,17 +3,19 @@
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
 echo "";
-echo "*** ioBroker Diagnose ***";
+echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
 echo "";
 echo "Bitte das Fenster von puTTY breit ziehen oder auf Vollbild setzen";
 echo "Den nachfolgenden Output 1:1 in das ioBroker-Forum unter";
 echo "https://forum.iobroker.net";
-echo "vollständig posten ,inkl der jeweils drei Steuerzeichen \`\`\` am Anfang und Ende:";
+echo "vollständig posten, inkl der jeweils drei Steuerzeichen \`\`\` am Anfang und Ende.";
 echo "";
-echo "=========== Ab hier kopieren ==========";
+read -p "Weiter mit Enter";
+echo "";
+echo -e "\033[33m=========== Ab hier kopieren ==========\033[0m";
 echo "";
 echo "\`\`\`";
-echo "*** BASISSYSTEM ***";
+echo -e "\033[34m*** BASISSYSTEM ***\033[0m";
 echo -n "CPU-Architektur: ";
 uname -m;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
@@ -35,13 +37,13 @@ echo "Systemuptime und Load:";
 uptime;
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
-echo "*** Zeit und Zeitzonen ***";
+echo -e "\033[34m*** Zeit und Zeitzonen ***\033[0m";
 timedatectl;
 echo "";
-echo "*** ARBEITSSPEICHER ***";
+echo -e "\033[34m*** ARBEITSSPEICHER ***\033[0m";
 free -mth;
 echo "";
-echo "*** Nodejs-Installation ***";
+echo -e "\033[34m*** Nodejs-Installation ***\033[0m";
 sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null;
 echo -e "`type -P nodejs` \t`nodejs -v`";
 echo -e "`type -P node` \t\t`node -v`";
@@ -49,18 +51,18 @@ echo -e "`type -P npm` \t\t`npm -v`";
 echo "";
 apt policy nodejs;
 echo  "";
-echo "*** ioBroker-Installation ***";
+echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
 echo -e "js-controller: \t`iob -v`";
 echo "";
 echo "Updates + Repos:";
 iob update -u;
 echo "";
-echo "*** User und Gruppen ***";
+echo -e "\033[34m*** User und Gruppen ***\033[0m";
 whoami;
 pwd;
 groups;
 echo "";
-echo "*** X-Server-Setup ***";
+echo -e "\033[34m*** X-Server-Setup ***\033[0m";
 XORGTEST=`ps aux | grep -c 'Xorg'`
 if (("$XORGTEST" > 1)); then
     echo "X-Server: Ja"
@@ -70,12 +72,12 @@ fi
 echo -e "Desktop: $DESKTOP_SESSION";
 echo -e "Konsole: $XDG_SESSION_TYPE";
 echo "";
-echo "*** Repositories und OS-Updates ***";
+echo -e "\033[34m*** Repositories und OS-Updates ***\033[0m";
 sudo apt update &> /dev/null;
 sudo apt update;
 echo "\`\`\`";
 echo "";
-echo "=========== Bis hier kopieren ===========";
+echo -e "\033[33m=========== Bis hier kopieren ===========\033[0m";
 echo "";
 echo "iob diag wurde beendet.";
 echo "";
