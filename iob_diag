@@ -33,6 +33,7 @@ lsb_release -idrc;
 echo "";
 echo "Systemuptime und Load:";
 uptime;
+echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
 echo "*** Zeit und Zeitzonen ***";
 timedatectl;
@@ -59,9 +60,15 @@ whoami;
 pwd;
 groups;
 echo "";
-echo "*** Server-Setup ***";
+echo "*** X-Server-Setup ***";
 echo -e "Konsole: $XDG_SESSION_TYPE";
 echo -e "Desktop: $DESKTOP_SESSION";
+XORGTEST=`ps aux | grep -c 'Xorg'`
+if (("$XORGTEST" > 1)); then
+    echo "X-Server: Ja"
+else
+    echo "X-Server: Nein"
+fi
 echo "";
 echo "*** Repositories und OS-Updates ***";
 sudo apt update &> /dev/null;
