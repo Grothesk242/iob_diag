@@ -39,7 +39,10 @@ uptime;
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
 echo -e "\033[34m*** Zeit und Zeitzonen ***\033[0m";
-timedatectl;
+date -u;
+date;
+date +"%Z %z";
+cat /etc/timezone;
 echo "";
 echo -e "\033[34m*** ARBEITSSPEICHER ***\033[0m";
 free -mth;
