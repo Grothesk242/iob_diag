@@ -5,7 +5,7 @@ clear;
 echo "";
 echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
 echo "";
-echo "Bitte das Fenster von des Terminals (puTTY) breit ziehen oder auf Vollbild setzen.";
+echo "Bitte das Fenster des Terminalsprogramms (puTTY) breit ziehen oder auf Vollbild setzen.";
 echo "Die nachfolgenden Ausgaben bitte 1:1 in das ioBroker-Forum unter";
 echo "https://forum.iobroker.net";
 echo "vollständig posten, inkl der jeweils drei Steuerzeichen \`\`\` am Anfang und Ende.";
