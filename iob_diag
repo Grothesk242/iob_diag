@@ -63,8 +63,10 @@ echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
 echo -e "js-controller: \t`iob -v`";
 echo "";
 echo "Updates + Repos:";
+iob repo list;
 iob update -u;
 echo "";
+echo "Zahl der Objekte: \t`iob list objects | wc -l`"
 echo -e "\033[34m*** User und Gruppen ***\033[0m";
 whoami;
 pwd;
