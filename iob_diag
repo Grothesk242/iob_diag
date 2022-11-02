@@ -61,6 +61,7 @@ apt policy nodejs;
 echo  "";
 echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
 echo -e "js-controller: \t`iob -v`";
+echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
 echo "Updates + Repos:";
 iob repo list;
