@@ -2,6 +2,12 @@
 # iobroker diagnostics
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
+# DOCKER=/etc/resolv.conf
+DOCKER=/opt/scripts/.docker_config/.thisisdocker;
+if [ $EUID -eq 0 ] | [ ! -f "$DOCKER" ]; then
+  echo "Dieses Skript darf nicht von root ausgeführt werden!" 1>&2
+  exit 1
+fi
 echo "";
 echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
 echo "";
@@ -19,7 +25,6 @@ echo "\`\`\`";
 echo -e "\033[34m*** BASISSYSTEM ***\033[0m";
 echo -n "CPU-Architektur: ";
 uname -m;
-DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 if [ -f "$DOCKER" ]; then
     echo "Docker: Ja"
 else
@@ -91,9 +96,9 @@ echo -e "\033[34m*** Repositories und OS-Updates ***\033[0m";
 sudo apt update &> /dev/null;
 sudo apt update;
 echo "";
-echo -e "\033[34m*** Lauschende Server-Ports ***\033[0m";
+echo -e "\033[34m*** Lauschende Ports ***\033[0m";
 sudo netstat -tulpen | sed -n '1,2p;/LISTEN/p';
-# Alternativ - ss ist nicht ueberall vorinstalliert 
+# Alternativ - ss ist nicht ueberall vorinstalliert
 # sudo ss -tulwp | grep LISTEN;
 echo "";
 echo "\`\`\`";
