@@ -2,6 +2,10 @@
 # iobroker diagnostics
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
+if (( $EUID = 0 )); then
+    echo "Das skriptd darf nicht als root ausgeführt werden!"
+    exit
+fi
 echo "";
 echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
 echo "";
@@ -45,6 +49,11 @@ date;
 date +"%Z %z";
 cat /etc/timezone;
 echo "";
+echo -e "\033[34m*** User und Gruppen ***\033[0m";
+whoami;
+pwd;
+groups;
+echo "";
 echo -e "\033[34m*** ARBEITSSPEICHER ***\033[0m";
 free -mth;
 echo "";
@@ -63,18 +72,14 @@ echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
 echo -e "js-controller: \t`iob -v`";
 echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
-echo "Updates + Repos:";
+echo "Repos und Updates:";
 iob repo list;
+echo "";
 iob update -u;
 echo "";
-echo "Es wird die Zahl der Objekte und Zustände ermittelt - Dies kann etwas dauern."
+echo "Es wird die Zahl der Objekte und Zustände ermittelt - Dies kann etwas dauern.";
 echo -e "Zahl der Objekte: \t`iob list objects | wc -l`";
 echo -e "Zahl der Zustände: \t`iob list states | wc -l`";
-echo "";
-echo -e "\033[34m*** User und Gruppen ***\033[0m";
-whoami;
-pwd;
-groups;
 echo "";
 echo -e "\033[34m*** X-Server-Setup ***\033[0m";
 XORGTEST=`ps aux | grep -c 'Xorg'`
