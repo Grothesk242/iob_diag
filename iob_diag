@@ -22,8 +22,8 @@ echo -e "\033[33m=========== Ab hier kopieren ==========\033[0m";
 echo "";
 echo "\`\`\`";
 echo -e "\033[34m*** BASISSYSTEM ***\033[0m";
-echo -n "CPU-Architektur: ";
-uname -m;
+echo -n "CPU-Architektur + Kernel: ";
+uname -a;
 if [ -f "$DOCKER" ]; then
     echo "Docker: Ja"
 else
