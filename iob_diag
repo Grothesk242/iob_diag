@@ -3,10 +3,10 @@
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
-if [ $EUID -eq 0 ] | [ ! -f "$DOCKER" ]; then
-  echo "Dieses Skript darf nicht von root ausgeführt werden!" 1>&2
-  exit 1
-fi
+#if [ $EUID -eq 0 ] | [ ! -f "$DOCKER" ]; then
+#  echo -e "Dieses Skript darf nicht von root ausgeführt werden! \nBitte einen Standarduser anlegen!" 1>&2
+#  exit 1
+#fi
 echo "";
 echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
 echo "";
@@ -106,3 +106,4 @@ echo -e "\033[33m=========== Bis hier kopieren ===========\033[0m";
 echo "";
 echo "iob diag wurde beendet.";
 echo "";
+exit;
