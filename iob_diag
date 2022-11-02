@@ -2,10 +2,6 @@
 # iobroker diagnostics
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
-if (( $EUID = 0 )); then
-    echo "Das skriptd darf nicht als root ausgeführt werden!"
-    exit
-fi
 echo "";
 echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
 echo "";
