@@ -82,7 +82,9 @@ sudo apt update &> /dev/null;
 sudo apt update;
 echo "";
 echo -e "\033[34m*** Lauschende Ports ***\033[0m";
-sudo ss -tulwp | grep LISTEN;
+sudo netstat -tulpen | grep LISTEN;
+# Alternativ - ss ist nicht ueberall vorinstalliert 
+# sudo ss -tulwp | grep LISTEN;
 echo "";
 echo "\`\`\`";
 echo "";
