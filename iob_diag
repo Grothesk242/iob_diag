@@ -2,7 +2,6 @@
 # iobroker diagnostics
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
-# DOCKER=/etc/resolv.conf
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 if [ $EUID -eq 0 ] | [ ! -f "$DOCKER" ]; then
   echo "Dieses Skript darf nicht von root ausgeführt werden!" 1>&2
