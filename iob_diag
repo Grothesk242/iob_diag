@@ -66,8 +66,9 @@ echo "Updates + Repos:";
 iob repo list;
 iob update -u;
 echo "";
-echo "Es wird die Zahl der Objekte ermittelt - Dies kann etwas dauern."
+echo "Es wird die Zahl der Objekte und Zustände ermittelt - Dies kann etwas dauern."
 echo -e "Zahl der Objekte: \t`iob list objects | wc -l`";
+echo -e "Zahl der Zustände: \t`iob list states | wc -l`";
 echo "";
 echo -e "\033[34m*** User und Gruppen ***\033[0m";
 whoami;
@@ -89,7 +90,7 @@ sudo apt update &> /dev/null;
 sudo apt update;
 echo "";
 echo -e "\033[34m*** Lauschende Ports ***\033[0m";
-sudo netstat -tulpen | grep LISTEN;
+sudo netstat -tulpen | sed -n '1,2p;/LISTEN/p';
 # Alternativ - ss ist nicht ueberall vorinstalliert 
 # sudo ss -tulwp | grep LISTEN;
 echo "";
