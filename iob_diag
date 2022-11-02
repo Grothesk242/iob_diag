@@ -66,7 +66,9 @@ echo "Updates + Repos:";
 iob repo list;
 iob update -u;
 echo "";
-echo -e "Zahl der Objekte: \t`iob list objects | wc -l`"
+echo "Es wird die Zahl der Objekte ermittelt - Dies kann etwas dauern."
+echo -e "Zahl der Objekte: \t`iob list objects | wc -l`";
+echo "";
 echo -e "\033[34m*** User und Gruppen ***\033[0m";
 whoami;
 pwd;
