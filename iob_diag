@@ -86,7 +86,7 @@ echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
 echo -e "js-controller: \t`iob -v`";
 echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
-echo "Repos und Updates:";
+echo "ioBroker-Repos und Updates:";
 iob repo list;
 echo "";
 iob update -u;
@@ -106,8 +106,9 @@ echo -e "Desktop: $DESKTOP_SESSION";
 echo -e "Konsole: $XDG_SESSION_TYPE";
 echo "";
 echo -e "\033[34m*** Repositories und OS-Updates ***\033[0m";
-sudo apt-get update &> /dev/null;
-sudo apt-get update;
+sudo apt-get update 1>/dev/null && sudo apt-get update
+APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
+echo -e "Ausstehende Updates: `echo $APT`";
 echo "";
 echo -e "\033[34m*** Lauschende Ports ***\033[0m";
 sudo netstat -tulpen #| sed -n '1,2p;/LISTEN/p';
