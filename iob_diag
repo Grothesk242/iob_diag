@@ -93,10 +93,12 @@ echo "";
 apt-cache policy nodejs;
 echo  "";
 echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
+echo "";
+echo -e "\033[34mVersionsnummern der Kern-Adapter\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
-echo "ioBroker-Repos und Updates:";
+echo -e "\033[34mioBroker-Repos und Updates\033[0m";
 iob repo list;
 echo "";
 iob update -u;
