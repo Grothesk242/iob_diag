@@ -54,6 +54,16 @@ whoami;
 pwd;
 groups;
 echo "";
+echo -e "\033[34m*** X-Server-Setup ***\033[0m";
+XORGTEST=`ps aux | grep -c 'Xorg'`
+if (("$XORGTEST" > 1)); then
+    echo "X-Server: Ja"
+else
+    echo "X-Server: Nein"
+fi
+echo -e "Desktop: $DESKTOP_SESSION";
+echo -e "Konsole: $XDG_SESSION_TYPE";
+echo "";
 echo -e "\033[34m*** ARBEITSSPEICHER ***\033[0m";
 free -mth;
 echo "";
@@ -91,19 +101,10 @@ iob repo list;
 echo "";
 iob update -u;
 echo "";
-echo "Es wird die Zahl der Objekte und Zustände ermittelt - Dies kann etwas dauern.";
-echo -e "Zahl der Objekte: \t`iob list objects 2>/dev/null | wc -l`";
-echo -e "Zahl der Zustände: \t`iob list states 2>/dev/null | wc -l`";
-echo "";
-echo -e "\033[34m*** X-Server-Setup ***\033[0m";
-XORGTEST=`ps aux | grep -c 'Xorg'`
-if (("$XORGTEST" > 1)); then
-    echo "X-Server: Ja"
-else
-    echo "X-Server: Nein"
-fi
-echo -e "Desktop: $DESKTOP_SESSION";
-echo -e "Konsole: $XDG_SESSION_TYPE";
+echo -e "\033[34mObjekte und Zustände\033[0m";
+echo "werden ermittelt - Dies kann einen Moment dauern.";
+echo -e "Objekte: \t`iob list objects 2>/dev/null | wc -l`";
+echo -e "Zustände: \t`iob list states 2>/dev/null | wc -l`";
 echo "";
 echo -e "\033[34m*** Repositories und OS-Updates ***\033[0m";
 sudo apt-get update 1>/dev/null && sudo apt-get update
