@@ -92,8 +92,8 @@ echo "";
 iob update -u;
 echo "";
 echo "Es wird die Zahl der Objekte und Zustände ermittelt - Dies kann etwas dauern.";
-echo -e "Zahl der Objekte: \t`iob list objects | wc -l`";
-echo -e "Zahl der Zustände: \t`iob list states | wc -l`";
+echo -e "Zahl der Objekte: \t`iob list objects 2>/dev/null | wc -l`";
+echo -e "Zahl der Zustände: \t`iob list states 2>/dev/null | wc -l`";
 echo "";
 echo -e "\033[34m*** X-Server-Setup ***\033[0m";
 XORGTEST=`ps aux | grep -c 'Xorg'`
