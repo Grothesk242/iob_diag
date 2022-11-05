@@ -8,7 +8,7 @@ DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 #  exit 1
 #fi
 echo "";
-echo -e "\033[32m*** ioBroker Diagnose ***\033[0m";
+echo -e "\033[34;107m*** ioBroker Diagnose ***\033[0m";
 echo "";
 echo "Bitte das Fenster des Terminalsprogramms (puTTY) breit ziehen oder auf Vollbild setzen.";
 echo "Die nachfolgenden Ausgaben bitte 1:1 in das ioBroker-Forum unter";
@@ -21,7 +21,7 @@ echo "";
 echo -e "\033[33m=========== Ab hier kopieren ==========\033[0m";
 echo "";
 echo "\`\`\`";
-echo -e "\033[34m*** BASISSYSTEM ***\033[0m";
+echo -e "\033[34;107m*** BASISSYSTEM ***\033[0m";
 echo -n "CPU-Architektur: ";
 uname -m;
 if [ -f "$DOCKER" ]; then
@@ -43,18 +43,18 @@ echo "Systemuptime und Load:";
 uptime;
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
-echo -e "\033[34m*** Zeit und Zeitzonen ***\033[0m";
+echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
 date -u;
 date;
 date +"%Z %z";
 cat /etc/timezone;
 echo "";
-echo -e "\033[34m*** User und Gruppen ***\033[0m";
+echo -e "\033[34;107m*** User und Gruppen ***\033[0m";
 whoami;
 pwd;
 groups;
 echo "";
-echo -e "\033[34m*** X-Server-Setup ***\033[0m";
+echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
 XORGTEST=`ps aux | grep -c 'Xorg'`
 if (("$XORGTEST" > 1)); then
     echo "X-Server: Ja"
@@ -64,10 +64,10 @@ fi
 echo -e "Desktop: $DESKTOP_SESSION";
 echo -e "Konsole: $XDG_SESSION_TYPE";
 echo "";
-echo -e "\033[34m*** ARBEITSSPEICHER ***\033[0m";
-free -mth;
+echo -e "\033[34;107m*** ARBEITSSPEICHER ***\033[0m";
+free -th --mega;
 echo "";
-echo -e "\033[34m*** DATEISYSTEM ***\033[0m";
+echo -e "\033[34;107m*** DATEISYSTEM ***\033[0m";
 df -PTh;
 echo "";
 echo -e "\033[32mDaten in neuralgischen Verzeichnissen:\033[0m";
@@ -84,7 +84,7 @@ echo "";
 echo -e "\033[32mDie 5 größten Dateien in iobroker-data:\033[0m";
 ls -sh /opt/iobroker/iobroker-data/ | sort -rh | head -5;
 echo "";
-echo -e "\033[34m*** Nodejs-Installation ***\033[0m";
+echo -e "\033[34;107m*** Nodejs-Installation ***\033[0m";
 sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null;
 echo -e "`type -P nodejs` \t`nodejs -v`";
 echo -e "`type -P node` \t\t`node -v`";
@@ -92,28 +92,28 @@ echo -e "`type -P npm` \t\t`npm -v`";
 echo "";
 apt-cache policy nodejs;
 echo  "";
-echo -e "\033[34m*** ioBroker-Installation ***\033[0m";
+echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
-echo -e "\033[34mVersionsnummern der Kern-Adapter\033[0m"
+echo -e "\033[32mVersionsnummern der Kern-Adapter\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
-echo -e "\033[34mioBroker-Repos und Updates\033[0m";
+echo -e "\033[32mioBroker-Repos und Updates\033[0m";
 iob repo list;
 echo "";
 iob update -u;
 echo "";
-echo -e "\033[34mObjekte und Zustände\033[0m";
+echo -e "\033[32mObjekte und Zustände\033[0m";
 echo "werden ermittelt - Dies kann einen Moment dauern.";
 echo -e "Objekte: \t`iob list objects 2>/dev/null | wc -l`";
 echo -e "Zustände: \t`iob list states 2>/dev/null | wc -l`";
 echo "";
-echo -e "\033[34m*** Repositories und OS-Updates ***\033[0m";
+echo -e "\033[34;107m*** Repositories und OS-Updates ***\033[0m";
 sudo apt-get update 1>/dev/null && sudo apt-get update
 APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
 echo -e "Ausstehende Updates: `echo $APT`";
 echo "";
-echo -e "\033[34m*** Lauschende Ports ***\033[0m";
+echo -e "\033[34;107m*** Lauschende Ports ***\033[0m";
 sudo netstat -tulpen #| sed -n '1,2p;/LISTEN/p';
 # Alternativ - ss ist nicht ueberall vorinstalliert
 # sudo ss -tulwp | grep LISTEN;
