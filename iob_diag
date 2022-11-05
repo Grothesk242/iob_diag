@@ -7,7 +7,9 @@ clear;
 XORGTEST=0;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0
-
+INSTENV=0
+INSTENV2=0
+SYSTDDVIRT=0
 #if [ $EUID -eq 0 ] | [ ! -f "$DOCKER" ]; then
 #  echo -e "Dieses Skript darf nicht von root ausgeführt werden! \nBitte als Standarduser ausführen!" 1>&2
 #  exit 1
@@ -19,7 +21,7 @@ echo "";
 echo "Bitte das Fenster des Terminalsprogramms (puTTY) breit ziehen oder auf Vollbild setzen.";
 echo "Die nachfolgenden Diagnosen können einen Hinweis auf mögliche Fehler im Setup liefern";
 echo "https://forum.iobroker.net";
-echo "Die Zusammenfassund am Ende bitte vollständig im Forum posten, inkl der jeweils drei Steuerzeichen \`\`\`.";
+echo "Die Zusammenfassung am Ende bitte vollständig im Forum posten, inkl der jeweils drei Steuerzeichen \`\`\`.";
 echo "Das hilft den Helfern enorm dabei zu erkennen wo ein Problem evtl. zu suchen ist"
 echo "";
         read -p "Weiter mit Enter";
@@ -43,6 +45,7 @@ fi;
 #    echo "I'm living in real world!";
 # fi
 echo -e "LXC: `systemd-detect-virt`"
+SYSTDDVIRT=$(systemd-detect-virt)
         lsb_release -idrc;
 echo "";
         cat /etc/os-release;
@@ -59,7 +62,7 @@ echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
 echo "";
 echo -e "\033[34;107m*** User und Gruppen ***\033[0m";
         whoami;
-        pwd;
+        echo $HOME;
         groups;
 echo "";
 echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
@@ -116,8 +119,10 @@ echo "";
 echo "";
 echo -e "\033[32mObjekte und Zustände\033[0m";
 echo "werden ermittelt - Dies kann einen Moment dauern.";
-echo -e "Objekte: \t`iob list objects 2>/dev/null | wc -l`";
-echo -e "Zustände: \t`iob list states 2>/dev/null | wc -l`";
+IOBOBJECTS=$(iob list objects 2>/dev/null | wc -l);
+echo -e "Objekte: \t`echo $IOBOBJECTS`";
+IOBSTATES=$(iob list states 2>/dev/null | wc -l);
+echo -e "Zustände: \t`echo $IOBSTATES`";
 echo "";
 echo -e "\033[34;107m*** Repositories und OS-Updates ***\033[0m";
         sudo apt-get update 1>/dev/null && sudo apt-get update
@@ -141,8 +146,44 @@ echo "";
         read -p "Zur Zusammenfassung drücke die Enter-Taste";
 echo "";
         clear;
-echo "========= ZUSAMMENFASSUNG =========";
+echo "=================== ZUSAMMENFASSUNG ====================";
 echo "";
-echo "Is noch nich' fertig. Erstmal Mittagspause machen!";
+# echo "Baustelle! Betreten verboten! Admins haften für ihre User!";
+echo "";
+echo -e "Betriebssystem: `lsb_release -d | tr -s ' ' | cut -d: -f 2`"
+if [ -f "$DOCKER" ]; then
+        INSTENV=2
+elif [ "$SYSTDDVIRT" != "none" ]; then
+        INSTENV=1
+else
+        INSTENV=0
+fi;
+INSTENV2=$(
+if [[ $INSTENV -eq 2 ]]; then
+        echo "Docker";
+elif [ $INSTENV -eq 1 ]; then
+        echo $SYSTDDVIRT;
+else
+        echo "Nativ";
+fi;)
+echo -e "Installation: \t\t`echo $INSTENV2`";
+echo -e "Zeitzone: \t\t`cat /etc/timezone`";
+echo -e "User-ID: \t\t`echo $EUID`";
+echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "aktiv";else echo "deaktiv";fi`";
+
+echo -e "Nodejs-Installation: \t`type -P nodejs` \t`nodejs -v`";
+echo -e "\t\t\t`type -P node` \t\t`node -v`";
+echo -e "\t\t\t`type -P npm` \t\t`npm -v`";
+
+echo -e "ioBroker Core: \t\tjs-controller \t\t`iob -v`";
+echo -e "\t\t\t\t\tadmin: \t`iob version admin`";
+iob repo list | tail -n1;
+echo -e "Objekte: \t\t`echo $IOBOBJECTS`";
+echo -e "Zustände: \t\t`echo $IOBSTATES`";
+echo "";
+echo -e "Größe der iob-Datenbanken:";
+echo "";
+ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep objects;
+ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep states;
 echo "";
 exit;
