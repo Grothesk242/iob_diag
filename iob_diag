@@ -5,6 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C
+SKRIPTV="0.0.3"
 XORGTEST=0;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0
@@ -27,7 +28,8 @@ echo "Das hilft den Helfern enorm dabei zu erkennen wo ein Problem evtl. zu such
 echo "";
         read -p "Weiter mit Enter";
 echo "";
-echo -e "\033[33m========= DIAGNOSE V 0.0.3 ==========\033[0m";
+echo -e "\033[33m=============== DIAGNOSE =================\033[0m";
+echo -e "v.`echo $SKRIPTV`"
 echo "";
 echo "\`\`\`";
 echo -e "\033[34;107m*** BASISSYSTEM ***\033[0m";
@@ -159,6 +161,7 @@ echo "Ab hier kopieren:";
 echo "";
 echo "\`\`\`";
 echo "=================== ZUSAMMENFASSUNG ====================";
+echo -e "v.`echo $SKRIPTV`"
 echo "";
 echo "";
 echo -e "Betriebssystem: `lsb_release -d | tr -s ' ' | cut -d: -f 2`"
