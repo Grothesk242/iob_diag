@@ -79,9 +79,9 @@ echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
 
 XORGTEST=`ps aux | grep -c 'Xorg'`
 if (("$XORGTEST" > 1)); then
-    echo "X-Server: Ja"
+    echo "X-Server: aktiv"
 else
-    echo "X-Server: Nein"
+    echo "X-Server: inaktiv"
 fi
 echo -e "Desktop: $DESKTOP_SESSION";
 echo -e "Konsole: $XDG_SESSION_TYPE";
@@ -187,12 +187,12 @@ fi;)
 echo -e "Installation: \t\t`echo $INSTENV2`";
 echo -e "Zeitzone: \t\t`cat /etc/timezone`";
 echo -e "User-ID: \t\t`echo $EUID`";
-echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "aktiv";else echo "deaktiv";fi`";
+echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "aktiv";else echo "inaktiv";fi`";
 
 echo -e "Nodejs-Installation: \t`type -P nodejs` \t`nodejs -v`";
 echo -e "\t\t\t`type -P node` \t\t`node -v`";
 echo -e "\t\t\t`type -P npm` \t\t`npm -v`";
-
+echo "";
 echo -e "ioBroker Core: \t\tjs-controller \t\t`iob -v`";
 echo -e "\t\t\t\t\tadmin: \t`iob version admin`";
 iob repo list | tail -n1;
