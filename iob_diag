@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C
-SKRIPTV="0.0.4"
+SKRIPTV="0.0.5"
 XORGTEST=0;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0
@@ -18,28 +18,31 @@ SYSTDDVIRT=0
 #fi
 
 echo "";
-echo -e "\033[34;107m*** ioBroker Diagnose ***\033[0m";
+echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
 echo "";
-echo "Bitte das Fenster des Terminalsprogramms (puTTY) breit ziehen oder auf Vollbild setzen.";
-echo "Die nachfolgenden Diagnosen können einen Hinweis auf mögliche Fehler im Setup liefern";
+echo "Please stretch the window of your terminal programm (puTTY) as wide as possible or switch to full screen";
+echo "";
+echo "The following checks may give hints to potential malconfigurations or errors, please post them in our forum:";
+echo "";
 echo "https://forum.iobroker.net";
-echo "Die Zusammenfassung am Ende bitte vollständig im Forum posten, inkl der jeweils drei Steuerzeichen \`\`\`.";
-echo "Das hilft den Helfern enorm dabei zu erkennen wo ein Problem evtl. zu suchen ist"
 echo "";
-        read -p "Weiter mit Enter";
+echo "Just copy and paste the Summary Page, including the \`\`\` characters at start and end.";
+echo "It helps us to help you!"
 echo "";
-echo -e "\033[33m======== Voll-Diagnose ab hier kopieren =========\033[0m";
+        read -p "Press <Enter> to continue";
+echo "";
+echo -e "\033[33m======== Start marking the full check here =========\033[0m";
 echo -e "v.`echo $SKRIPTV`"
 echo "";
 echo "\`\`\`";
-echo -e "\033[34;107m*** BASISSYSTEM ***\033[0m";
-echo -n "CPU-Architektur: ";
+echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
+echo -n "CPU-Architecture: ";
         uname -m;
 
 if [ -f "$DOCKER" ]; then
-    echo "Docker: Ja"
+    echo "Docker: true"
 else
-    echo "Docker: Nein"
+    echo "Docker: false"
 fi;
 # Alternativer DockerCheck - Nicht getestet:
 #
@@ -51,26 +54,26 @@ fi;
 
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 if [ "$SYSTDDVIRT" != "" ]; then
-    echo -e "LXC: `systemd-detect-virt`"
+    echo -e "Virtualization: `systemd-detect-virt`"
 else
-    echo "LXC: Unbekannt"
+    echo "Virtualization: Unknown (buanet/Synology)"
 fi;
 
         lsb_release -idrc;
 echo "";
         cat /etc/os-release;
 echo "";
-echo "Systemuptime und Load:";
+echo "Systemuptime and Load:";
         uptime;
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
-echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
+echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
         date -u;
         date;
         date +"%Z %z";
         cat /etc/timezone;
 echo "";
-echo -e "\033[34;107m*** User und Gruppen ***\033[0m";
+echo -e "\033[34;107m*** User und Groups ***\033[0m";
         whoami;
         echo $HOME;
         groups;
@@ -79,22 +82,22 @@ echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
 
 XORGTEST=`ps aux | grep -c 'Xorg'`
 if (("$XORGTEST" > 1)); then
-    echo "X-Server: aktiv"
+    echo "X-Server: true"
 else
-    echo "X-Server: inaktiv"
+    echo "X-Server: false"
 fi
 echo -e "Desktop: $DESKTOP_SESSION";
 echo -e "Konsole: $XDG_SESSION_TYPE";
 echo "";
-echo -e "\033[34;107m*** ARBEITSSPEICHER ***\033[0m";
+echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
 echo "";
         vmstat -S M -s | head -n 10;
 echo "";
-echo -e "\033[34;107m*** DATEISYSTEM ***\033[0m";
+echo -e "\033[34;107m*** FILESYSTEM ***\033[0m";
         df -PTh;
 echo "";
-echo -e "\033[32mDaten in neuralgischen Verzeichnissen:\033[0m";
+echo -e "\033[32mFiles in neuralgic directories:\033[0m";
 echo "";
 echo -e  "\033[32m/var:\033[0m";
         sudo du -h /var/ | sort -rh | head -5;
@@ -105,10 +108,10 @@ echo "";
 echo -e "\033[32m/opt/iobroker/iobroker-data:\033[0m";
         du -h /opt/iobroker/iobroker-data/ | sort -rh | head -5;
 echo "";
-echo -e "\033[32mDie 5 größten Dateien in iobroker-data:\033[0m";
+echo -e "\033[32mThe five biggest files in iobroker-data:\033[0m";
         ls -sh /opt/iobroker/iobroker-data/ | sort -rh | head -5;
 echo "";
-echo -e "\033[34;107m*** Nodejs-Installation ***\033[0m";
+echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null;
 echo -e "`type -P nodejs` \t`nodejs -v`";
 echo -e "`type -P node` \t\t`node -v`";
@@ -118,56 +121,56 @@ echo "";
 echo  "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
-echo -e "\033[32mVersionsnummern der Kern-Adapter\033[0m"
+echo -e "\033[32mVersios of core adapters\033[0m"
 echo -e "js-controller: \t`iob -v`";
-echo -e "Admin-Adapter: \t`iob version admin`";
+echo -e "admin: \t\t`iob version admin`";
 echo "";
-echo -e "\033[32mAktive Adapter mit bindings\033[0m";
+echo -e "\033[32mEnabled adapters with bindings\033[0m";
 iob list instances | grep enabled | grep port ;
 
 echo "";
-echo -e "\033[32mioBroker-Repos\033[0m";
+echo -e "\033[32mioBroker-Repositories\033[0m";
         iob repo list;
 echo "";
-echo -e "\033[32mioBroker-Instanzen\033[0m";
+echo -e "\033[32mioBroker-Instances\033[0m";
         iob update -i;
 echo "";
-echo -e "\033[32mObjekte und Zustände\033[0m";
-echo "werden ermittelt - Dies kann einen Moment dauern.";
+echo -e "\033[32mObjects and States\033[0m";
+echo "Please stand by - This may take a while";
 IOBOBJECTS=$(iob list objects 2>/dev/null | wc -l);
-echo -e "Objekte: \t`echo $IOBOBJECTS`";
+echo -e "Objects: \t`echo $IOBOBJECTS`";
 IOBSTATES=$(iob list states 2>/dev/null | wc -l);
-echo -e "Zustände: \t`echo $IOBSTATES`";
+echo -e "States: \t`echo $IOBSTATES`";
 echo "";
-echo -e "\033[34;107m*** Repositories und OS-Updates ***\033[0m";
+echo -e "\033[34;107m*** OS-Repositories und Updates ***\033[0m";
         sudo apt-get update 1>/dev/null && sudo apt-get update
         APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
-echo -e "Ausstehende Updates: `echo $APT`";
+echo -e "Pending Updates: `echo $APT`";
 echo "";
 
-echo -e "\033[34;107m*** Lauschende Ports ***\033[0m";
+echo -e "\033[34;107m*** Listening Ports ***\033[0m";
         sudo netstat -tulpen #| sed -n '1,2p;/LISTEN/p';
 # Alternativ - ss ist nicht ueberall installiert
 # sudo ss -tulwp | grep LISTEN;
 echo "";
 echo "\`\`\`";
 echo "";
-echo -e "\033[33m======== Voll-Diagnose bis hier kopieren =========\033[0m";
+echo -e "\033[33m============ Mark until here for C&P =============\033[0m";
 echo "";
-echo "iob diag wurde beendet.";
+echo "iob diag has finished.";
 echo "";
 echo "";
-        read -p "Zur Zusammenfassung drücke die Enter-Taste";
+        read -p "For a Summary please press <Enter>";
 echo "";
         clear;
-echo "Ab hier kopieren:";
+echo "Copy text starting here:";
 echo "";
 echo "\`\`\`";
-echo "=================== ZUSAMMENFASSUNG ====================";
+echo "========================= SUMMARY ======================";
 echo -e "v.`echo $SKRIPTV`"
 echo "";
 echo "";
-echo -e "Betriebssystem: `lsb_release -d | tr -s ' ' | cut -d: -f 2`"
+echo -e "Operatingsystem: `lsb_release -d | tr -s ' ' | cut -d: -f 2`"
 if [ -f "$DOCKER" ]; then
         INSTENV=2
 elif [ "$SYSTDDVIRT" != "none" ]; then
@@ -181,12 +184,12 @@ if [[ $INSTENV -eq 2 ]]; then
 elif [ $INSTENV -eq 1 ]; then
         echo $SYSTDDVIRT;
 else
-        echo "Nativ";
+        echo "Native";
 fi;)
 echo -e "Installation: \t\t`echo $INSTENV2`";
-echo -e "Zeitzone: \t\t`cat /etc/timezone`";
+echo -e "Timezone: \t\t`cat /etc/timezone`";
 echo -e "User-ID: \t\t`echo $EUID`";
-echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "aktiv";else echo "inaktiv";fi`";
+echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi`";
 
 echo -e "Nodejs-Installation: \t`type -P nodejs` \t`nodejs -v`";
 echo -e "\t\t\t`type -P node` \t\t`node -v`";
@@ -195,16 +198,16 @@ echo "";
 echo -e "ioBroker Core: \t\tjs-controller \t\t`iob -v`";
 echo -e "\t\t\t\t\tadmin: \t`iob version admin`";
 iob repo list | tail -n1;
-echo -e "Objekte: \t\t`echo $IOBOBJECTS`";
-echo -e "Zustände: \t\t`echo $IOBSTATES`";
+echo -e "Objects: \t\t`echo $IOBOBJECTS`";
+echo -e "States: \t\t`echo $IOBSTATES`";
 echo "";
-echo -e "Größe der iob-Datenbanken:";
+echo -e "Size of iob-Database:";
 echo "";
 ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep objects;
 ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep states;
 echo "";
 echo -e "\`\`\`";
 echo "";
-echo "========== Bitte bis hier den Text kopieren ============";
+echo "====================== END OF SUMMARY ==================";
 unset LC_ALL
 exit;
