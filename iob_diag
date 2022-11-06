@@ -27,7 +27,7 @@ echo "Das hilft den Helfern enorm dabei zu erkennen wo ein Problem evtl. zu such
 echo "";
         read -p "Weiter mit Enter";
 echo "";
-echo -e "\033[33m=========== DIAGNOSE ==========\033[0m";
+echo -e "\033[33m========= DIAGNOSE V 0.0.3 ==========\033[0m";
 echo "";
 echo "\`\`\`";
 echo -e "\033[34;107m*** BASISSYSTEM ***\033[0m";
