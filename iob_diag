@@ -73,7 +73,7 @@ echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
         date +"%Z %z";
         cat /etc/timezone;
 echo "";
-echo -e "\033[34;107m*** User und Groups ***\033[0m";
+echo -e "\033[34;107m*** User and Groups ***\033[0m";
         whoami;
         echo $HOME;
         groups;
@@ -121,7 +121,7 @@ echo "";
 echo  "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
-echo -e "\033[32mVersios of core adapters\033[0m"
+echo -e "\033[32mCore adapters versions\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "admin: \t\t`iob version admin`";
 echo "";
@@ -142,7 +142,7 @@ echo -e "Objects: \t`echo $IOBOBJECTS`";
 IOBSTATES=$(iob list states 2>/dev/null | wc -l);
 echo -e "States: \t`echo $IOBSTATES`";
 echo "";
-echo -e "\033[34;107m*** OS-Repositories und Updates ***\033[0m";
+echo -e "\033[34;107m*** OS-Repositories and Updates ***\033[0m";
         sudo apt-get update 1>/dev/null && sudo apt-get update
         APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
 echo -e "Pending Updates: `echo $APT`";
