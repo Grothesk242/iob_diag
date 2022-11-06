@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C
-SKRIPTV="0.0.3"
+SKRIPTV="0.0.4"
 XORGTEST=0;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0
@@ -122,11 +122,15 @@ echo -e "\033[32mVersionsnummern der Kern-Adapter\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
+echo -e "\033[32mAktive Adapter mit bindings\033[0m";
+iob list instances | grep enabled | grep port ;
+
+echo "";
 echo -e "\033[32mioBroker-Repos\033[0m";
         iob repo list;
 echo "";
-echo -e "\033[32mioBroker-Updates\033[0m";
-        iob update -u;
+echo -e "\033[32mioBroker-Instanzen\033[0m";
+        iob update -i;
 echo "";
 echo -e "\033[32mObjekte und Zustände\033[0m";
 echo "werden ermittelt - Dies kann einen Moment dauern.";
