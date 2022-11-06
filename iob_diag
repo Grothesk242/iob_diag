@@ -28,7 +28,7 @@ echo "Das hilft den Helfern enorm dabei zu erkennen wo ein Problem evtl. zu such
 echo "";
         read -p "Weiter mit Enter";
 echo "";
-echo -e "\033[33m=============== DIAGNOSE =================\033[0m";
+echo -e "\033[33m======== Voll-Diagnose ab hier kopieren =========\033[0m";
 echo -e "v.`echo $SKRIPTV`"
 echo "";
 echo "\`\`\`";
@@ -152,8 +152,7 @@ echo -e "\033[34;107m*** Lauschende Ports ***\033[0m";
 echo "";
 echo "\`\`\`";
 echo "";
-
-echo -e "\033[33m=========== Voll-Diagnose hier kopieren ===========\033[0m";
+echo -e "\033[33m======== Voll-Diagnose bis hier kopieren =========\033[0m";
 echo "";
 echo "iob diag wurde beendet.";
 echo "";
@@ -206,6 +205,6 @@ ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep states;
 echo "";
 echo -e "\`\`\`";
 echo "";
-echo "Bis hier kopieren";
+echo "========== Bitte bis hier den Text kopieren ============";
 unset LC_ALL
 exit;
