@@ -119,9 +119,10 @@ echo -e "\033[32mVersionsnummern der Kern-Adapter\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "Admin-Adapter: \t`iob version admin`";
 echo "";
-echo -e "\033[32mioBroker-Repos und Updates\033[0m";
+echo -e "\033[32mioBroker-Repos\033[0m";
         iob repo list;
 echo "";
+echo -e "\033[32mioBroker-Updates\033[0m";
         iob update -u;
 echo "";
 echo -e "\033[32mObjekte und Zustände\033[0m";
@@ -133,7 +134,7 @@ echo -e "Zustände: \t`echo $IOBSTATES`";
 echo "";
 echo -e "\033[34;107m*** Repositories und OS-Updates ***\033[0m";
         sudo apt-get update 1>/dev/null && sudo apt-get update
-        APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
+        APT=`apt-get upgrade -s |grep -P '^\d+ 'upgraded\|aktualisiert''|cut -d" " -f1`
 echo -e "Ausstehende Updates: `echo $APT`";
 echo "";
 
