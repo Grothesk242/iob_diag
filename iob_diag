@@ -32,6 +32,7 @@ echo "\`\`\`";
 echo -e "\033[34;107m*** BASISSYSTEM ***\033[0m";
 echo -n "CPU-Architektur: ";
         uname -m;
+
 if [ -f "$DOCKER" ]; then
     echo "Docker: Ja"
 else
@@ -44,8 +45,14 @@ fi;
 # else
 #    echo "I'm living in real world!";
 # fi
-echo -e "LXC: `systemd-detect-virt`"
-SYSTDDVIRT=$(systemd-detect-virt)
+
+SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
+if [ "$SYSTDDVIRT" != "" ]; then
+    echo -e "LXC: `systemd-detect-virt`"
+else
+    echo "LXC: Unbekannt"
+fi;
+
         lsb_release -idrc;
 echo "";
         cat /etc/os-release;
