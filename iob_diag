@@ -4,6 +4,7 @@
 clear;
 
 # VARIABLES
+export LC_ALL=C
 XORGTEST=0;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0
@@ -134,7 +135,7 @@ echo -e "Zustände: \t`echo $IOBSTATES`";
 echo "";
 echo -e "\033[34;107m*** Repositories und OS-Updates ***\033[0m";
         sudo apt-get update 1>/dev/null && sudo apt-get update
-        APT=`apt-get upgrade -s |grep -P '^\d+ 'upgraded\|aktualisiert''|cut -d" " -f1`
+        APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
 echo -e "Ausstehende Updates: `echo $APT`";
 echo "";
 
@@ -199,4 +200,5 @@ echo "";
 echo -e "\`\`\`";
 echo "";
 echo "Bis hier kopieren";
+unset LC_ALL
 exit;
