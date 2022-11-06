@@ -153,9 +153,11 @@ echo "";
         read -p "Zur Zusammenfassung drücke die Enter-Taste";
 echo "";
         clear;
+echo "Ab hier kopieren:";
+echo "";
+echo "\`\`\`";
 echo "=================== ZUSAMMENFASSUNG ====================";
 echo "";
-# echo "Baustelle! Betreten verboten! Admins haften für ihre User!";
 echo "";
 echo -e "Betriebssystem: `lsb_release -d | tr -s ' ' | cut -d: -f 2`"
 if [ -f "$DOCKER" ]; then
@@ -193,4 +195,7 @@ echo "";
 ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep objects;
 ls -sh /opt/iobroker/iobroker-data/ | grep -E -v ^d | grep states;
 echo "";
+echo -e "\`\`\`";
+echo "";
+echo "Bis hier kopieren";
 exit;
