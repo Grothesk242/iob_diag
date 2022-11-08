@@ -199,7 +199,7 @@ echo "";
 echo -e "ioBroker Core: \t\tjs-controller \t\t`iob -v`";
 echo -e "\t\t\tadmin \t\t\t`iob version admin`";
 echo "";
-echo -e "Pending iob updates: \t`iob list instances | grep -c 'updatable' | wc -l`";
+echo -e "Pending iob updates: \t`iob list instances | grep -c 'Updatable' | wc -l`";
 echo "";
 iob repo list | tail -n1;
 echo "";
