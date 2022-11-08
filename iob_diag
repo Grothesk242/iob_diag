@@ -96,6 +96,9 @@ echo "";
 echo -e "\033[34;107m*** FILESYSTEM ***\033[0m";
         df -PTh;
 echo "";
+echo -e "\033[32mShow mounted filesystems (real ones only):\033[0m";
+findmnt --real;
+echo "";
 echo -e "\033[32mFiles in neuralgic directories:\033[0m";
 echo "";
 echo -e  "\033[32m/var:\033[0m";
@@ -118,7 +121,7 @@ echo -e "`type -P npm` \t\t`npm -v`";
 echo "";
         apt-cache policy nodejs;
 echo ""
-echo -e "Temp directories causing npm8 problem: `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
+echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
 echo "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
