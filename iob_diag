@@ -99,6 +99,10 @@ echo "";
 echo -e "\033[32mShow mounted filesystems (real ones only):\033[0m";
 findmnt --real;
 echo "";
+if [[ -L "/opt/iobroker/backups" ]]; then
+  echo "backups directory is linked to a different directory";
+  echo "";
+fi
 echo -e "\033[32mFiles in neuralgic directories:\033[0m";
 echo "";
 echo -e  "\033[32m/var:\033[0m";
