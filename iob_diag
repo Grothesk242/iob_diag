@@ -81,12 +81,12 @@ echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
 
 XORGTEST=`ps aux | grep -c 'Xorg'`
 if (("$XORGTEST" > 1)); then
-    echo "X-Server: true"
+    echo -e "X-Server: \ttrue"
 else
-    echo "X-Server: false"
+    echo -e "X-Server: \tfalse"
 fi
-echo -e "Desktop: $DESKTOP_SESSION";
-echo -e "Konsole: $XDG_SESSION_TYPE";
+echo -e "Desktop: \t$DESKTOP_SESSION";
+echo -e "Terminal: \t$XDG_SESSION_TYPE";
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
