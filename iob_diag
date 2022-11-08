@@ -107,7 +107,7 @@ echo "";
 echo -e "\033[32m/opt/iobroker/iobroker-data:\033[0m";
         du -h /opt/iobroker/iobroker-data/ | sort -rh | head -5;
 echo "";
-echo -e "\033[32mThe five biggest files in iobroker-data:\033[0m";
+echo -e "\033[32mThe five largest files in iobroker-data are:\033[0m";
         find /opt/iobroker/iobroker-data -maxdepth 15 -type f -exec du -sh {} + | sort -rh | head -n 5;
 echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
