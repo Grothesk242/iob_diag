@@ -129,6 +129,9 @@ echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobrok
 echo "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
+echo -e "\033[32mioBroker Status\033[0m";
+iobroker status;
+echo "";
 echo -e "\033[32mCore adapters versions\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "admin: \t\t`iob version admin`";
@@ -206,6 +209,9 @@ echo -e "\t\t\t`type -P npm` \t\t`npm -v`";
 echo "";
 echo -e "ioBroker Core: \t\tjs-controller \t\t`iob -v`";
 echo -e "\t\t\tadmin \t\t\t`iob version admin`";
+echo "";
+echo -e "\033[32mioBroker Status:\033[0m \t`iobroker status`";
+# iobroker status;
 echo "";
 echo -e "Pending iob updates: \t`iob update -u | grep -c 'Updatable\|Updateable'`";
 echo "";
