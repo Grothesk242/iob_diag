@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="0.0.6";
+SKRIPTV="0.0.7";
 XORGTEST=0;
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0;
@@ -118,13 +118,18 @@ echo -e "\033[32mThe five largest files in iobroker-data are:\033[0m";
         find /opt/iobroker/iobroker-data -maxdepth 15 -type f -exec du -sh {} + | sort -rh | head -n 5;
 echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
+echo "";
 sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null;
 echo -e "`type -P nodejs` \t`nodejs -v`";
 echo -e "`type -P node` \t\t`node -v`";
 echo -e "`type -P npm` \t\t`npm -v`";
 echo "";
         apt-cache policy nodejs;
-echo ""
+echo "";
+echo "Calling 'npm doctor' for you.";
+echo "";
+(cd /opt/iobroker && sudo -H -u iobroker npm doctor);
+echo "";
 echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
 echo "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
