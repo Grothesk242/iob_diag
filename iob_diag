@@ -39,7 +39,7 @@ echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 echo -e "Architecture: \t`uname -m`";
 
 if [ -f "$DOCKER" ]; then
-    echo -e "Docker: \ttrue"
+    echo -e "Docker: \t`cat /opt/scripts/.docker_config/.thisisdocker`"
 else
     echo -e "Docker: \tfalse"
 fi;
