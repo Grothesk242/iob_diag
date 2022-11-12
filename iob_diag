@@ -145,6 +145,8 @@ echo -e "\033[32mCore adapters versions\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "admin: \t\t`iob version admin`";
 echo "";
+echo -e "Adapters from github: \t`(cd /opt/iobroker && npm ls | grep -c 'git')`";
+echo "";
 echo -e "\033[32mEnabled adapters with bindings\033[0m";
 iob list instances | grep enabled | grep port ;
 echo "";
