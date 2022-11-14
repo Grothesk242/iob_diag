@@ -132,7 +132,8 @@ echo -e "Calling 'npm doctor' for you. \033[32mPlease be patient!\033[0m";
 echo "";
 (cd /opt/iobroker && sudo -H -u iobroker npm doctor);
 echo "";
-echo "The recommended versions for ioBroker are nodeJS v$NODERECOM / npm v$NPMRECOM";
+echo "The recommended versions for ioBroker are nodeJS v$NODERECOM / npm v$NPMRECOM!";
+echo "Don't trust the doctor if he recommends different versions!"
 echo "";
 echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
 echo "";
