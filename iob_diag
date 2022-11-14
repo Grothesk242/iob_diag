@@ -34,9 +34,9 @@ echo "";
         read -p "Press <Enter> to continue";
 echo "";
 echo -e "\033[33m======== Start marking the full check here =========\033[0m";
-echo -e "v.`echo $SKRIPTV`"
-echo "";
 echo "\`\`\`";
+echo -e "Skript v.`echo $SKRIPTV`"
+echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 echo -e "Architecture: \t`uname -m`";
 
