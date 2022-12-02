@@ -5,10 +5,10 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="0.0.7";
-NODERECOM="16";
-NPMRECOM="8";
-XORGTEST=0;
+SKRIPTV="0.0.8"; #version of this script
+NODERECOM="16";  #recommended node version
+NPMRECOM="8";    #recommended npm version
+XORGTEST=0;      #test for GUI
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0;
 INSTENV=0;
@@ -38,6 +38,7 @@ echo "\`\`\`";
 echo -e "Skript v.`echo $SKRIPTV`"
 echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
+grep Model /proc/cpuinfo;
 echo -e "Architecture: \t`uname -m`";
 
 if [ -f "$DOCKER" ]; then
@@ -59,8 +60,7 @@ if [ "$SYSTDDVIRT" != "" ]; then
 else
     echo "Virtualization: Unknown (buanet/Synology?)"
 fi;
-
-        lsb_release -idrc;
+	lsb_release -idrc;
 echo "";
         cat /etc/os-release;
 echo "";
@@ -128,13 +128,14 @@ echo -e "`type -P npm` \t\t`npm -v`";
 echo "";
         apt-cache policy nodejs;
 echo "";
-echo -e "Calling 'npm doctor' for you. \033[32mPlease be patient!\033[0m";
-echo "";
-(cd /opt/iobroker && sudo -H -u iobroker npm doctor);
-echo "";
-echo "The recommended versions for ioBroker are nodeJS v$NODERECOM / npm v$NPMRECOM!";
-echo "Don't trust the doctor if he recommends different versions!"
-echo "";
+# npm doctor can be misleading, deactivated to avoid confusion
+# echo -e "Calling 'npm doctor' for you. \033[32mPlease be patient!\033[0m";
+# echo "";
+# (cd /opt/iobroker && sudo -H -u iobroker npm doctor);
+# echo "";
+# echo "The recommended versions for ioBroker are nodeJS v$NODERECOM / npm v$NPMRECOM!";
+# echo "Don't trust the doctor if he recommends different versions!"
+# echo "";
 echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
 echo "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
