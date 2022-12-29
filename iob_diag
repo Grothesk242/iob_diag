@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2022.12.13"; #version of this script
+SKRIPTV="2022.12.29"; #version of this script
 NODERECOM="16";  #recommended node version
 NPMRECOM="8";    #recommended npm version
 XORGTEST=0;      #test for GUI
@@ -148,6 +148,7 @@ echo "";
 echo -e "\033[32mCore adapters versions\033[0m"
 echo -e "js-controller: \t`iob -v`";
 echo -e "admin: \t\t`iob version admin`";
+echo -e "javascript: \t`iob version javascript`";
 echo "";
 echo -e "Adapters from github: \t`(cd /opt/iobroker && npm ls | grep -c 'git')`";
 echo "";
