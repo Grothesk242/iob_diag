@@ -92,6 +92,7 @@ else
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
 echo -e "Terminal: \t$XDG_SESSION_TYPE";
+echo -e "Boot Target: \t`systemctl get-default`";
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
@@ -222,6 +223,7 @@ echo -e "Installation: \t\t`echo $INSTENV2`";
 echo -e "Timezone: \t\t`cat /etc/timezone`";
 echo -e "User-ID: \t\t`echo $EUID`";
 echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi`";
+echo -e "Boot Target: \t\t`systemctl get-default`";
 echo "";
 echo -e "Pending OS-Updates: \t`echo $APT`";
 echo "";
