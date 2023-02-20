@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-02-19"; #version of this script
+SKRIPTV="2023-02-20"; #version of this script
 NODERECOM="16";  #recommended node version
 NPMRECOM="8";    #recommended npm version
 XORGTEST=0;      #test for GUI
@@ -43,12 +43,12 @@ echo -e "Skript v.`echo $SKRIPTV`"
 echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 grep Model /proc/cpuinfo;
-echo -e "Architecture: \t`uname -m`";
+echo -e "Architecture    : `uname -m`";
 
 if [ -f "$DOCKER" ]; then
-    echo -e "Docker: \t`cat /opt/scripts/.docker_config/.thisisdocker`"
+    echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
 else
-    echo -e "Docker: \tfalse"
+    echo -e "Docker          : false"
 fi;
 # Alternativer DockerCheck - Nicht getestet:
 #
@@ -60,9 +60,9 @@ fi;
 
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 if [ "$SYSTDDVIRT" != "" ]; then
-    echo -e "Virtualization: `systemd-detect-virt`"
+    echo -e "Virtualization  : `systemd-detect-virt`"
 else
-    echo "Virtualization: Unknown (buanet/Synology?)"
+    echo "Virtualization  : Unknown (buanet/Synology?)"
 fi;
 	lsb_release -idrc;
 echo "";
@@ -73,10 +73,7 @@ echo "Systemuptime and Load:";
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
 echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
-        date -u;
-        date;
-        date +"%Z %z";
-        cat /etc/timezone;
+        timedatectl;
 echo "";
 echo -e "\033[34;107m*** User and Groups ***\033[0m";
         whoami;
@@ -229,8 +226,9 @@ elif [ $INSTENV -eq 1 ]; then
 else
         echo "Native";
 fi;)
+echo -e "Kernel: \t\t`uname -r`";
 echo -e "Installation: \t\t`echo $INSTENV2`";
-echo -e "Timezone: \t\t`cat /etc/timezone`";
+echo -e "Timezone: \t\t`timedatectl | grep zone | cut -c28-80`";
 echo -e "User-ID: \t\t`echo $EUID`";
 echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi`";
 echo -e "Boot Target: \t\t`systemctl get-default`";
