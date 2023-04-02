@@ -143,10 +143,17 @@ echo "";
 # echo "Don't trust the doctor if he recommends different versions!"
 # echo "";
 
+ANZNPMTMP=`find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`;
+echo -e "\033[32mTemp directories causing npm8 problem:\033[0m "$ANZNPMTMP"";
+if [[ $ANZNPMTMP -gt 0 ]]
+then 
+	echo -e "Some problems detected, please run \e[031miob fix\e[0m";
+else
+	echo "No problems detected"
+fi;
 
-echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
 # echo "";
-echo -e "Temp directories being cleaned up now `find /opt/iobroker/node_modules -type d -iname ".*-????????" ! -iname ".local-chromium" -exec rm -rf {} \;`";
+# echo -e "Temp directories being cleaned up now `find /opt/iobroker/node_modules -type d -iname ".*-????????" ! -iname ".local-chromium" -exec rm -rf {} \;`";
 # find /opt/iobroker/node_modules -type d -iname ".*-????????" ! -iname ".local-chromium" -exec rm -rf {} \ &> /dev/null;
 # echo -e "\033[32m1 - Temp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium'>e;
 echo "";
@@ -274,6 +281,16 @@ find /opt/iobroker/iobroker-data -maxdepth 1 -type f -name \*objects\* -exec du 
 find /opt/iobroker/iobroker-data -maxdepth 1 -type f -name \*states\* -exec du -sh {} + |sort -rh | head -n 5;
 echo "";
 echo "";
+if [[ $ANZNPMTMP -gt 0 ]]
+then
+	echo -e "*********************************************************************";
+	echo -e "Some problems detected, please run \e[031miob fix\e[0m and try to have them fixed";
+	echo -e "*********************************************************************";
+	echo -e ""
+else
+        echo ""
+fi;
+
 echo "=================== END OF SUMMARY ===================="
 echo -e "\`\`\`";
 echo "";
