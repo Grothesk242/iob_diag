@@ -6,8 +6,8 @@ clear;
 # VARIABLES
 export LC_ALL=C;
 SKRIPTV="2023-04-02"; #version of this script
-NODERECOM="16";  #recommended node version
-NPMRECOM="8";    #recommended npm version
+NODERECOM="18";  #recommended node version
+NPMRECOM="9";    #recommended npm version
 XORGTEST=0;      #test for GUI
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0;
@@ -142,7 +142,13 @@ echo "";
 # echo "The recommended versions for ioBroker are nodeJS v$NODERECOM / npm v$NPMRECOM!";
 # echo "Don't trust the doctor if he recommends different versions!"
 # echo "";
+
+
 echo -e "\033[32mTemp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`";
+# echo "";
+echo -e "Temp directories being cleaned up now `find /opt/iobroker/node_modules -type d -iname ".*-????????" ! -iname ".local-chromium" -exec rm -rf {} \;`";
+# find /opt/iobroker/node_modules -type d -iname ".*-????????" ! -iname ".local-chromium" -exec rm -rf {} \ &> /dev/null;
+# echo -e "\033[32m1 - Temp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium'>e;
 echo "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
@@ -240,6 +246,8 @@ echo -e "Nodejs-Installation: \t`type -P nodejs` \t`nodejs -v`";
 echo -e "\t\t\t`type -P node` \t\t`node -v`";
 echo -e "\t\t\t`type -P npm` \t\t`npm -v`";
 echo -e "\t\t\t`type -P npx` \t\t`npx -v`";
+echo -e "";
+echo -e "Recommended versions are nodejs "$NODERECOM".x.y and npm "$NPMRECOM".x.y";
 echo "";
 # echo -e "Total Memory: \t\t`free -h | awk '/^Mem:/{print $2}'`";
 echo "MEMORY: ";
