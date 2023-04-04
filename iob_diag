@@ -114,6 +114,7 @@ echo -e "\033[32mFiles in neuralgic directories:\033[0m";
 echo "";
 echo -e  "\033[32m/var:\033[0m";
         sudo du -h /var/ | sort -rh | head -5;
+echo -e "";
 if [ -f "$DOCKER" ]; then
     echo -e "Orrrrrrrrrr... Docker doesn't read journals!"
 else
