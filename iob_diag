@@ -73,7 +73,16 @@ echo "Systemuptime and Load:";
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
 echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
-        timedatectl;
+
+if [ -f "$DOCKER" ]; then
+	date -u;
+	date;
+	date +"%Z %z";
+	cat /etc/timezone;
+else
+    timedatectl;
+fi;
+
 echo "";
 echo -e "\033[34;107m*** User and Groups ***\033[0m";
         whoami;
@@ -90,7 +99,11 @@ else
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
 echo -e "Terminal: \t$XDG_SESSION_TYPE";
-echo -e "Boot Target: \t`systemctl get-default`";
+if [ -f "$DOCKER" ]; then
+	echo -e "Run Level: \t`who -r`";
+else
+    	echo -e "Boot Target: \t`systemctl get-default`";
+fi;
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
@@ -116,7 +129,7 @@ echo -e  "\033[32m/var:\033[0m";
         sudo du -h /var/ | sort -rh | head -5;
 echo -e "";
 if [ -f "$DOCKER" ]; then
-    echo -e "Orrrrrrrrrr... Docker doesn't read journals!"
+    echo -e ""
 else
     journalctl --disk-usage;
 fi;
