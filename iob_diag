@@ -262,15 +262,15 @@ echo -e "Kernel: \t\t`uname -r`";
 echo -e "Installation: \t\t`echo $INSTENV2`";
 
 if [ -f "$DOCKER" ]; then
-    echo -e "Timezone: \t\t`cat /etc/timezone`";
+    echo -e "Timezone: \t\t`cat /etc/timezone`"
 else
     echo -e "Timezone: \t\t`timedatectl | grep zone | cut -c28-80`";
 fi;
 
 echo -e "User-ID: \t\t`echo $EUID`";
 echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi`";
-if [ -f "$DOCKER" ], then 
-	echo "";
+if [ -f "$DOCKER" ]; then 
+	echo -e "";
 else 
 	echo -e "Boot Target: \t\t`systemctl get-default`";
 fi;
@@ -316,7 +316,7 @@ then
 	echo -e "*********************************************************************";
 	echo -e "Some problems detected, please run \e[031miob fix\e[0m and try to have them fixed";
 	echo -e "*********************************************************************";
-	echo -e ""
+	echo -e "";
 else
         echo ""
 fi;
