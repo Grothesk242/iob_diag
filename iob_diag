@@ -118,6 +118,7 @@ if [ -f "$DOCKER" ]; then
     echo -e "Orrrrrrrrrr... Docker doesn't read journals!"
 else
     journalctl --disk-usage;
+fi;
 echo "";
 echo -e "\033[32m/opt/iobroker/backups:\033[0m";
         du -h /opt/iobroker/backups/ | sort -rh | head -5;
