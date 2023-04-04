@@ -115,6 +115,8 @@ echo "";
 echo -e  "\033[32m/var:\033[0m";
         sudo du -h /var/ | sort -rh | head -5;
 echo "";
+	journalctl --disk-usage;
+echo "";
 echo -e "\033[32m/opt/iobroker/backups:\033[0m";
         du -h /opt/iobroker/backups/ | sort -rh | head -5;
 echo "";
