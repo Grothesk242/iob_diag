@@ -72,9 +72,14 @@ echo "Systemuptime and Load:";
         uptime;
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
-echo "Raspberry only:";
-	vcgencmd get_throttled 2> /dev/null;
-echo "Other values than 0x0 hint to temperature and/or voltage problems";
+# RASPBERRY only
+	if [[ $(which "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
+		echo "Raspberry only:";
+		vcgencmd get_throttled 2> /dev/null;
+		echo "Other values than 0x0 hint to temperature/voltage problems";
+		vcgencmd measure_temp;
+		vcgencmd measure_volts;
+fi
 echo "";
 echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
 
@@ -113,6 +118,14 @@ echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
 echo "";
         vmstat -S M -s | head -n 10;
+
+# RASPBERRY only
+if [[ $(which "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
+	echo "";
+	echo "Raspberry only:";
+      	vcgencmd mem_oom;
+fi
+
 echo "";
 echo -e "\033[34;107m*** FILESYSTEM ***\033[0m";
         df -PTh;
