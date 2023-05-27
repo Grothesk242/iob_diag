@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-05-10"; #version of this script
+SKRIPTV="2023-05-27"; #version of this script
 NODERECOM="18";  #recommended node version
 NPMRECOM="9";    #recommended npm version
 XORGTEST=0;      #test for GUI
@@ -42,6 +42,8 @@ echo "\`\`\`";
 echo -e "Skript v.`echo $SKRIPTV`"
 echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
+hostnamectl;
+echo "";
 grep Model /proc/cpuinfo;
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
@@ -64,9 +66,6 @@ if [ "$SYSTDDVIRT" != "" ]; then
 else
     echo "Virtualization  : Unknown (buanet/Synology?)"
 fi;
-	lsb_release -idrc;
-echo "";
-        cat /etc/os-release;
 echo "";
 echo "Systemuptime and Load:";
         uptime;
@@ -303,7 +302,6 @@ echo "======================= SUMMARY =======================";
 echo -e "\t\t`echo "     "v.$SKRIPTV`"
 echo "";
 echo "";
-echo -e "Operatingsystem: `lsb_release -d | tr -s ' ' | cut -d: -f 2`"
 if [ -f "$DOCKER" ]; then
         INSTENV=2
 elif [ "$SYSTDDVIRT" != "none" ]; then
@@ -319,8 +317,9 @@ elif [ $INSTENV -eq 1 ]; then
 else
         echo "Native";
 fi;)
+hostnamectl;
+echo "";
 echo -e "Installation: \t\t`echo $INSTENV2`";
-echo -e "Kernel: \t\t`uname -r`";
 echo -e "Kernel: \t\t`uname -m`";
 echo -e "Userland: \t\t`dpkg --print-architecture`";
 if [ -f "$DOCKER" ]; then
@@ -414,5 +413,6 @@ fi;
 echo "=================== END OF SUMMARY ===================="
 echo -e "\`\`\`";
 echo "";
+echo "=== Mark text until here for copying ===";
 unset LC_ALL
 exit;
