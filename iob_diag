@@ -44,7 +44,6 @@ echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
-	grep -i model /proc/cpuinfo | tail -1;
 echo -e "Hardware Vendor : `cat /sys/devices/virtual/dmi/id/sys_vendor`";
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
