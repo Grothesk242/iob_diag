@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-05-28-1"; #version of this script
+SKRIPTV="2023-05-28-2"; #version of this script
 NODERECOM="18";  #recommended node version
 NPMRECOM="9";    #recommended npm version
 XORGTEST=0;      #test for GUI
@@ -44,7 +44,7 @@ echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
-	grep -i model /proc/cpuinfo;
+	grep -i model /proc/cpuinfo | tail -1;
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
 if [ -f "$DOCKER" ]; then
@@ -57,7 +57,7 @@ else
 hostnamectl;
 fi;
 echo "";
-grep -i model /proc/cpuinfo;
+grep -i model /proc/cpuinfo | tail -1;
 # Alternativer DockerCheck - Nicht getestet:
 #
 # if [ -f /.dockerenv ]; then
@@ -324,7 +324,7 @@ else
         echo "Native";
 fi;)
 if [ -f "$DOCKER" ]; then
-        grep Model /proc/cpuinfo;
+        grep -i model /proc/cpuinfo | tail -1;
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
 if [ -f "$DOCKER" ]; then
