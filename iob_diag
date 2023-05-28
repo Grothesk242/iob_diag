@@ -42,14 +42,27 @@ echo "\`\`\`";
 echo -e "Skript v.`echo $SKRIPTV`"
 echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
+
+if [ -f "$DOCKER" ]; then
+	grep Model /proc/cpuinfo;
+echo -e "Kernel          : `uname -m`";
+echo -e "Userland        : `dpkg --print-architecture`";
+if [ -f "$DOCKER" ]; then
+    echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
+else
+    echo -e "Docker          : false"
+fi;
+
+else 
 hostnamectl;
+fi;
 echo "";
 grep Model /proc/cpuinfo;
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
 if [ -f "$DOCKER" ]; then
     echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
-else
+delse
     echo -e "Docker          : false"
 fi;
 # Alternativer DockerCheck - Nicht getestet:
@@ -317,7 +330,19 @@ elif [ $INSTENV -eq 1 ]; then
 else
         echo "Native";
 fi;)
+if [ -f "$DOCKER" ]; then
+        grep Model /proc/cpuinfo;
+echo -e "Kernel          : `uname -m`";
+echo -e "Userland        : `dpkg --print-architecture`";
+if [ -f "$DOCKER" ]; then
+    echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
+else
+    echo -e "Docker          : false"
+fi;
+
+else
 hostnamectl;
+fi;
 echo "";
 echo -e "Installation: \t\t`echo $INSTENV2`";
 echo -e "Kernel: \t\t`uname -m`";
