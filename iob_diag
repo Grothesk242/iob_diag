@@ -44,7 +44,7 @@ echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
-	grep Model /proc/cpuinfo;
+	grep -i model /proc/cpuinfo;
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
 if [ -f "$DOCKER" ]; then
@@ -57,14 +57,7 @@ else
 hostnamectl;
 fi;
 echo "";
-grep Model /proc/cpuinfo;
-echo -e "Kernel          : `uname -m`";
-echo -e "Userland        : `dpkg --print-architecture`";
-if [ -f "$DOCKER" ]; then
-    echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
-delse
-    echo -e "Docker          : false"
-fi;
+grep -i model /proc/cpuinfo;
 # Alternativer DockerCheck - Nicht getestet:
 #
 # if [ -f /.dockerenv ]; then
