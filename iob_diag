@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-05-28-3"; #version of this script
+SKRIPTV="2023-05-28-4"; #version of this script
 NODERECOM="18";  #recommended node version
 NPMRECOM="9";    #recommended npm version
 XORGTEST=0;      #test for GUI
@@ -72,6 +72,8 @@ if [ "$SYSTDDVIRT" != "" ]; then
 else
     echo "Virtualization  : Unknown (buanet/Synology?)"
 fi;
+echo -e "Kernel          : `uname -m`";
+echo -e "Userland        : `dpkg --print-architecture`";
 echo "";
 echo "Systemuptime and Load:";
         uptime;
@@ -321,7 +323,7 @@ if [[ $INSTENV -eq 2 ]]; then
 elif [ $INSTENV -eq 1 ]; then
         echo $SYSTDDVIRT;
 else
-        echo "Native";
+        echo "native";
 fi;)
 if [ -f "$DOCKER" ]; then
         grep -i model /proc/cpuinfo | tail -1;
