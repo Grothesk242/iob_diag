@@ -87,6 +87,14 @@ if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
 	vcgencmd measure_temp;
 	vcgencmd measure_volts;
 fi
+
+if [[ -f "/var/run/reboot-required" ]]; then
+  	echo "";
+	echo "The systems needs to be REBOOTED!";
+  	echo "";
+fi
+
+
 echo "";
 echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
 
@@ -360,6 +368,12 @@ fi;
 echo "";
 echo -e "Pending OS-Updates: \t`echo $APT`";
 echo -e "Pending iob updates: \t`iob update -u | grep -c 'Updatable\|Updateable'`";
+if [[ -f "/var/run/reboot-required" ]]; then
+        echo "";
+        echo "The systems needs to be REBOOTED!";
+        echo "";
+fi
+
 echo "";
 echo -e "Nodejs-Installation: \t`type -P nodejs` \t`nodejs -v`";
 echo -e "\t\t\t`type -P node` \t\t`node -v`";
@@ -438,3 +452,4 @@ echo "";
 echo "=== Mark text until here for copying ===";
 unset LC_ALL
 exit;
+
