@@ -5,7 +5,7 @@ clear;
 
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-06-14"; #version of this script
+SKRIPTV="2023-06-20"; #version of this script
 NODERECOM="18";  #recommended node version
 NPMRECOM="9";    #recommended npm version
 XORGTEST=0;      #test for GUI
@@ -47,17 +47,13 @@ if [ -f "$DOCKER" ]; then
 echo -e "Hardware Vendor : `cat /sys/devices/virtual/dmi/id/sys_vendor`";
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
-if [ -f "$DOCKER" ]; then
-    echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
+echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
 else
-    echo -e "Docker          : false"
-fi;
-
-else 
-hostnamectl;
-fi;
-echo "";
+	hostnamectl;    
+	echo "";	
 grep -i model /proc/cpuinfo | tail -1;
+echo -e "Docker          : false";
+fi;
 # Alternativer DockerCheck - Nicht getestet:
 #
 # if [ -f /.dockerenv ]; then
@@ -70,7 +66,7 @@ SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 if [ "$SYSTDDVIRT" != "" ]; then
     echo -e "Virtualization  : `systemd-detect-virt`"
 else
-    echo "Virtualization  : Unknown (buanet/Synology?)"
+    echo "Virtualization  : Docker"
 fi;
 echo -e "Kernel          : `uname -m`";
 echo -e "Userland        : `dpkg --print-architecture`";
@@ -425,7 +421,7 @@ echo -e "ioBroker Status: \t`iobroker status`";
 echo "";
 # iobroker status all | grep MULTIHOSTSERVICE/enabled;
 echo "Status admin and web instance:";
-iobroker list instances | grep 'admin.\|.web.'
+iobroker list instances | grep 'admin.\|system.adapter.web.'
 echo "";
 echo -e "Objects: \t\t`echo $IOBOBJECTS`";
 echo -e "States: \t\t`echo $IOBSTATES`";
