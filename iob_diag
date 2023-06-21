@@ -2,12 +2,13 @@
 # iobroker diagnostics
 # written to help getting information about the environment the ioBroker installation is running in
 clear;
-
+echo "iob diag is starting...";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-06-20"; #version of this script
-NODERECOM="18";  #recommended node version
-NPMRECOM="9";    #recommended npm version
+SKRIPTV="2023-06-21"; #version of this script
+HOST=`hostname`
+NODERECOM=`iobroker state getValue system.host.$HOST.versions.nodeNewest`;  #recommended node version
+NPMRECOM=`iobroker state getValue system.host.$HOST.versions.npmNewest`;    #recommended npm version
 XORGTEST=0;      #test for GUI
 DOCKER=/opt/scripts/.docker_config/.thisisdocker;
 APT=0;
@@ -18,7 +19,7 @@ SYSTDDVIRT=0;
 #  echo -e "Dieses Skript darf nicht von root ausgeführt werden! \nBitte als Standarduser ausführen!" 1>&2
 #  exit 1
 #fi
-
+clear;
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
 echo "";
@@ -376,7 +377,7 @@ echo -e "\t\t\t`type -P node` \t\t`node -v`";
 echo -e "\t\t\t`type -P npm` \t\t`npm -v`";
 echo -e "\t\t\t`type -P npx` \t\t`npx -v`";
 echo -e "";
-echo -e "Recommended versions are nodejs "$NODERECOM".x.y and npm "$NPMRECOM".x.y";
+echo -e "Recommended versions are nodejs "$NODERECOM" and npm "$NPMRECOM"";
 
 if  	
 	[[ $PATHNODEJS != "/usr/bin/nodejs" ]];  
