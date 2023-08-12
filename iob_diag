@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-08-12"; #version of this script
+SKRIPTV="2023-08-13"; #version of this script
 HOST=`hostname`
 NODERECOM=`iobroker state getValue system.host.$HOST.versions.nodeNewestNext`;  #recommended node version
 NPMRECOM=`iobroker state getValue system.host.$HOST.versions.npmNewestNext`;    #recommended npm version
@@ -26,13 +26,13 @@ XORGTEST=0;      #test for GUI
 APT=0;
 INSTENV=0;
 INSTENV2=0;
-SYSTDDVIRT=0;
+SYSTDDVIRT="";
 NODENOTCORR=0;
 clear;
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
 echo "";
-echo "Please stretch the window of your terminal programm \(puTTY\) as wide as possible or switch to full screen";
+echo "Please stretch the window of your terminal programm (puTTY) as wide as possible or switch to full screen";
 echo "";
 echo "The following checks may give hints to potential malconfigurations or errors, please post them in our forum:";
 echo "";
@@ -562,20 +562,33 @@ then
                 sudo rm /etc/apt/sources.list.d/nodesource.lis*;
                 sudo -u iobroker curl -sL https://deb.nodesource.com/setup_18.x -o /home/iobroker/.nodesetup;
                 sudo chmod +x /home/iobroker/.nodesetup;
-                iob stop;
+
+                        if [ "$SYSTDDVIRT" != "none" ]; then
+                                echo $SYSTDDVIRT;
+                                sudo pkill -u iobroker;
+                        else
+                                iob stop;
+                        fi;
+
                 echo "Waiting for ioBroker to shut down - Give me a minute..."
-                iob stop;
                 BAR='############################################################'   # this is full bar, e.g. 60 chars
                 for i in {1..60}; do
                         echo -ne "\r${BAR:0:$i}" # print $i chars of $BAR from 0 position
-                        sleep 1                 # wait 100ms between "frames"
+                        sleep 1                 # wait 1s between "frames"
                 done;
                 sudo /home/iobroker/nodesetup;
                 sudo apt install --reinstall nodejs=$NODERECOM-deb-1nodesource1 -y;
-                iob restart
+                if [ "$SYSTDDVIRT" != "none" ]; then
+                        echo "Please restart your container";
+                        echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
+                        unset LC_ALL;
+                        exit;
+                else
+                        iob restart;
+                fi;
                 );
         else
-                echo "";
+                echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
         fi;
         unset LC_ALL;
         exit;
