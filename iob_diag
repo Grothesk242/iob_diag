@@ -310,7 +310,7 @@ echo "";
 echo -e "\033[32mObjects and States\033[0m";
 echo "Please stand by - This may take a while";
 IOBOBJECTS=$(iob list objects 2>/dev/null | wc -l);
-echo -e "Objects: \t$$IOBOBJECTS";
+echo -e "Objects: \t$IOBOBJECTS";
 IOBSTATES=$(iob list states 2>/dev/null | wc -l);
 echo -e "States: \t$IOBSTATES";
 echo "";
