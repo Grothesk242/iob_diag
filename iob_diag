@@ -6,7 +6,7 @@ DOCKER=/opt/scripts/.docker_config/.thisisdocker
 if [ -f "$DOCKER" ]
 then
         echo "";
-        elif [ $(id -u) = 0 ];
+        elif [ "$(id -u)" = 0 ];
                 then
                         echo -e "This script must not be run as root! \nPlease use your standard user!"
                         exit 1
@@ -16,12 +16,12 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-08-15"; #version of this script
-HOST=`hostname`
-NODERECOM=`iobroker state getValue system.host.$HOST.versions.nodeNewestNext`;  #recommended node version
-NPMRECOM=`iobroker state getValue system.host.$HOST.versions.npmNewestNext`;    #recommended npm version
-NODEUSED=`iobroker state getValue system.host.$HOST.versions.nodeCurrent`;      #current node version in use
-NPMUSED=`iobroker state getValue system.host.$HOST.versions.npmCurrent`;        #current node version in use
+SKRIPTV="2023-08-16"; #version of this script
+HOST=$(hostname)
+NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
+NPMRECOM=$(iobroker state getValue system.host."$HOST".versions.npmNewestNext);    #recommended npm version
+NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
+NPMUSED=$(iobroker state getValue system.host."$HOST".versions.npmCurrent);        #current node version in use
 XORGTEST=0;      #test for GUI
 APT=0;
 INSTENV=0;
@@ -43,26 +43,26 @@ echo "It helps us to help you!"
 echo "";
      # read -p "Press <Enter> to continue";
 echo "Press any key to continue";
-read -n 1 -s
+read -r -n 1 -s
         clear;
 echo "";
 echo -e "\033[33m======== Start marking the full check here =========\033[0m";
 echo "";
 echo "\`\`\`";
-echo -e "Skript v.`echo $SKRIPTV`"
+echo "Skript v.$SKRIPTV"
 echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
-echo -e "Hardware Vendor : `cat /sys/devices/virtual/dmi/id/sys_vendor`";
-echo -e "Kernel          : `uname -m`";
-echo -e "Userland        : `dpkg --print-architecture`";
-echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
+echo -e "Hardware Vendor : $(cat /sys/devices/virtual/dmi/id/sys_vendor)";
+echo -e "Kernel          : $(uname -m)";
+echo -e "Userland        : $(dpkg --print-architecture)";
+echo -e "Docker          : $(cat /opt/scripts/.docker_config/.thisisdocker)"
 else
         hostnamectl;
         echo "";
         grep -i model /proc/cpuinfo | tail -1;
-echo -e "Docker          : false";
+        echo -e "Docker          : false";
 fi;
 # Alternativer DockerCheck - Nicht getestet:
 #
@@ -74,12 +74,12 @@ fi;
 
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 if [ "$SYSTDDVIRT" != "" ]; then
-    echo -e "Virtualization  : `systemd-detect-virt`"
+    echo -e "Virtualization  : $(systemd-detect-virt)"
 else
     echo "Virtualization  : Docker"
 fi;
-echo -e "Kernel          : `uname -m`";
-echo -e "Userland        : `dpkg --print-architecture`";
+echo -e "Kernel          : $(uname -m)";
+echo -e "Userland        : $(dpkg --print-architecture)";
 echo "";
 echo "Systemuptime and Load:";
         uptime;
@@ -116,23 +116,24 @@ fi;
 echo "";
 echo -e "\033[34;107m*** User and Groups ***\033[0m";
         whoami;
-        echo $HOME;
+        echo "$HOME";
         groups;
 echo "";
 echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
-
-XORGTEST=`ps aux | grep -c 'Xorg'`
-if (("$XORGTEST" > 1)); then
-    echo -e "X-Server: \ttrue"
-else
-    echo -e "X-Server: \tfalse"
+XORGTEST=$(pgrep -f "Xorg")
+# XORGTEST=$(ps aux | grep -c 'Xorg')
+if [[ "$XORGTEST" -gt 1 ]];
+        then
+                echo -e "X-Server: \ttrue"
+        else
+                echo -e "X-Server: \tfalse"
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
 echo -e "Terminal: \t$XDG_SESSION_TYPE";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
-        echo -e "Boot Target: \t`systemctl get-default`";
+        echo -e "Boot Target: \t$(systemctl get-default)";
 fi;
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
@@ -192,12 +193,11 @@ echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
 sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null;
-echo -e "`type -P nodejs` \t`nodejs -v`";
-echo -e "`type -P node` \t\t`node -v`";
-echo -e "`type -P npm` \t\t`npm -v`";
-echo -e "`type -P npx` \t\t`npx -v`";
-echo -e "`type -P corepack` \t`corepack -v`";
-
+echo -e "$(type -p nodejs) \t$(nodejs -v)";
+echo -e "$(type -p node) \t\t$(node -v)";
+echo -e "$(type -p npm) \t\t$(npm -v)";
+echo -e "$(type -p npx) \t\t$(npx -v)";
+echo -e "$(type -p corepack) \t$(corepack -v)";
 PATHAPT=$(type -p apt);
 PATHNODEJS=$(type -p nodejs);
 PATHNODE=$(type -p node);
@@ -231,12 +231,12 @@ if
                 NODENOTCORR=1
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
         elif
-        [[ $VERNODEJS != $VERNODE ]];
+        [[ $VERNODEJS != "$VERNODE" ]];
         then
                 NODENOTCORR=1
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
         elif
-        [[ $VERNPM != $VERNPX ]];
+        [[ $VERNPM != "$VERNPX" ]];
         then
                 NODENOTCORR=1
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
@@ -263,8 +263,8 @@ echo "";
 # echo "Don't trust the doctor if he recommends different versions!"
 # echo "";
 
-ANZNPMTMP=`find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l`;
-echo -e "\033[32mTemp directories causing npm8 problem:\033[0m "$ANZNPMTMP"";
+ANZNPMTMP=$(find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l);
+echo -e "\033[32mTemp directories causing npm8 problem:\033[0m ""$ANZNPMTMP""";
 if [[ $ANZNPMTMP -gt 0 ]]
 then
         echo -e "Some problems detected, please run \e[031miob fix\e[0m";
@@ -288,13 +288,12 @@ echo "";
 # multihost detection - wip
 # iobroker multihost status
 # iobroker status all | grep MULTIHOSTSERVICE/enabled
-echo "";
 echo -e "\033[32mCore adapters versions\033[0m"
-echo -e "js-controller: \t`iob -v`";
-echo -e "admin: \t\t`iob version admin`";
-echo -e "javascript: \t`iob version javascript`";
+echo -e "js-controller: \t$(iob -v)";
+echo -e "admin: \t\t$(iob version admin)";
+echo -e "javascript: \t$(iob version javascript)";
 echo "";
-echo -e "Adapters from github: \t`(cd /opt/iobroker && npm ls | grep -c 'git')`";
+echo -e "Adapters from github: \t$( (cd /opt/iobroker && npm ls | grep -c 'git') )";
 echo "";
 echo -e "\033[32mAdapter State\033[0m";
 iob list instances;
@@ -311,14 +310,14 @@ echo "";
 echo -e "\033[32mObjects and States\033[0m";
 echo "Please stand by - This may take a while";
 IOBOBJECTS=$(iob list objects 2>/dev/null | wc -l);
-echo -e "Objects: \t`echo $IOBOBJECTS`";
+echo -e "Objects: \t$$IOBOBJECTS";
 IOBSTATES=$(iob list states 2>/dev/null | wc -l);
-echo -e "States: \t`echo $IOBSTATES`";
+echo -e "States: \t$IOBSTATES";
 echo "";
 echo -e "\033[34;107m*** OS-Repositories and Updates ***\033[0m";
         sudo apt-get update 1>/dev/null && sudo apt-get update
-        APT=`apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1`
-echo -e "Pending Updates: `echo $APT`";
+        APT=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1)
+echo -e "Pending Updates: $APT";
 echo "";
 
 echo -e "\033[34;107m*** Listening Ports ***\033[0m";
@@ -340,14 +339,14 @@ echo "";
 echo "";
        # read -p "For a Summary please press <Enter>";
 echo "Press any key for a summary";
-        read -n 1 -s
+        read -r -n 1 -s
 echo "";
         clear;
 echo "Copy text starting here:";
 echo "";
 echo "\`\`\`";
 echo "======================= SUMMARY =======================";
-echo -e "\t\t`echo "     "v.$SKRIPTV`"
+echo -e "\t\t\tv.$SKRIPTV"
 echo "";
 echo "";
 if [ -f "$DOCKER" ]; then
@@ -361,16 +360,16 @@ INSTENV2=$(
 if [[ $INSTENV -eq 2 ]]; then
         echo "Docker";
 elif [ $INSTENV -eq 1 ]; then
-        echo $SYSTDDVIRT;
+        echo "$SYSTDDVIRT";
 else
         echo "native";
 fi;)
 if [ -f "$DOCKER" ]; then
         grep -i model /proc/cpuinfo | tail -1;
-echo -e "Kernel          : `uname -m`";
-echo -e "Userland        : `dpkg --print-architecture`";
-if [ -f "$DOCKER" ]; then
-    echo -e "Docker          : `cat /opt/scripts/.docker_config/.thisisdocker`"
+echo -e "Kernel          : $(uname -m)";
+echo -e "Userland        : $(dpkg --print-architecture)";
+if [[ -f "$DOCKER" ]]; then
+    echo -e "Docker          : $(cat /opt/scripts/.docker_config/.thisisdocker)"
 else
     echo -e "Docker          : false"
 fi;
@@ -379,25 +378,25 @@ else
 hostnamectl;
 fi;
 echo "";
-echo -e "Installation: \t\t`echo $INSTENV2`";
-echo -e "Kernel: \t\t`uname -m`";
-echo -e "Userland: \t\t`dpkg --print-architecture`";
+echo -e "Installation: \t\t$INSTENV2";
+echo -e "Kernel: \t\t$(uname -m)";
+echo -e "Userland: \t\t$(dpkg --print-architecture)";
 if [ -f "$DOCKER" ]; then
-    echo -e "Timezone: \t\t`cat /etc/timezone`"
+    echo -e "Timezone: \t\t$(cat /etc/timezone)"
 else
-    echo -e "Timezone: \t\t`timedatectl | grep zone | cut -c28-80`";
+    echo -e "Timezone: \t\t$(timedatectl | grep zone | cut -c28-80)";
 fi;
-echo -e "User-ID: \t\t`echo $EUID`";
-echo -e "X-Server: \t\t`if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi`";
+echo -e "User-ID: \t\t$EUID";
+echo -e "X-Server: \t\t$(if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi)";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
-        echo -e "Boot Target: \t\t`systemctl get-default`";
+        echo -e "Boot Target: \t\t$(systemctl get-default)";
 fi;
 
 echo "";
-echo -e "Pending OS-Updates: \t`echo $APT`";
-echo -e "Pending iob updates: \t`iob update -u | grep -c 'Updatable\|Updateable'`";
+echo -e "Pending OS-Updates: \t$APT";
+echo -e "Pending iob updates: \t$(iob update -u | grep -c 'Updatable\|Updateable')";
 if [[ -f "/var/run/reboot-required" ]]; then
         echo "";
         echo "The systems needs to be REBOOTED!";
@@ -405,13 +404,13 @@ if [[ -f "/var/run/reboot-required" ]]; then
 fi
 
 echo "";
-echo -e "Nodejs-Installation: \t`type -P nodejs` \t`nodejs -v`";
-echo -e "\t\t\t`type -P node` \t\t`node -v`";
-echo -e "\t\t\t`type -P npm` \t\t`npm -v`";
-echo -e "\t\t\t`type -P npx` \t\t`npx -v`";
-echo -e "\t\t\t`type -P corepack` \t`corepack -v`";
+echo -e "Nodejs-Installation: \t$( type -p nodejs ) \t$( nodejs -v )";
+echo -e "\t\t\t$(type -P node) \t\t$(node -v)";
+echo -e "\t\t\t$(type -P npm) \t\t$(npm -v)";
+echo -e "\t\t\t$(type -P npx) \t\t$(npx -v)";
+echo -e "\t\t\t$(type -P corepack) \t$(corepack -v)";
 echo -e "";
-echo -e "Recommended versions are nodejs "$NODERECOM" and npm "$NPMRECOM"";
+echo -e "Recommended versions are nodejs ""$NODERECOM"" and npm ""$NPMRECOM""";
 
 if
         [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
@@ -434,11 +433,11 @@ if
         then
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
         elif
-        [[ $VERNODEJS != $VERNODE ]];
+        [[ $VERNODEJS != "$VERNODE" ]];
         then
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
         elif
-        [[ $VERNPM != $VERNPX ]];
+        [[ $VERNPM != "$VERNPX" ]];
         then
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
 else
@@ -450,20 +449,20 @@ echo "";
 echo "MEMORY: ";
         free -ht --mega;
 echo "";
-echo -e "Active iob-Instances: \t`iob list instances | grep ^+ | wc -l`";
+echo -e "Active iob-Instances: \t$(iob list instances | grep -c ^+)";
         iob repo list | tail -n1;
 echo "";
-echo -e "ioBroker Core: \t\tjs-controller \t\t`iob -v`";
-echo -e "\t\t\tadmin \t\t\t`iob version admin`";
+echo -e "ioBroker Core: \t\tjs-controller \t\t$(iob -v)";
+echo -e "\t\t\tadmin \t\t\t$(iob version admin)";
 echo "";
-echo -e "ioBroker Status: \t`iobroker status`";
+echo -e "ioBroker Status: \t$(iobroker status)";
 echo "";
 # iobroker status all | grep MULTIHOSTSERVICE/enabled;
 echo "Status admin and web instance:";
 iobroker list instances | grep 'admin.\|system.adapter.web.'
 echo "";
-echo -e "Objects: \t\t`echo $IOBOBJECTS`";
-echo -e "States: \t\t`echo $IOBSTATES`";
+echo -e "Objects: \t\t$IOBOBJECTS";
+echo -e "States: \t\t$IOBSTATES";
 echo "";
 echo -e "Size of iob-Database:";
 echo "";
@@ -495,7 +494,7 @@ if
                 echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
                 echo -e "\nYour nodejs-Installation seems to be broken. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
                 echo "Press <y> to continue or any other key to quit";
-                read -s -n 1 charpaths;
+                read -r -s -n 1 charpaths;
         if
                         [ "$charpaths" = "y" ]
                 then
@@ -504,31 +503,31 @@ if
                                 [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
                         then
                                 echo "*** Deleting $PATHNODEJS ***";
-                                sudo rm `type -p nodejs`;
+                                sudo rm "$(type -p nodejs)";
                 fi
                 if
                                 [[ $PATHNODE != "/usr/bin/node" ]];
                         then
                                 echo -e "*** Deleting $PATHNODE ***";
-                                sudo rm `type -p node`;
+                                sudo rm "$(type -p node)";
                 fi
                 if
                                 [[ $PATHNPM != "/usr/bin/npm" ]];
                         then
                                 echo -e "*** Deleting $PATHNPM ***";
-                                sudo rm `type -p npm`;
+                                sudo rm "$(type -p npm)";
                 fi
                 if
                                 [[ $PATHNPX != "/usr/bin/npx" ]];
                         then
                                 echo -e "*** Deleting $PATHNPX ***";
-                                sudo rm `type -p npx`;
+                                sudo rm "$(type -p npx)";
                 fi
                 if
                                 [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
                         then
                                 echo -e "*** Deleting $PATHCOREPACK ***";
-                                sudo rm `type -p corepack`;
+                                sudo rm "$(type -p corepack)";
                 fi
                 echo -e "\nWrong paths have been fixed. Run 'iob diag' again to check if your installation is fine now";
         fi
@@ -546,7 +545,7 @@ if
         [[ $PATHAPT != "/usr/bin/apt" ]];
 then
         echo "Non Debian-based Systems are not supported, exiting";
-        echo $PATHAPT;
+        echo "$PATHAPT";
         unset LC_ALL;
         exit;
 fi
@@ -556,7 +555,7 @@ then
         echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
         echo -e "\nYou are running nodejs v.$NODEUSED. Do you want to install recommended nodejs v.$NODERECOM?  \n*** DO NOT TRY THIS FIX ON NON-LINUX-SYSTEMS! ***";
         echo -e "\nPress <y> to continue or any other key to quit";
-        read -s -n 1 charpaths;
+        read -r -s -n 1 charpaths;
         if
                 [ "$charpaths" = "y" ]
         then
@@ -566,7 +565,7 @@ then
                 sudo chmod +x /home/iobroker/.nodesetup;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
-                                echo $SYSTDDVIRT;
+                                echo "$SYSTDDVIRT";
                                 sudo pkill -u iobroker;
                         else
                                 iob stop;
@@ -580,7 +579,7 @@ then
                 done;
                 echo "";
                 sudo /home/iobroker/.nodesetup;
-                sudo apt install --reinstall nodejs=$NODERECOM-deb-1nodesource1 -y;
+                sudo apt install --reinstall nodejs="$NODERECOM"-deb-1nodesource1 -y;
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         echo -e "\n*** You need to manually restart your container now! *** ";
                         echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
