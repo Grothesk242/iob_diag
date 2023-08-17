@@ -190,6 +190,13 @@ echo "";
 echo -e "\033[32mThe five largest files in iobroker-data are:\033[0m";
         find /opt/iobroker/iobroker-data -maxdepth 15 -type f -exec du -sh {} + | sort -rh | head -n 5;
 echo "";
+# Detecting dev-links in /dev/serial/by-id
+echo -e "\033[32mUSB-Devices by-id:\033[0m";
+echo "USB-Sticks -  Avoid direct links to /dev/* , please always prefer the links 'by-id':";
+echo "";
+find /dev/serial/by-id/ -maxdepth 1 -mindepth 1;
+echo "";
+
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
 sudo ln -s /usr/bin/node /usr/bin/nodejs &> /dev/null;
