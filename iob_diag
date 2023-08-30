@@ -16,13 +16,13 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-08-30 BETA"; 	#version of this script
-NODE_MAJOR=18		#this is the currently recommended major version for ioBroker, please adjust accordingly if the recommendation changes
+SKRIPTV="2023-08-31 BETA"; 	#version of this script
+NODE_MAJOR=18		#this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 NPMRECOM=$(iobroker state getValue system.host."$HOST".versions.npmNewestNext);    #recommended npm version
 NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
-#NPMUSED=$(iobroker state getValue system.host."$HOST".versions.npmCurrent);        #current node version in use
+#NPMUSED=$(iobroker state getValue system.host."$HOST".versions.npmCurrent);        #current npm version in use
 XORGTEST=0;      #test for GUI
 APT=0;
 INSTENV=0;
@@ -578,8 +578,8 @@ then
                 [ "$charpaths" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                sudo rm "$(sudo find / -name nodesource.gpg)" 2> /dev/null;
-		sudo rm "$(sudo find / -name nodesource.key)" 2> /dev/null;
+                sudo rm "$(sudo find / -name nodesource.gpg)" &> /dev/null;
+		sudo rm "$(sudo find / -name nodesource.key)" &> /dev/null;
 		sudo rm /etc/apt/sources.list.d/nodesource.lis*;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
