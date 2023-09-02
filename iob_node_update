@@ -310,7 +310,7 @@ then
                         echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                 fi;
         else
-                echo "";
+                echo "No errors detected, your installation seems to be in good condition";
         fi;
         unset LC_ALL;
         exit;
