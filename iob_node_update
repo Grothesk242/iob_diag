@@ -168,42 +168,42 @@ VERNODEJS=$(nodejs -v);
 VERNODE=$(node -v);
 VERNPM=$(npm -v);
 VERNPX=$(npx -v);
-
+NOTCORRSTRG="\n\033[0;31m*** nodejs is NOT correctly installed ***\033[0m"
 if
         [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ $PATHNODE != "/usr/bin/node" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ $PATHNPM != "/usr/bin/npm" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ $PATHNPX != "/usr/bin/npx" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ $VERNODEJS != "$VERNODE" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ $VERNPM != "$VERNPX" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
-                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                echo -e "$NOTCORRSTRG";
 else
                 echo "";
 fi
@@ -218,7 +218,7 @@ if
         [[ "$NODENOTCORR" -eq 1 ]]
         then
                 echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
-                echo -e "\nYour nodejs-Installation seems to be not correct. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
+                echo -e "\n\nYour nodejs-Installation seems to be not correct. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
                 echo "Press <y> to continue or any other key to quit";
                 read -r -s -n 1 charpaths;
         if
@@ -258,20 +258,20 @@ if
                 echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-update' again to check if your installation is fine now";
         fi
                 else
-        echo -e "\nNothing to do, your installation seems to be correct";
+        echo -e "\n\nNothing to do, your installation seems to be correct";
 fi
 
 if
         [[ $INSTALL_CMD != "apt-get" ]];
 then
-        echo "Non Debian-based Systems are not supported, exiting";
+        echo "Non-Debian-based Systems are not supported, exiting";
         unset LC_ALL;
         exit;
 fi
 
 if [ NODERECOM = "" ]
         then 
-        echo "Could not detect recommended nodejs-version. Please run 'iob node-update' again.";
+        echo "\nCould not detect recommended nodejs-version. Please run 'iob node-update' again.";
         exit 1;
 fi;
 
