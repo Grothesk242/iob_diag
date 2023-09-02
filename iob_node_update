@@ -15,64 +15,6 @@ SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 # functions for ioBroker node-update
 # ------------------------------
 
-enable_colored_output() {
-	# Enable colored output
-	if test -t 1; then # if terminal
-		ncolors=$(which tput > /dev/null && tput colors) # supports color
-		if test -n "$ncolors" && test "$ncolors" -ge 8; then
-			termcols=$(tput cols)
-			bold="$(tput bold)"
-			underline="$(tput smul)"
-			standout="$(tput smso)"
-			normal="$(tput sgr0)"
-			black="$(tput setaf 0)"
-			red="$(tput setaf 1)"
-			green="$(tput setaf 2)"
-			yellow="$(tput setaf 3)"
-			blue="$(tput setaf 4)"
-			magenta="$(tput setaf 5)"
-			cyan="$(tput setaf 6)"
-			white="$(tput setaf 7)"
-		fi
-	fi
-}
-
-print_step() {
-	stepname="$1"
-	stepnr="$2"
-	steptotal="$3"
-
-	echo
-	echo "${bold}${HLINE}${normal}"
-	echo "${bold}    ${stepname} ${blue}(${stepnr}/${steptotal})${normal}"
-	echo "${bold}${HLINE}${normal}"
-	echo
-}
-
-print_bold() {
-	title="$1"
-	echo
-	echo "${bold}${HLINE}${normal}"
-	echo
-	echo "    ${bold}${title}${normal}"
-	for text in "${@:2}"; do
-		echo "    ${text}"
-	done
-	echo
-	echo "${bold}${HLINE}${normal}"
-	echo
-}
-
-print_msg() {
-	text="$1"
-	echo
-	echo -e "${text}"
-	echo
-}
-
-HLINE="=========================================================================="
-enable_colored_output
-
 
 	# Test which platform this script is being run on
 	# When adding another supported platform, also add detection for the install command
@@ -82,8 +24,6 @@ enable_colored_output
 	# INSTALL_CMD_UPD_ARGS: arguments for $INSTALL_CMD to update something
 	# IOB_DIR:	  Directory where iobroker should be installed
 	# IOB_USER:	  The user to run ioBroker as
-
-	INSTALL_CMD_UPD_ARGS=""
 
 	unamestr=$(uname)
 	case "$unamestr" in
@@ -95,7 +35,6 @@ enable_colored_output
 			INSTALL_CMD="yum"
 			# The args -y and -q have to be separate
 			INSTALL_CMD_ARGS="install -q -y"
-			INSTALL_CMD_UPD_ARGS="-y"
 		fi
 		IOB_DIR="/opt/iobroker"
 		IOB_USER="iobroker"
@@ -143,7 +82,7 @@ fi
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
 
-if [ NODERECOM != "" ]
+if [ "$NODERECOM" != "" ]
         then 
         echo "Recommended nodejs-version is: $NODERECOM";
         echo "Checking your installation now. Please be patient!"
@@ -269,9 +208,9 @@ then
         exit;
 fi
 
-if [ NODERECOM = "" ]
+if [ "$NODERECOM" = "" ]
         then 
-        echo "\nCould not detect recommended nodejs-version. Please run 'iob node-update' again.";
+        echo -e "\nCould not detect recommended nodejs-version. Please run 'iob node-update' again.";
         exit 1;
 fi;
 
@@ -286,8 +225,8 @@ then
         then
                 echo "Trying to fix your installation now. Please be patient."
                 $SUDOX rm "$($SUDOX find / -name nodesource.gpg)" &> /dev/null;
-		        $SUDOX rm "$(sudo find / -name nodesource.key)" &> /dev/null;
-		        $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
+		$SUDOX rm "$(sudo find / -name nodesource.key)" &> /dev/null;
+		$SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
                                 echo "$SYSTDDVIRT";
@@ -320,6 +259,7 @@ then
                 else
                         iob restart;
                         echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
+                        echo "Your ioBroker is restarting now. Please refresh the admin page in your browser";
                 fi;
         else
                 echo "";
