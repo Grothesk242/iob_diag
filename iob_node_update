@@ -269,7 +269,7 @@ then
         exit;
 fi
 
-if [ NODERECOM != "" ]
+if [ NODERECOM = "" ]
         then 
         echo "Could not detect recommended nodejs-version. Please run 'iob node-update' again.";
         exit 1;
