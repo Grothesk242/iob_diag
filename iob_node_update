@@ -1,0 +1,4 @@
+#!/bin/bash
+# iobroker node-update
+# written to help updating and fixing a nodejs installation on linux (deb + rpm based Distros)
+VERSION="2023-09-02"
