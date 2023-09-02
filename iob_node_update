@@ -142,8 +142,15 @@ then
 fi
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
-echo "Checking your installation now. Please be patient!"
 
+if [ NODERECOM != "" ]
+        then 
+        echo "Recommended nodejs-version is: $NODERECOM";
+        echo "Checking your installation now. Please be patient!"
+        else
+        echo "Could not detect recommended nodejs-version. Please run 'iob node-update' again.";
+        exit 1;
+fi;
 echo "";
 echo "Your current setup is:";
 echo -e "$(type -p nodejs) \t$(nodejs -v)";
