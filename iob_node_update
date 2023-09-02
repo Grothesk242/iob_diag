@@ -1,4 +1,315 @@
 #!/bin/bash
 # iobroker node-update
 # written to help updating and fixing a nodejs installation on linux (deb + rpm based Distros)
+
+echo "ioBroker node-update is starting. Please be patient!";
+
 VERSION="2023-09-02"
+NODE_MAJOR=18		#recommended major nodejs version for ioBroker, please adjust if the recommendation changes
+DOCKER=/opt/scripts/.docker_config/.thisisdocker
+NPMRECOM=$(iobroker state getValue system.host."$HOST".versions.npmNewestNext);    #recommended npm version
+NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
+export LC_ALL=C;
+SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
+# ------------------------------
+# functions for ioBroker node-update
+# ------------------------------
+
+enable_colored_output() {
+	# Enable colored output
+	if test -t 1; then # if terminal
+		ncolors=$(which tput > /dev/null && tput colors) # supports color
+		if test -n "$ncolors" && test "$ncolors" -ge 8; then
+			termcols=$(tput cols)
+			bold="$(tput bold)"
+			underline="$(tput smul)"
+			standout="$(tput smso)"
+			normal="$(tput sgr0)"
+			black="$(tput setaf 0)"
+			red="$(tput setaf 1)"
+			green="$(tput setaf 2)"
+			yellow="$(tput setaf 3)"
+			blue="$(tput setaf 4)"
+			magenta="$(tput setaf 5)"
+			cyan="$(tput setaf 6)"
+			white="$(tput setaf 7)"
+		fi
+	fi
+}
+
+print_step() {
+	stepname="$1"
+	stepnr="$2"
+	steptotal="$3"
+
+	echo
+	echo "${bold}${HLINE}${normal}"
+	echo "${bold}    ${stepname} ${blue}(${stepnr}/${steptotal})${normal}"
+	echo "${bold}${HLINE}${normal}"
+	echo
+}
+
+print_bold() {
+	title="$1"
+	echo
+	echo "${bold}${HLINE}${normal}"
+	echo
+	echo "    ${bold}${title}${normal}"
+	for text in "${@:2}"; do
+		echo "    ${text}"
+	done
+	echo
+	echo "${bold}${HLINE}${normal}"
+	echo
+}
+
+print_msg() {
+	text="$1"
+	echo
+	echo -e "${text}"
+	echo
+}
+
+HLINE="=========================================================================="
+enable_colored_output
+
+get_platform_params() {
+	# Test which platform this script is being run on
+	# When adding another supported platform, also add detection for the install command
+	# HOST_PLATFORM:  Name of the platform
+	# INSTALL_CMD:      comand for package installation
+	# INSTALL_CMD_ARGS: arguments for $INSTALL_CMD to install something
+	# INSTALL_CMD_UPD_ARGS: arguments for $INSTALL_CMD to update something
+	# IOB_DIR:	  Directory where iobroker should be installed
+	# IOB_USER:	  The user to run ioBroker as
+
+	INSTALL_CMD_UPD_ARGS=""
+
+	unamestr=$(uname)
+	case "$unamestr" in
+	"Linux")
+		HOST_PLATFORM="linux"
+		INSTALL_CMD="apt-get"
+		INSTALL_CMD_ARGS="install -yq"
+		if [[ $(which "yum" 2>/dev/null) == *"/yum" ]]; then
+			INSTALL_CMD="yum"
+			# The args -y and -q have to be separate
+			INSTALL_CMD_ARGS="install -q -y"
+			INSTALL_CMD_UPD_ARGS="-y"
+		fi
+		IOB_DIR="/opt/iobroker"
+		IOB_USER="iobroker"
+		;;
+	"Darwin")
+		# OSX and Linux are the same in terms of install procedure
+		HOST_PLATFORM="osx"
+		ROOT_GROUP="wheel"
+		INSTALL_CMD="brew"
+		INSTALL_CMD_ARGS="install"
+		IOB_DIR="/usr/local/iobroker"
+		IOB_USER="$USER"
+		;;
+	"FreeBSD")
+		HOST_PLATFORM="freebsd"
+		ROOT_GROUP="wheel"
+		INSTALL_CMD="pkg"
+		INSTALL_CMD_ARGS="install -yq"
+		IOB_DIR="/opt/iobroker"
+		IOB_USER="iobroker"
+		;;
+	*)
+		# The following should never happen, but better be safe than sorry
+		echo "Unsupported platform $unamestr"
+		exit 1
+		;;
+	esac
+    if [[ $EUID -eq 0 ]];
+        then IS_ROOT=true;  SUDOX=""
+        else IS_ROOT=false; SUDOX="sudo "
+        ROOT_GROUP="root"
+        USER_GROUP="$USER"
+	fi
+}
+
+if [ -f "$DOCKER" ]
+then
+        echo "Fixing Docker is not supported, please update your Docker Container";
+#       elif [ "$(id -u)" = 0 ];
+#                then
+#                        echo -e "This script must not be run as root! \nPlease use your standard user!"
+#                        exit 1
+
+fi
+clear;
+
+echo "Checking your installtion now. Please be patient!"
+
+echo "";
+echo -e "$(type -p nodejs) \t$(nodejs -v)";
+echo -e "$(type -p node) \t\t$(node -v)";
+echo -e "$(type -p npm) \t\t$(npm -v)";
+echo -e "$(type -p npx) \t\t$(npx -v)";
+echo -e "$(type -p corepack) \t$(corepack -v)";
+PATHAPT=$(type -p apt);
+PATHNODEJS=$(type -p nodejs);
+PATHNODE=$(type -p node);
+PATHNPM=$(type -p npm);
+PATHNPX=$(type -p npx);
+PATHCOREPACK=$(type -p corepack);
+VERNODEJS=$(nodejs -v);
+VERNODE=$(node -v);
+VERNPM=$(npm -v);
+VERNPX=$(npx -v);
+#VERCOREPACK=$(corepack -v);
+
+if
+        [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+        elif
+        [[ $PATHNODE != "/usr/bin/node" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+        elif
+        [[ $PATHNPM != "/usr/bin/npm" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+        elif
+        [[ $PATHNPX != "/usr/bin/npx" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+        elif
+        [[ $VERNODEJS != "$VERNODE" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+        elif
+        [[ $VERNPM != "$VERNPX" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+        elif
+        [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
+        then
+                NODENOTCORR=1
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+else
+                echo "";
+fi
+
+echo "";
+        apt-cache policy nodejs;
+echo "";
+
+# DETECTING WRONG PATHS
+if
+        [ "$NODENOTCORR" -eq 1 ]
+        then
+                echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
+                echo -e "\nYour nodejs-Installation seems to be broken. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
+                echo "Press <y> to continue or any other key to quit";
+                read -r -s -n 1 charpaths;
+        if
+                        [ "$charpaths" = "y" ]
+                then
+                        echo -e "\nFixing your nodejs setup";
+                if
+                                [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
+                        then
+                                echo "*** Deleting $PATHNODEJS ***";
+                                $SUDOX rm "$(type -p nodejs)";
+                fi
+                if
+                                [[ $PATHNODE != "/usr/bin/node" ]];
+                        then
+                                echo -e "*** Deleting $PATHNODE ***";
+                                $SUDOX rm "$(type -p node)";
+                fi
+                if
+                                [[ $PATHNPM != "/usr/bin/npm" ]];
+                        then
+                                echo -e "*** Deleting $PATHNPM ***";
+                                $SUDOX rm "$(type -p npm)";
+                fi
+                if
+                                [[ $PATHNPX != "/usr/bin/npx" ]];
+                        then
+                                echo -e "*** Deleting $PATHNPX ***";
+                                $SUDOX rm "$(type -p npx)";
+                fi
+                if
+                                [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
+                        then
+                                echo -e "*** Deleting $PATHCOREPACK ***";
+                                $SUDOX rm "$(type -p corepack)";
+                fi
+                echo -e "\nWrong paths have been fixed. Run 'iob diag' again to check if your installation is fine now";
+        fi
+                else
+                        echo -e "";
+fi
+
+if
+        [[ $INSTALL_CMD != "apt-get" ]];
+then
+        echo "Non Debian-based Systems are not supported, exiting";
+        unset LC_ALL;
+        exit;
+fi
+
+if [[ "$NODEUSED" != "$NODERECOM" ]]
+then
+        echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
+        echo -e "\nYou are running nodejs v.$NODEUSED. Do you want to install recommended nodejs v.$NODERECOM?  \n*** DO NOT TRY THIS FIX ON NON-LINUX-SYSTEMS! ***";
+        echo -e "\nPress <y> to continue or any other key to quit";
+        read -r -s -n 1 charpaths;
+        if
+                [ "$charpaths" = "y" ]
+        then
+                echo "Trying to fix your installation now. Please be patient."
+                $SUDOX rm "$($SUDOX find / -name nodesource.gpg)" &> /dev/null;
+		        $SUDOX rm "$(sudo find / -name nodesource.key)" &> /dev/null;
+		        $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
+
+                        if [ "$SYSTDDVIRT" != "none" ]; then
+                                echo "$SYSTDDVIRT";
+                                #sudo pkill -u iobroker;    #FIX ME! How to shut down iob in LXC without killing the script? 
+                                                            #Using 'iob stop' in the meantime.  
+                                iob stop;
+                        else
+                                iob stop;
+                        fi;
+
+                echo "Waiting for ioBroker to shut down - Give me a minute..."
+                BAR='############################################################'   # this is full bar, e.g. 60 chars
+                for i in {1..60}; do
+                        echo -ne "\r${BAR:0:$i}" # print $i chars of $BAR from 0 position
+                        sleep 1                 # wait 1s between "frames"
+                done;
+                echo "";
+			$SUDOX "$INSTALL_CMD" update;
+			$SUDOX "$INSTALL_CMD" "$INSTALL_CMD_ARGS" ca-certificates curl gnupg 1>/dev/null;
+			$SUDOX mkdir -p /etc/apt/keyrings;
+			curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg;
+			echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
+                	$SUDOX "$INSTALL_CMD" update;
+			$SUDOX "$INSTALL_CMD" "$INSTALL_CMD_ARGS" --reinstall --allow-downgrades nodejs="$NODERECOM"-1nodesource1 ;
+                if [ "$SYSTDDVIRT" != "none" ]; then
+                        echo -e "\n*** You need to manually restart your container now! *** ";
+                        echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
+                        unset LC_ALL;
+                        exit;
+                else
+                        iob restart;
+                        echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
+                fi;
+        else
+                echo "";
+        fi;
+        unset LC_ALL;
+        exit;
+fi;
