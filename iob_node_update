@@ -8,7 +8,7 @@ VERSION="2023-09-02"
 NODE_MAJOR=18		#recommended major nodejs version for ioBroker, please adjust if the recommendation changes
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
-NPMRECOM=$(iobroker state getValue system.host."$HOST".versions.npmNewestNext);    #recommended npm version
+NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);    #recommended npm version
 NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
 export LC_ALL=C;
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
@@ -74,7 +74,7 @@ print_msg() {
 HLINE="=========================================================================="
 enable_colored_output
 
-get_platform_params() {
+
 	# Test which platform this script is being run on
 	# When adding another supported platform, also add detection for the install command
 	# HOST_PLATFORM:  Name of the platform
@@ -130,7 +130,7 @@ get_platform_params() {
         ROOT_GROUP="root"
         USER_GROUP="$USER"
 	fi
-}
+
 
 if [ -f "$DOCKER" ]
 then
@@ -208,7 +208,7 @@ echo "";
 
 # DETECTING WRONG PATHS
 if
-        [ "$NODENOTCORR" -eq 1 ]
+        [[ "$NODENOTCORR" -eq 1 ]]
         then
                 echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
                 echo -e "\nYour nodejs-Installation seems to be broken. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
