@@ -263,10 +263,10 @@ then
         exit;
 fi
 
-if [[ "$VERNODE" != "v.$NODERECOM" ]]
+if [[ "$VERNODE" != "v$NODERECOM" ]]
 then
         echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
-        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs $NODERECOM?  \n*** DO NOT TRY THIS FIX ON NON-LINUX-SYSTEMS! ***";
+        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs v$NODERECOM?  \n*** DO NOT TRY THIS FIX ON NON-LINUX-SYSTEMS! ***";
         echo -e "\nPress <y> to continue or any other key to quit";
         read -r -s -n 1 charpaths;
         if
