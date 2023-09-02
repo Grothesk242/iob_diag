@@ -9,8 +9,8 @@ NODE_MAJOR=18		#recommended major nodejs version for ioBroker, please adjust if 
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
-NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
-NODERECOMV=v.$NODERECOM
+#NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
+#NODERECOMV=v.$NODERECOM
 export LC_ALL=C;
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 # ------------------------------
@@ -147,6 +147,7 @@ clear;
 echo "Checking your installtion now. Please be patient!"
 
 echo "";
+echo "Your current setup is:";
 echo -e "$(type -p nodejs) \t$(nodejs -v)";
 echo -e "$(type -p node) \t\t$(node -v)";
 echo -e "$(type -p npm) \t\t$(npm -v)";
@@ -203,7 +204,7 @@ else
                 echo "";
 fi
 
-echo "";
+echo "I found these versions available:";
         apt-cache policy nodejs;
 echo "";
 
@@ -212,7 +213,7 @@ if
         [[ "$NODENOTCORR" -eq 1 ]]
         then
                 echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
-                echo -e "\nYour nodejs-Installation seems to be broken. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
+                echo -e "\nYour nodejs-Installation seems to be not correct. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
                 echo "Press <y> to continue or any other key to quit";
                 read -r -s -n 1 charpaths;
         if
@@ -252,7 +253,7 @@ if
                 echo -e "\nWrong paths have been fixed. Run 'iob diag' again to check if your installation is fine now";
         fi
                 else
-                        echo -e "";
+        echo -e "Nothing to do, your installation is correct";
 fi
 
 if
@@ -310,7 +311,7 @@ then
                         echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                 fi;
         else
-                echo "No errors detected, your installation seems to be in good condition";
+                echo "";
         fi;
         unset LC_ALL;
         exit;
