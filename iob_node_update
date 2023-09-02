@@ -1,10 +1,8 @@
 #!/bin/bash
 # iobroker node-update
 # written to help updating and fixing a nodejs installation on linux (deb + rpm based Distros)
-
-echo "ioBroker node-update is starting. Please be patient!";
-
 VERSION="2023-09-02"
+echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
 NODE_MAJOR=18		#recommended major nodejs version for ioBroker, please adjust if the recommendation changes
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
@@ -143,8 +141,8 @@ then
 
 fi
 clear;
-
-echo "Checking your installtion now. Please be patient!"
+echo -e "ioBroker nodejs fixer $VERSION";
+echo "Checking your installation now. Please be patient!"
 
 echo "";
 echo "Your current setup is:";
@@ -153,7 +151,7 @@ echo -e "$(type -p node) \t\t$(node -v)";
 echo -e "$(type -p npm) \t\t$(npm -v)";
 echo -e "$(type -p npx) \t\t$(npx -v)";
 echo -e "$(type -p corepack) \t$(corepack -v)";
-PATHAPT=$(type -p apt);
+
 PATHNODEJS=$(type -p nodejs);
 PATHNODE=$(type -p node);
 PATHNPM=$(type -p npm);
@@ -163,7 +161,6 @@ VERNODEJS=$(nodejs -v);
 VERNODE=$(node -v);
 VERNPM=$(npm -v);
 VERNPX=$(npx -v);
-#VERCOREPACK=$(corepack -v);
 
 if
         [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
@@ -205,6 +202,7 @@ else
 fi
 
 echo "I found these versions available:";
+echo "";
         apt-cache policy nodejs;
 echo "";
 
@@ -250,10 +248,10 @@ if
                                 echo -e "*** Deleting $PATHCOREPACK ***";
                                 $SUDOX rm "$(type -p corepack)";
                 fi
-                echo -e "\nWrong paths have been fixed. Run 'iob diag' again to check if your installation is fine now";
+                echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-update' again to check if your installation is fine now";
         fi
                 else
-        echo -e "Nothing to do, your installation is correct";
+        echo -e "\nNothing to do, your installation seems to be correct";
 fi
 
 if
