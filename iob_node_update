@@ -260,7 +260,7 @@ then
                                 echo -e "\nWe installed the initial release of nodejs v.$NODE_MAJOR. Checking if updates are available now.\n"
                                 $SUDOX $INSTALL_CMD dist-upgrade -y;
                                 else
-                                $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs;                        
+                                $SUDOX "$INSTALL_CMD" install --reinstall nodejs;                        
                                 fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         echo -e "\n*** You need to manually restart your container now! *** ";
