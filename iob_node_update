@@ -254,18 +254,17 @@ then
                         exit 1;
 
                                 # FORCING INSTALLATION IF INSTALLED nodejs>RECOMMENDED OR RECOMMENDED NOT AVAILABLE
-                                if [[ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ]]
+                        if [[ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ]]
                                 then
                                 $SUDOX $INSTALL_CMD update;
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
-                                elif 
+                                        elif 
                                 [[ -z "$NODERECOM" ]]
-                                then
+                                        then
                                 NODERECOM=$NODE_MAJOR.0.0;
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 echo -e "\nWe installed the initial release of nodejs v.$NODE_MAJOR. Checking if updates are available now.\n"
                                 $SUDOX $INSTALL_CMD dist-upgrade -y;
-                                fi;
                                 else
                                 $SUDOX "$INSTALL_CMD" install --reinstall nodejs;                        
                                 fi;
