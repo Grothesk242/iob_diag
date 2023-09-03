@@ -92,6 +92,9 @@ if [ "$NODERECOM" != "" ]
         NODERECOMNF=1;
         echo -e "Could not detect recommended nodejs-version. Setting up the nodejs $NODE_MAJOR tree now.";
 fi;
+
+### CHECKING THE CURRENT SETUP
+
 echo "";
 echo "Your current setup is:";
 echo -e "$(type -p nodejs) \t$(nodejs -v)";
@@ -226,8 +229,8 @@ then
                 [ "$charpaths" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                $SUDOX rm "$($SUDOX find / -name nodesource.gpg)" &> /dev/null;
-		$SUDOX rm "$(sudo find / -name nodesource.key)" &> /dev/null;
+                $SUDOX rm "$($SUDOX find / -name nodesource.gpg)" 2&> /dev/null;
+		$SUDOX rm "$($SUDOX find / -name nodesource.key)" 2&> /dev/null;
 		$SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
@@ -252,7 +255,10 @@ then
 			curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg;
 			echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
                 	$SUDOX "$INSTALL_CMD" update;
+    
+                        echo "***DEBUG ***"
                         echo -e "DEBUG NODEINSTMAJOR: ""$NODEINSTMAJOR"" NODE_MAJOR: ""$NODE_MAJOR"" NODERECOMNF: ""$NODERECOMNF"" ";
+                         
                                 if [[ $NODEINSTMAJOR -gt $NODE_MAJOR || $NODERECOMNF -eq 1 ]]
                                 then
                                 echo "*** DEBUG *** ZWANG AUF v18.17.1"
