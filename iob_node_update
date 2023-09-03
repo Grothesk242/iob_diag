@@ -88,7 +88,7 @@ if [ "$NODERECOM" != "" ]
         echo "Recommended nodejs-version is: $NODERECOM";
         echo "Checking your installation now. Please be patient!"
         else
-        NODERECOMNF = 1
+        NODERECOMNF=1;
         echo -e "Could not detect recommended nodejs-version. Setting up the nodejs $NODE_MAJOR tree now.";
 fi;
 echo "";
