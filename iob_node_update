@@ -259,7 +259,7 @@ then
                         echo "***DEBUG ***"
                         echo -e "DEBUG NODEINSTMAJOR: ""$NODEINSTMAJOR"" NODE_MAJOR: ""$NODE_MAJOR"" NODERECOMNF: ""$NODERECOMNF"" ";
                          
-                                if [[ $NODEINSTMAJOR -gt $NODE_MAJOR || $NODERECOMNF -eq 1 ]]
+                                if [[ $NODEINSTMAJOR -gt $NODE_MAJOR || "$NODERECOM" = "" ]]
                                 then
                                 echo "*** DEBUG *** ZWANG AUF v18.17.1"
                                 NODERECOM="18.17.1";
