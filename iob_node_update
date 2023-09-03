@@ -252,13 +252,15 @@ then
 			curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg;
 			echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
                 	$SUDOX "$INSTALL_CMD" update;
-			if [[ $NODEINSTMAJOR -gt $NODE_MAJOR || "$NODERECOMNF" -eq 1 ]]
+                                echo -e "DEBUG NODEINSTMAJOR: "$NODEINSTMAJOR" NODEMAJOR: "$NODEMAJOR" NODERECOMNF: "$NODERECOMNF" ";
+                                if [[ $NODEINSTMAJOR -gt $NODE_MAJOR || "$NODERECOMNF" -eq 1 ]]
                                 then
+                                echo "*** DEBUG *** ZWANG AUF v18.17.1"
                                 NODERECOM="18.17.1";
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
-                                else 
-                                $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs;
-                        fi;
+                                else
+                                echo "*** DEBUG *** Installation ohne spez. Version";
+                                $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs;                        fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         echo -e "\n*** You need to manually restart your container now! *** ";
                         echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
