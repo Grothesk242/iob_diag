@@ -252,7 +252,7 @@ then
                                 # FORCING INSTALLATION IF INSTALLED nodejs>RECOMMENDED OR RECOMMENDED NOT AVAILABLE
                                 if [[ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" || -z "$NODERECOM" ]]
                                 then
-                                NODERECOM="$NODE_MAJOR".0.0";
+                                NODERECOM=$NODE_MAJOR.0.0;
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 echo -e "\nWe installed the initial release of nodejs v.$NODE_MAJOR now. Checking if updates are available now.\n"
                                 $SUDOX update && $SUDOX dist-upgrade -y;
@@ -270,7 +270,7 @@ then
                         echo "Your ioBroker is restarting now. Please refresh the admin page in your browser";
                 fi;
         else
-                echo "";
+                echo ;
         fi;
         unset LC_ALL;
         exit;
