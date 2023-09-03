@@ -254,7 +254,7 @@ then
                 	$SUDOX "$INSTALL_CMD" update;
 			if (( $NODEINSTMAJOR > $NODE_MAJOR )) || (( "$NODERECOMNF" = 1 ))
                                 then
-                                NODERECOM=18.0.0
+                                NODERECOM="18.0.0";
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 else 
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs;
