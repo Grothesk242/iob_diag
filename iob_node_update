@@ -1,7 +1,7 @@
 #!/bin/bash
 # iobroker node-update
 # written to help updating and fixing a nodejs installation on linux (deb + rpm based Distros)
-VERSION="2023-09-03"
+VERSION="2023-09-04"
 echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
