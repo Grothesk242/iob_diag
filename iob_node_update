@@ -241,6 +241,8 @@ then
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
+                        [ "$charpaths" != "y" ]
+                        then
 			$SUDOX "$INSTALL_CMD" update 2&> /dev/null;
 			$SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg 2&> /dev/null;
 			$SUDOX mkdir -p /etc/apt/keyrings;
@@ -248,10 +250,13 @@ then
 			echo -e "\nWriting your new nodesource.list:"
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
                 	$SUDOX apt-get update;
-
+                        else
+                        exit 1;
+                        
                                 # FORCING INSTALLATION IF INSTALLED nodejs>RECOMMENDED OR RECOMMENDED NOT AVAILABLE
                                 if [[ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ]]
                                 then
+                                $SUDOX $INSTALL_CMD update;
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif 
                                 [[ -z "$NODERECOM" ]]
@@ -276,7 +281,6 @@ then
                 fi;
         else
                 echo ;
-        fi;
         fi;
         unset LC_ALL;
 exit;
