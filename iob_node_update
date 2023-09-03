@@ -252,7 +252,7 @@ then
                 	$SUDOX "$INSTALL_CMD" update;
 			if [[ $NODEINSTMAJOR -gt $NODE_MAJOR ]]
                                 then
-                                $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs="$NODERECOM"-1nodesource1 ;
+                                $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 else 
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs;
                         fi;
