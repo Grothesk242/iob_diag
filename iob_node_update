@@ -8,6 +8,7 @@ DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 NODEINSTMAJOR=$(nodejs -v | cut -d.  -f1 | cut -c 2-3);
+NODEFB=
 #NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
 #NODERECOMV=v.$NODERECOM
 export LC_ALL=C;
@@ -253,6 +254,7 @@ then
                 	$SUDOX "$INSTALL_CMD" update;
 			if (( $NODEINSTMAJOR > $NODE_MAJOR )) || (( "$NODERECOMNF" = 1 ))
                                 then
+                                NODERECOM=18.0.0
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 else 
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades nodejs;
@@ -264,7 +266,7 @@ then
                         exit;
                 else
                         iob restart;
-                        echo "We tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
+                        echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                         echo "Your ioBroker is restarting now. Please refresh the admin page in your browser";
                 fi;
         else
