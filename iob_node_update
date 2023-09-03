@@ -241,7 +241,7 @@ then
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
-                        [ "$charpaths" != "y" ]
+                        if [ "$charpaths" != "y" ]
                         then
 			$SUDOX "$INSTALL_CMD" update 2&> /dev/null;
 			$SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg 2&> /dev/null;
@@ -252,7 +252,7 @@ then
                 	$SUDOX apt-get update;
                         else
                         exit 1;
-                        
+
                                 # FORCING INSTALLATION IF INSTALLED nodejs>RECOMMENDED OR RECOMMENDED NOT AVAILABLE
                                 if [[ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ]]
                                 then
