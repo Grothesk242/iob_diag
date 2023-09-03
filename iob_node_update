@@ -213,12 +213,6 @@ then
         exit;
 fi
 
-if [ "$NODERECOM" = "" ]
-        then 
-        echo -e "\nCould not detect recommended nodejs-version. Please run 'iob node-update' again.";
-        exit 1;
-fi;
-
 if [[ "$VERNODE" != "v$NODERECOM" ]]
 then
         echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
@@ -257,9 +251,9 @@ then
                 	$SUDOX "$INSTALL_CMD" update;
     
                         echo "***DEBUG ***"
-                        echo -e "DEBUG NODEINSTMAJOR: ""$NODEINSTMAJOR"" NODE_MAJOR: ""$NODE_MAJOR"" NODERECOMNF: ""$NODERECOMNF"" ";
+                        echo    "DEBUG \NODEINSTMAJOR: ""$NODEINSTMAJOR"" \NODE_MAJOR: ""$NODE_MAJOR"" \NODERECOMNF: ""$NODERECOMNF"" ";
                          
-                                if [[ $NODEINSTMAJOR -gt $NODE_MAJOR || "$NODERECOM" = "" ]]
+                                if [[ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" || -z "$NODERECOM" ]]
                                 then
                                 echo "*** DEBUG *** ZWANG AUF v18.17.1"
                                 NODERECOM="18.17.1";
