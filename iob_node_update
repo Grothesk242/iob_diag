@@ -277,5 +277,6 @@ then
         else
                 echo ;
         fi;
+        fi;
         unset LC_ALL;
 exit;
