@@ -255,10 +255,12 @@ then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif 
                                 [[ -z "$NODERECOM" ]]
+                                then
                                 NODERECOM=$NODE_MAJOR.0.0;
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 echo -e "\nWe installed the initial release of nodejs v.$NODE_MAJOR. Checking if updates are available now.\n"
                                 $SUDOX $INSTALL_CMD dist-upgrade -y;
+                                fi;
                                 else
                                 $SUDOX "$INSTALL_CMD" install --reinstall nodejs;                        
                                 fi;
@@ -276,5 +278,4 @@ then
                 echo ;
         fi;
         unset LC_ALL;
-        exit;
-fi;
+exit;
