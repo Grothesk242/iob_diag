@@ -109,10 +109,10 @@ PATHNODEJS=$(type -p nodejs);
 PATHNODE=$(type -p node);
 PATHNPM=$(type -p npm);
 PATHNPX=$(type -p npx);
-if [[ -f /usr/bin/corepack ]] then
+if [[ -f /usr/bin/corepack ]]; then
 PATHCOREPACK=$(type -p corepack);
 fi;
-if [[ -f /usr/bin/nodejs ]] then
+if [[ -f /usr/bin/nodejs ]]; then
 VERNODEJS=$(nodejs -v);
 fi;
 VERNODE=$(node -v);
