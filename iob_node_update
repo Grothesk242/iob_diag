@@ -116,7 +116,7 @@ VERNPM=$(npm -v);
 VERNPX=$(npx -v);
 NOTCORRSTRG="\n\033[0;31m*** nodejs is NOT correctly installed ***\033[0m"
 if
-        [[ "$PATHNODEJS" != "/usr/bin/nodejs" ]];
+        [[ -f /usr/bin/nodejs && "$PATHNODEJS" != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
@@ -146,7 +146,7 @@ if
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ "$PATHCOREPACK" != "/usr/bin/corepack" ]];
+        [[ -f /usr/bin/corepack && "$PATHCOREPACK" != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
