@@ -167,7 +167,7 @@ if
                 then
                         echo -e "\nFixing your nodejs setup";
                 if
-                                [[ "$PATHNODEJS" != "/usr/bin/nodejs" ]];
+                                [[ -f /usr/bin/nodejs -a "$PATHNODEJS" != "/usr/bin/nodejs" ]];
                         then
                                 echo "*** Deleting $PATHNODEJS ***";
                                 $SUDOX rm "$(type -p nodejs)";
@@ -191,7 +191,7 @@ if
                                 $SUDOX rm "$(type -p npx)";
                 fi
                 if
-                                [[ "$PATHCOREPACK" != "/usr/bin/corepack" ]];
+                        [[ -f /usr/bin/corepack -a "$PATHCOREPACK" != "/usr/bin/corepack" ]];
                         then
                                 echo -e "*** Deleting $PATHCOREPACK ***";
                                 $SUDOX rm "$(type -p corepack)";
