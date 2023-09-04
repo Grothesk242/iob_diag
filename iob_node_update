@@ -224,13 +224,13 @@ then
         echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs $NODERECOM? ";
         echo -e "\nPress <y> to continue or any other key to quit";
-        read -r -s -n 1 charpaths;
+        read -r -s -n 1 char;
         if
-                [ "$charpaths" = "y" ]
+                [ "$char" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                $SUDOX rm "$SUDOX find / -name nodesource.gpg";
-                $SUDOX rm "$SUDOX find / -name nodesource.key";
+                $SUDOX rm "$($SUDOX find / -name nodesource.gpg)";
+                $SUDOX rm "$($SUDOX find / -name nodesource.key)";
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
@@ -252,7 +252,7 @@ then
                         $SUDOX "$INSTALL_CMD" update;
                         $SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg;
                         $SUDOX mkdir -p /etc/apt/keyrings;
-                        curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg;
+                        curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg;
                         echo "Creating new /etc/apt/sources.list.d/nodesource.list file with this content:"
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
                         echo "";
