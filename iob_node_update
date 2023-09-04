@@ -229,8 +229,8 @@ then
                 [ "$charpaths" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                $SUDOX rm "$$SUDOX find / -name nodesource.gpg";
-                $SUDOX rm "$$SUDOX find / -name nodesource.key";
+                $SUDOX rm "$SUDOX find / -name nodesource.gpg";
+                $SUDOX rm "$SUDOX find / -name nodesource.key";
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
