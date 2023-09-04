@@ -232,7 +232,10 @@ then
                 $SUDOX rm "$($SUDOX find / -name nodesource.gpg)";
                 $SUDOX rm "$($SUDOX find / -name nodesource.key)";
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
-
+        else 
+        echo "I'm not fixing your installation. Exiting.";
+        exit 1;
+        fi;
                         if [ "$SYSTDDVIRT" != "none" ]; then
                                 echo "$SYSTDDVIRT";
                                 #sudo pkill -u iobroker;    #FIX ME! How to shut down iob in LXC without killing the script?
