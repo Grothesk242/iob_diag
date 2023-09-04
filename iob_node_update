@@ -123,7 +123,7 @@ if
         [[ -f /usr/bin/nodejs && "$PATHNODEJS" != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnodejs";
         elif
         [[ "$PATHNODE" != "/usr/bin/node" ]];
         then
@@ -153,7 +153,7 @@ if
         [[ -f /usr/bin/corepack && "$PATHCOREPACK" != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGcorepack";
 else
                 echo "";
 fi
