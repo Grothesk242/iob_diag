@@ -123,7 +123,7 @@ if
         [[ -f /usr/bin/nodejs && "$PATHNODEJS" != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnodejs";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ "$PATHNODE" != "/usr/bin/node" ]];
         then
@@ -153,7 +153,7 @@ if
         [[ -f /usr/bin/corepack && "$PATHCOREPACK" != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGcorepack";
+                echo -e "$NOTCORRSTRG";
 else
                 echo "";
 fi
@@ -168,7 +168,7 @@ if
         [[ "$NODENOTCORR" -eq 1 ]]
         then
                 echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
-                echo -e "\n\nYour nodejs-Installation seems to be not correct. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
+                echo -e "\n\nYour nodejs-Installation seems to use wrong paths. Shall we try to fix it?";
                 echo "Press <y> to continue or any other key to quit";
                 read -r -s -n 1 charpaths;
         if
@@ -208,7 +208,7 @@ if
                 echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-update' again to check if your installation is fine now";
         fi
                 else
-        echo -e "\n\nNothing to do, your installation is using in the correct paths";
+        echo -e "\n\nNothing to do, your installation is populating the correct paths";
 fi
 
 if
@@ -229,9 +229,9 @@ then
                 [ "$charpaths" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                $SUDOX rm "$($SUDOX find / -name nodesource.gpg) 2>&1 /dev/null";
-                $SUDOX rm "$($SUDOX find / -name nodesource.key) 2>&1 /dev/null";
-                $SUDOX "rm /etc/apt/sources.list.d/nodesource.lis* 2>&1 /dev/null";
+                $SUDOX rm "$($SUDOX find / -name nodesource.gpg 2>&1 /dev/null)";
+                $SUDOX rm "$($SUDOX find / -name nodesource.key 2>&1 /dev/null)";
+                $SUDOX rm /etc/apt/sources.list.d/nodesource.lis* 2>&1 /dev/null";
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
                                 echo "$SYSTDDVIRT";
@@ -249,14 +249,14 @@ then
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
-                        $($SUDOX "$INSTALL_CMD" update) 2>&1 /dev/null;
-                        $($SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg) 2>&1 /dev/null;
+                        $($SUDOX "$INSTALL_CMD" update 2>&1 /dev/null);
+                        $($SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg 2>&1 /dev/null);
                         $SUDOX mkdir -p /etc/apt/keyrings;
                         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg;
                         echo "Creating new /etc/apt/sources.list.d/nodesource.list file with this content:"
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
                         echo "";
-                        $($SUDOX "$INSTALL_CMD" update) 2>&1 /dev/null;
+                        $($SUDOX "$INSTALL_CMD" update 2>&1 /dev/null);
                         if [[ $NODEINSTMAJOR -gt $NODE_MAJOR ]] 
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
@@ -267,8 +267,8 @@ then
                                 #NODERECOM=$NODE_MAJOR.0.0
                                 NODERECOM=18.17.0
                                 $($SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1) ;
-                                $($SUDOX "$INSTALL_CMD" update) 2>&1 /dev/null;
-                                $($SUDOX "$INSTALL_CMD" dist-upgrade) 2>&1 /dev/null;
+                                $($SUDOX "$INSTALL_CMD" update 2>&1 /dev/null);
+                                $($SUDOX "$INSTALL_CMD" dist-upgrade 2>&1 /dev/null);
                                 fi;
                                 else
                                 $SUDOX "$INSTALL_CMD" install --reinstall nodejs;
