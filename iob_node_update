@@ -84,7 +84,7 @@ fi
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
 
-if [ "$NODERECOM" != "" ]
+if [[ -n "$NODERECOM" ]]
         then
         echo "Recommended nodejs-version is: $NODERECOM";
         echo "Checking your installation now. Please be patient!"
@@ -111,45 +111,45 @@ VERNPM=$(npm -v);
 VERNPX=$(npx -v);
 NOTCORRSTRG="\n\033[0;31m*** nodejs is NOT correctly installed ***\033[0m"
 if
-        [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
+        [[ "$PATHNODEJS" != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ $PATHNODE != "/usr/bin/node" ]];
+        [[ "$PATHNODE" != "/usr/bin/node" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ $PATHNPM != "/usr/bin/npm" ]];
+        [[ "$PATHNPM" != "/usr/bin/npm" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ $PATHNPX != "/usr/bin/npx" ]];
+        [[ "$PATHNPX" != "/usr/bin/npx" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ $VERNODEJS != "$VERNODE" ]];
+        [[ "$VERNODEJS" != "$VERNODE" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ $VERNPM != "$VERNPX" ]];
+        [[ "$VERNPM" != "$VERNPX" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
         elif
-        [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
+        [[ "$PATHCOREPACK" != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
 else
                 echo "";
 fi
-
-echo "I found these versions available:";
+echo "";
+echo "I found these versions to be available for installation:";
 echo "";
         apt-cache policy nodejs;
 echo "";
@@ -167,31 +167,31 @@ if
                 then
                         echo -e "\nFixing your nodejs setup";
                 if
-                                [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
+                                [[ "$PATHNODEJS" != "/usr/bin/nodejs" ]];
                         then
                                 echo "*** Deleting $PATHNODEJS ***";
                                 $SUDOX rm "$(type -p nodejs)";
                 fi
                 if
-                                [[ $PATHNODE != "/usr/bin/node" ]];
+                                [[ "$PATHNODE" != "/usr/bin/node" ]];
                         then
                                 echo -e "*** Deleting $PATHNODE ***";
                                 $SUDOX rm "$(type -p node)";
                 fi
                 if
-                                [[ $PATHNPM != "/usr/bin/npm" ]];
+                                [[ "$PATHNPM" != "/usr/bin/npm" ]];
                         then
                                 echo -e "*** Deleting $PATHNPM ***";
                                 $SUDOX rm "$(type -p npm)";
                 fi
                 if
-                                [[ $PATHNPX != "/usr/bin/npx" ]];
+                                [[ "$PATHNPX" != "/usr/bin/npx" ]];
                         then
                                 echo -e "*** Deleting $PATHNPX ***";
                                 $SUDOX rm "$(type -p npx)";
                 fi
                 if
-                                [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
+                                [[ "$PATHCOREPACK" != "/usr/bin/corepack" ]];
                         then
                                 echo -e "*** Deleting $PATHCOREPACK ***";
                                 $SUDOX rm "$(type -p corepack)";
@@ -203,9 +203,9 @@ if
 fi
 
 if
-        [[ $INSTALL_CMD != "apt-get" ]];
+        [[ "$INSTALL_CMD" != "apt-get" ]];
 then
-        echo "Non-Debian-based Systems are not supported, exiting";
+        echo "Non-Debian-based Systems are not supported yet, exiting";
         unset LC_ALL;
         exit;
 fi
@@ -213,16 +213,16 @@ fi
 if [[ "$VERNODE" != "v$NODERECOM" ]]
 then
         echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
-        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs v$NODERECOM?  \n*** DO NOT TRY THIS FIX ON NON-LINUX-SYSTEMS! ***";
+        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs $NODERECOM? ";
         echo -e "\nPress <y> to continue or any other key to quit";
         read -r -s -n 1 charpaths;
         if
                 [ "$charpaths" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                $SUDOX rm "$($SUDOX find / -name nodesource.gpg)" &> /dev/null;
-                $SUDOX rm "$(sudo find / -name nodesource.key)" &> /dev/null;
-                $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
+                $SUDOX rm "$($SUDOX find / -name nodesource.gpg)" 2>&1 /dev/null;
+                $SUDOX rm "$($SUDOX find / -name nodesource.key)" 2>&1 /dev/null;
+                $SUDOX rm /etc/apt/sources.list.d/nodesource.lis* 2>&1 /dev/null;
 
                         if [ "$SYSTDDVIRT" != "none" ]; then
                                 echo "$SYSTDDVIRT";
@@ -240,25 +240,27 @@ then
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
-                        $SUDOX "$INSTALL_CMD" update;
-                        $SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg 1>/dev/null;
+                        $SUDOX "$INSTALL_CMD" update 2>&1 /dev/null;
+                        $SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg 2>&1 /dev/null;
                         $SUDOX mkdir -p /etc/apt/keyrings;
                         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg;
+                        echo "Creating new /etc/apt/sources.list.d/nodesource.list file with this content:"
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
-                        $SUDOX "$INSTALL_CMD" update;
+                        echo "";
+                        $SUDOX "$INSTALL_CMD" update 2>&1 /dev/null;
                         if [[ $NODEINSTMAJOR -gt $NODE_MAJOR ]] 
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
-                                [[ $NODERECOMNF -ne 1 ]]
+                                [[ "$NODERECOMNF" -ne 1 ]]
                                 then
                                 #NOT WORKING DUE TO TROUBLE WITH NODESOURCE REPO, TRY AGAIN LATER
                                 #NODERECOM=$NODE_MAJOR.0.0
                                 NODERECOM=18.17.0
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
-                                $SUDOX "$INSTALL_CMD" update;
-                                $SUDOX "$INSTALL_CMD" dist-upgrade;
-                                fi,
+                                $SUDOX "$INSTALL_CMD" update 2>&1 /dev/null;
+                                $SUDOX "$INSTALL_CMD" dist-upgrade 2>&1 /dev/null;
+                                fi;
                                 else
                                 $SUDOX "$INSTALL_CMD" install --reinstall nodejs;
                         fi;
@@ -275,6 +277,11 @@ then
         else
                 echo "";
         fi;
+        if [[ -f "/var/run/reboot-required" ]]; 
+        then
+        echo "";
+        echo "This system needs to be REBOOTED NOW!";
+        echo "";
+        fi;
         unset LC_ALL;
-        exit;
-fi;
+exit;
