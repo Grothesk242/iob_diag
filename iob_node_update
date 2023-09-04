@@ -208,8 +208,8 @@ if
                 echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-update' again to check if your installation is fine now";
         fi
                 else
-        echo -e "\n\nNothing to do, your installation is using in the correct paths";
-fi
+        echo -e "\n\nNothing to do, your installation is using in the correct paths.";
+fi;
 
 if
         [[ "$INSTALL_CMD" != "apt-get" ]];
@@ -217,9 +217,14 @@ then
         echo "Non-Debian-based Systems are not supported yet, exiting";
         unset LC_ALL;
         exit;
-fi
+fi;
 
-if [[ "$VERNODE" != "v$NODERECOM" ]]
+if [[ "$VERNODE" = "v$NODERECOM" ]];
+then
+echo "Nothing to do, your installation is the recommended one.";
+exit;
+fi;
+if [[ "$VERNODE" != "v$NODERECOM" ]];
 then
         echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs $NODERECOM? ";
