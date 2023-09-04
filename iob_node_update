@@ -123,37 +123,37 @@ if
         [[ -f /usr/bin/nodejs && "$PATHNODEJS" != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnofejs";
         elif
         [[ "$PATHNODE" != "/usr/bin/node" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnode";
         elif
         [[ "$PATHNPM" != "/usr/bin/npm" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnpm";
         elif
         [[ "$PATHNPX" != "/usr/bin/npx" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnpx";
         elif
         [[ -f /usr/bin/nodejs && "$VERNODEJS" != "$VERNODE" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnodejsnodemmismatch";
         elif
         [[ "$VERNPM" != "$VERNPX" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGnpmnpmxmismatch";
         elif
         [[ -f /usr/bin/corepack && "$PATHCOREPACK" != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG";
+                echo -e "$NOTCORRSTRG DEBUGcorepack";
 else
                 echo "";
 fi
