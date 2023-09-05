@@ -1,6 +1,6 @@
 #!/bin/bash
 # iobroker node-update
-# written to help updating and fixing a nodejs installation on linux (deb + rpm based Distros)
+# written to help updating and fixing nodejs on linux (deb + rpm based Distros)
 VERSION="2023-09-05"
 echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes
@@ -8,9 +8,6 @@ DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 NODEINSTMAJOR=$(nodejs -v | cut -d.  -f1 | cut -c 2-3);
-NODEFB=
-#NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
-#NODERECOMV=v.$NODERECOM
 export LC_ALL=C;
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 # ------------------------------
@@ -64,6 +61,7 @@ SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
                 exit 1
                 ;;
         esac
+
         if [[ $EUID -eq 0 ]];
         then IS_ROOT=true;  SUDOX=""
         else IS_ROOT=false; SUDOX="sudo "
@@ -72,21 +70,20 @@ SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
         fi
 
 
-if [ -f "$DOCKER" ]
+if [ -f "$DOCKER" ];
 then
         echo "Fixing Docker is not supported, please update your Docker Container";
 #       elif [ "$(id -u)" = 0 ];
 #                then
 #                        echo -e "This script must not be run as root! \nPlease use your standard user!"
-#                        exit 1
-
-fi
+        exit 1;
+fi;
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
 
 if [[ -n "$NODERECOM" ]]
         then
-        echo "Recommended nodejs-version is: $NODERECOM";
+        echo -e "\nRecommended nodejs-version is: $NODERECOM";
         echo "Checking your installation now. Please be patient!"
         else
         NODERECOMNF=1;
@@ -123,42 +120,42 @@ if
         [[ -f /usr/bin/nodejs && "$PATHNODEJS" != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnofejs";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ "$PATHNODE" != "/usr/bin/node" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnode";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ "$PATHNPM" != "/usr/bin/npm" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnpm";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ "$PATHNPX" != "/usr/bin/npx" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnpx";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ -f /usr/bin/nodejs && "$VERNODEJS" != "$VERNODE" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnodejsnodemmismatch";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ "$VERNPM" != "$VERNPX" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGnpmnpmxmismatch";
+                echo -e "$NOTCORRSTRG";
         elif
         [[ -f /usr/bin/corepack && "$PATHCOREPACK" != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
-                echo -e "$NOTCORRSTRG DEBUGcorepack";
+                echo -e "$NOTCORRSTRG";
 else
-                echo "";
+                echo "\n\nNothing to do, your installation is using the correct paths.";
 fi
 echo "";
-echo "I found these versions to be available for installation:";
+echo "I found these versions available for installation:";
 echo "";
         apt-cache policy nodejs;
 echo "";
