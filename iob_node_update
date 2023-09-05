@@ -152,7 +152,7 @@ if
                 NODENOTCORR=1
                 echo -e "$NOTCORRSTRG";
 else
-                echo "\n\nNothing to do, your installation is using the correct paths.";
+                echo -e "\n\nNothing to do, your installation is using the correct paths.";
 fi
 echo "";
 echo "I found these versions available for installation:";
