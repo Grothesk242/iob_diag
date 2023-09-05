@@ -208,7 +208,7 @@ if
                 echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-update' again to check if your installation is fine now";
         fi
                 else
-        echo -e "\n\nNothing to do, your installation is using in the correct paths.";
+        echo -e "\n\nNothing to do, your installation is using the correct paths.";
 fi;
 
 if
@@ -221,7 +221,7 @@ fi;
 
 if [[ "$VERNODE" = "v$NODERECOM" ]];
 then
-echo "Nothing to do, your installation is the recommended one.";
+echo "Nothing to do, your installed version is the recommended one.";
 exit;
 fi;
 if [[ "$VERNODE" != "v$NODERECOM" ]];
@@ -279,12 +279,12 @@ then
                                 $SUDOX "$INSTALL_CMD" upgrade nodejs -y;
                                 fi;
                                 elif
-                                [[ $NODERECOM = $VERNODE ]] ; then 
+                                [[ $NODERECOM = "$VERNODE" ]] ; then 
                                 echo "Nothing to do, you are running the recommended version";
-                                fi,
-                                else
-                                $SUDOX "$INSTALL_CMD" install --reinstall nodejs;
                                 fi;
+                                #else;
+                                $SUDOX "$INSTALL_CMD" install --reinstall nodejs;
+                                #fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         echo -e "\n*** You need to manually restart your container now! *** ";
