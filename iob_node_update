@@ -235,8 +235,9 @@ then
                 [ "$char" = "y" ]
         then
                 echo "Trying to fix your installation now. Please be patient."
-                $SUDOX rm "$($SUDOX find / -path /proc -prune -path /sys -prune -path /dev -prune -o -name nodesource.gpg -print)";
-                $SUDOX rm "$($SUDOX find / -path /proc -prune -o -name nodesource.key -print)";
+                # $SUDOX rm "$($SUDOX find / -path /proc -prune -o -name nodesource.gpg -print)";
+                # $SUDOX rm "$($SUDOX find / -path /proc -prune -o -name nodesource.key -print)";
+                $SODOX rm "$($SUDOX find / \( -path /proc -o -path /dev -o -path /sys \) -prune -o -name nodesource.[gk]* -print);
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
         else 
         echo "I'm not fixing your installation. Exiting.";
