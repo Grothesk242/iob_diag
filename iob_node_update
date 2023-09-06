@@ -9,7 +9,7 @@ HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 if [[ $NODERECOM = "No connection to databases possible ..." ]];
 then
-NODERECOM="";
+NODERECOMNF=1;
 fi;
 NODEINSTMAJOR=$(nodejs -v | cut -d.  -f1 | cut -c 2-3);
 export LC_ALL=C;
@@ -243,11 +243,12 @@ then
         echo "I'm not fixing your installation. Exiting.";
         exit 1;
         fi;
-                        if [ "$SYSTDDVIRT" != "none" ]; then
-                                echo "$SYSTDDVIRT";
-                                #sudo pkill -u iobroker;    #FIX ME! How to shut down iob in LXC without killing the script?
-                                                            #Using 'iob stop' in the meantime.
-                                iob stop;
+
+        if [ "$SYSTDDVIRT" != "none" ]; then
+                echo "$SYSTDDVIRT";
+                        #sudo pkill -u iobroker;    #FIX ME! How to shut down iob in LXC without killing the script?
+                                                    #Using 'iob stop' in the meantime.
+                        iob stop;
                         else
                                 iob stop;
                         fi;
