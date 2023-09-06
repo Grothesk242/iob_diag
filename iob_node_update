@@ -13,7 +13,7 @@ NODERECOMNF=1;
 fi;
 NODEINSTMAJOR=$(nodejs -v | cut -d. -f1 | cut -c 2-3);
 export LC_ALL=C;
-SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
+SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null);
 # ------------------------------
 # functions for ioBroker node-update
 # ------------------------------
@@ -91,7 +91,7 @@ if [[ -n "$NODERECOM" ]];
         echo "Checking your installation now. Please be patient!"
         else
         NODERECOMNF=1;
-        echo -e "Could not detect recommended nodejs-version. Setting up the nodejs $NODE_MAJOR tree now.";
+        echo -e "No recommendation for nodejs version found on your system. We recommend to install latest version from nodejs v$NODE_MAJOR tree.";
 fi;
 echo "";
 echo "Your current setup is:";
@@ -168,12 +168,12 @@ echo "";
 if
         [[ "$NODENOTCORR" -eq 1 ]]
         then
-                echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
-                echo -e "\n\nYour nodejs-Installation seems to be not correct. Shall we try to fix it?  \nDO NOT RUN FIX ON NON-LINUX-SYSTEMS!";
+                # echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
+                echo -e "\n\nYour nodejs-Installation seems to be not correct. Shall we try to fix it?";
                 echo "Press <y> to continue or any other key to quit";
                 read -r -s -n 1 charpaths;
         if
-                        [ "$charpaths" = "y" ]
+                        [[ "$charpaths" = "y" ]] || [[ "$charpaths" = "Y" ]]
                 then
                         echo -e "\nFixing your nodejs setup";
                 if
@@ -227,7 +227,6 @@ exit;
 fi;
 if [[ "$VERNODE" != "v$NODERECOM" ]];
 then
-        echo -e "\n!!! THIS CODE IS IN BETA STAGE. TRY IT AT YOUR OWN RISK !!!";
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs $NODERECOM? ";
         echo -e "\nPress <y> to continue or any other key to quit";
         read -r -s -n 1 char;
@@ -235,12 +234,12 @@ then
                 [[ "$char" = "y" ]] || [[ "$char" = "Y" ]] 
         then
                 echo "Trying to fix your installation now. Please be patient."
-                # finding nodesource.gpg or nodesource.key and deleting. Current key are pulled in later. 
+                # finding nodesource.gpg or nodesource.key and deleting. Current key is pulled in later. 
                 $SUDOX rm "$($SUDOX find / \( -path /proc -o -path /dev -o -path /sys \) -prune -o -name nodesource.[gk]* -print)";
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
         else 
         echo "I'm not fixing your installation. Exiting.";
-        exit 1;
+        exit;
         fi;
 
         if [ "$SYSTDDVIRT" != "none" ]; then
@@ -259,14 +258,20 @@ then
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
+                        echo "*** These repos are active on your system:";
                         $SUDOX "$INSTALL_CMD" update;
+                        echo -e "\n*** Installing ca-certificates, curl and gnupg, just in case they are missing.";
                         $SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg;
+                        # Installing the key for  nodesource repository
                         $SUDOX mkdir -p /etc/apt/keyrings;
                         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg;
-                        echo -e "***\nCreating new /etc/apt/sources.list.d/nodesource.list file with this content:"
+                        echo -e "\n*** Creating new /etc/apt/sources.list.d/nodesource.list"
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
-                        echo "***";
+                        echo -e "\n*** These repositories are active after the adjustments:"
                         $SUDOX "$INSTALL_CMD" update;
+                        
+                        echo "";
+                        echo "Installing the recommended nodejs version now!";
                         if [[ $NODEINSTMAJOR -gt $NODE_MAJOR ]]
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
@@ -278,14 +283,17 @@ then
                                 #NODERECOM=$NODE_MAJOR.0.0
                                 # Just another fallback for nodejs@18: 
                                 NODERECOM=18.17.0
+                                echo "Exact recommended version unknown, installing a fallback!";
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
+                                echo -e "\nUpdating fallback to latest nodejs v$NODE_MAJOR release";
                                 $SUDOX "$INSTALL_CMD" update;
                                 $SUDOX "$INSTALL_CMD" upgrade nodejs -y;
                                 fi;
                                 elif
                                 [[ $NODERECOM = "$VERNODE" ]] ; then 
                                 echo "Nothing to do, you are running the recommended version";
-                                echo "nodejs will now be updated using the usual 'apt update && apt full-upgrade' commands."
+                                echo "You can now keep your whole system uptodate using the usual 'sudo apt update && sudo apt full-upgrade' commands."
+                                echo "Please DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can crush up your current installation"
                                 fi;
                                 #else;
                                 $SUDOX "$INSTALL_CMD" install --reinstall nodejs;
@@ -297,9 +305,9 @@ then
                         unset LC_ALL;
                         exit;
                 else
-                        iob restart;
                         echo -e "\nWe tried our best to fix your nodejs. Please run iob diag again to verify.";
                         echo -e "\n*** RESTARTING ioBroker NOW! *** \n Please refresh or restart your browser in a few moments.";
+                        iob restart;   
                 fi;
         # else
                 echo "";
