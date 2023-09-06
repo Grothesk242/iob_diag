@@ -8,7 +8,7 @@ DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 if [[ $NODERECOM = "No connection to databases possible ..." ]];
-then;
+then
 NODERECOM="";
 fi;
 NODEINSTMAJOR=$(nodejs -v | cut -d.  -f1 | cut -c 2-3);
