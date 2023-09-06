@@ -225,7 +225,7 @@ exit;
 fi;
 if [[ "$VERNODE" != "v$NODERECOM" ]];
 then
-        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended nodejs $NODERECOM? ";
+        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version $NODERECOM? ";
         echo -e "\nPress <y> to continue or any other key to quit";
         read -r -s -n 1 char;
         if
@@ -272,11 +272,11 @@ then
                         
                         echo "";
                         echo "Installing the recommended nodejs version now!";
-                        if [[ $NODEINSTMAJOR -gt $NODE_MAJOR ]] && [ "$NODERECOMNF" -ne 1 ]
+                        if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ] && [ "$NODERECOMNF" -ne 1 ]
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
-                                [[ "$NODERECOMNF" -eq 1 ]]
+                                [ "$NODERECOMNF" -eq 1 ]
                                 then
                                 #Falling back to initial release of nodejs recommended tree
                                 #NOT WORKING DUE TO TROUBLE WITH NODESOURCE REPO, TRY AGAIN LATER
@@ -298,7 +298,7 @@ then
                                 fi;
                                 #else;
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
-                                then $SUDOX "$INSTALL_CMD" update nodejs;
+                                then $SUDOX "$INSTALL_CMD" upgrade nodejs;
                                 fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
