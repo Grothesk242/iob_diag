@@ -237,7 +237,7 @@ then
                 echo "Trying to fix your installation now. Please be patient."
                 # $SUDOX rm "$($SUDOX find / -path /proc -prune -o -name nodesource.gpg -print)";
                 # $SUDOX rm "$($SUDOX find / -path /proc -prune -o -name nodesource.key -print)";
-                $SODOX rm "$($SUDOX find / \( -path /proc -o -path /dev -o -path /sys \) -prune -o -name nodesource.[gk]* -print);
+                $SODOX rm "$($SUDOX find / \( -path /proc -o -path /dev -o -path /sys \) -prune -o -name nodesource.[gk]* -print)";
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
         else 
         echo "I'm not fixing your installation. Exiting.";
@@ -299,7 +299,7 @@ then
                         exit;
                 else
                         iob restart;
-                        echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
+                        echo -e "\nWe tried our best to fix your nodejs. Please run iob diag again to verify.";
                         echo -e "\n*** RESTARTING ioBroker NOW! *** \n Please refresh or restart your browser in a few moments.";
                 fi;
         # else
