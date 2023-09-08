@@ -261,7 +261,7 @@ then
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
-                        echo "*** These repos are active on your system:";
+                        echo -e "\n*** These repos are active on your system:";
                         $SUDOX "$INSTALL_CMD" update;
                         echo -e "\n*** Installing ca-certificates, curl and gnupg, just in case they are missing.";
                         $SUDOX "$INSTALL_CMD" install -yqq ca-certificates curl gnupg;
