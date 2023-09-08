@@ -80,6 +80,7 @@ then
         elif [ "$(id -u)" -eq 0 ];
                  then
                          echo -e "This script must not be run as root! \nPlease use your standard user!"
+        unset LC_ALL;
         exit 1;
 fi;
 clear;
@@ -221,6 +222,7 @@ fi;
 if [[ "$VERNODE" = "v$NODERECOM" ]];
 then
 echo "Nothing to do, your installed version is the recommended one.";
+unset LC_ALL;
 exit;
 fi;
 if [[ "$VERNODE" != "v$NODERECOM" ]];
@@ -260,13 +262,16 @@ then
                         echo "*** These repos are active on your system:";
                         $SUDOX "$INSTALL_CMD" update;
                         echo -e "\n*** Installing ca-certificates, curl and gnupg, just in case they are missing.";
-                        $SUDOX "$INSTALL_CMD" install ca-certificates curl gnupg;
+                        $SUDOX "$INSTALL_CMD" install -yq ca-certificates curl gnupg;
                         # Installing the key for  nodesource repository
                         $SUDOX mkdir -p /etc/apt/keyrings;
                         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | $SUDOX gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg;
                         # Setting up a fresh & clean nodesource.list 
-                        echo -e "\n*** Creating new /etc/apt/sources.list.d/nodesource.list"
+                        echo -e "\n*** Creating new /etc/apt/sources.list.d/nodesource.list and pinning source"
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
+                        echo "Package: nodejs" | $SUDOX tee /etc/apt/preferences.d/preferences;
+                        echo "Pin: origin deb.nodesource.com" | $SUDOX tee /etc/apt/preferences.d/preferences; 
+                        echo "Pin-Priority: 1001" | $SUDOX tee /etc/apt/preferences.d/preferences;
                         echo -e "\n*** These repos are active after the adjustments:"
                         $SUDOX "$INSTALL_CMD" update;
                         
@@ -286,7 +291,7 @@ then
                                 echo "Exact recommended version unknown, installing a fallback!";
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 echo -e "\nUpdating fallback to latest nodejs v$NODE_MAJOR release";
-                                $SUDOX "$INSTALL_CMD" update;
+                                $SUDOX "$INSTALL_CMD" update -qq;
                                 $SUDOX "$INSTALL_CMD" upgrade nodejs -y;
                                 VERNODE=$(node -v);
                                 fi;
