@@ -97,7 +97,7 @@ fi
 
 if [[ -f "/var/run/reboot-required" ]]; then
         echo "";
-        echo "The systems needs to be REBOOTED!";
+        echo "This system needs to be REBOOTED!";
         echo "";
 fi
 
