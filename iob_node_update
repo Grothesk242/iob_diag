@@ -7,7 +7,7 @@ NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please a
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If succesfull, no fallback required.
-if [[ $NODERECOM != "*.*.*" ]];
+if [[ $NODERECOM != [[:digit:]]* ]];
 then
 NODERECOMNF=1;
 fi;
@@ -88,7 +88,7 @@ fi;
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
 
-if [[ -n "$NODERECOM" ]];
+if [[ -n "$NODERECOM" ]] && [[ "$NODERECOM" = [[:digit:]]* ]];
         then
         echo -e "\nRecommended nodejs-version is: $NODERECOM";
         echo "Checking your installation now. Please be patient!"
@@ -227,7 +227,7 @@ echo "Nothing to do, your installed version is the recommended one.";
 unset LC_ALL;
 exit;
 fi;
-if [[ "$VERNODE" != "v$NODERECOM" ]];
+if [[ "$VERNODE" != "v$NODERECOM" ]] && [ "$NODERECOM" == [[:digit:]]* ];
 then
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version $NODERECOM? ";
         echo -e "\nPress <y> to continue or any other key to quit";
@@ -243,6 +243,23 @@ then
         else
                 echo "We are not fixing your installation. Exiting.";
         exit;
+        elif 
+        [[ "$VERNODE" != "v$NODERECOM" ]] && [ "$NODERECOM" != [[:digit:]]* ];
+        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version tree $NODE_MAJOR ? ";
+        echo -e "\nPress <y> to continue or any other key to quit";
+        read -r -s -n 1 char;
+        if
+                [[ "$char" = "y" ]] || [[ "$char" = "Y" ]]
+        then
+                echo "Trying to fix your installation now. Please be patient."
+                # Finding nodesource.gpg or nodesource.key and deleting. Current key is pulled in later.
+                $SUDOX rm "$($SUDOX find / \( -path /proc -o -path /dev -o -path /sys -o -path /lost+found \) -prune -o -name nodesource.[gk]* -print)";
+                # Deleting nodesource.list Will be recreated later.
+                $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
+        else
+                echo "We are not fixing your installation. Exiting.";
+        exit;
+        
         fi;
 
         if [ "$SYSTDDVIRT" != "none" ]; then
