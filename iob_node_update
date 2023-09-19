@@ -318,7 +318,7 @@ fi;
                                 $SUDOX "$INSTALL_CMD" update -qq;
                                 $SUDOX "$INSTALL_CMD" upgrade nodejs -y;
                                 VERNODE=$(node -v);
-                                fi;
+                                #fi;
                                 elif
                                 [ "$NODERECOMNF" -ne 1 ]; then
                                 echo "Nothing to do, you are running the recommended version";
@@ -326,7 +326,7 @@ fi;
                                 echo "Please DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can crash your current installation"
                                 fi;
                                 #else;
-                                if [ "$NODEINSTMAJOR" < "$NODE_MAJOR" ]
+                                if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
                                 then $SUDOX "$INSTALL_CMD" upgrade nodejs;
                                 fi;
                         #fi;
