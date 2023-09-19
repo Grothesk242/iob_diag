@@ -227,7 +227,7 @@ echo "Nothing to do, your installed version is the recommended one.";
 unset LC_ALL;
 exit;
 fi;
-if [[ "$VERNODE" != "v$NODERECOM" ]] && [ "$NODERECOM" == [[:digit:]]* ];
+if [[ "$VERNODE" != "v$NODERECOM" ]] && [[ "$NODERECOM" == [[:digit:]]* ]];
 then
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version $NODERECOM? ";
         echo -e "\nPress <y> to continue or any other key to quit";
@@ -243,7 +243,10 @@ then
         else
                 echo "We are not fixing your installation. Exiting.";
         exit;
-        elif 
+        fi;
+fi;
+
+if 
         [[ "$VERNODE" != "v$NODERECOM" ]] && [ "$NODERECOM" != [[:digit:]]* ];
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version tree $NODE_MAJOR ? ";
         echo -e "\nPress <y> to continue or any other key to quit";
@@ -261,6 +264,7 @@ then
         exit;
         
         fi;
+fi;
 
         if [ "$SYSTDDVIRT" != "none" ]; then
                 echo "$SYSTDDVIRT";
