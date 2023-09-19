@@ -247,7 +247,8 @@ then
 fi;
 
 if 
-        [[ "$VERNODE" != "v$NODERECOM" ]] && [ "$NODERECOM" != [[:digit:]]* ];
+        [[ "$VERNODE" != "v$NODERECOM" ]] && [[ "$NODERECOM" != [[:digit:]]* ]];
+        then
         echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version tree $NODE_MAJOR ? ";
         echo -e "\nPress <y> to continue or any other key to quit";
         read -r -s -n 1 char;
@@ -300,7 +301,7 @@ fi;
 
                         echo "";
                         echo "Installing the recommended nodejs version now!";
-                        if [ "$NODEINSTMAJOR" > "$NODE_MAJOR" ]
+                        if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ]
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
