@@ -6,8 +6,7 @@ echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
 HOST=$(hostname)
-NODERECOM="3jklhkjhkequired.  kklhhkjhk"
-#NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If succesfull, no fallback required.
+NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If succesfull, no fallback required.
 if [[ $NODERECOM != [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]];
 then
 NODERECOMNF=1;
