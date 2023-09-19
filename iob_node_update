@@ -301,7 +301,7 @@ fi;
 
                         echo "";
                         echo "Installing the recommended nodejs version now!";
-                        if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ]
+                        if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ] && [[ "$NODERECOM" == [[:digit:]]* ]]
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
