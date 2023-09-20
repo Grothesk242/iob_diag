@@ -329,7 +329,7 @@ fi;
                                 fi;
                                 #else;
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
-                                then $SUDOX "$INSTALL_CMD" upgrade nodejs;
+                                then $SUDOX "$INSTALL_CMD" upgrade nodejs -yqq;
                                 fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
