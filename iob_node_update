@@ -321,11 +321,11 @@ fi;
                                 $SUDOX "$INSTALL_CMD" upgrade nodejs -y;
                                 VERNODE=$(node -v);
                                 #fi;
-                                elif
-                                [[ "$NODERECOMNF" -ne 1 ]]; then
-                                echo "Nothing to do, you are running the recommended version";
-                                echo "You can now keep your whole base system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
-                                echo -e "\nPlease DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can and will crash your current installation"
+                                #elif
+                                #[[ "$NODERECOMNF" -ne 1 ]]; then
+                                #echo "Nothing to do, you are running the recommended version";
+                                #echo "You can now keep your whole base system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
+                                #echo -e "\nPlease DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can and will crash your current installation"
                                 fi;
                                 #else;
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
