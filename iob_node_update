@@ -307,7 +307,7 @@ fi;
                                 then
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
-                                [ "$NODERECOMNF" -eq 1 ]
+                                [[ "$NODERECOMNF" -eq 1 ]]
                                 then
                                 #Falling back to initial release of nodejs recommended tree
                                 #NOT WORKING DUE TO TROUBLE WITH NODESOURCE REPO, TRY AGAIN LATER
@@ -322,7 +322,7 @@ fi;
                                 VERNODE=$(node -v);
                                 #fi;
                                 elif
-                                [ "$NODERECOMNF" -ne 1 ]; then
+                                [[ "$NODERECOMNF" -ne 1 ]]; then
                                 echo "Nothing to do, you are running the recommended version";
                                 echo "You can now keep your whole base system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
                                 echo -e "\nPlease DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can and will crash your current installation"
