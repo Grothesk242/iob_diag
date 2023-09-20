@@ -220,10 +220,12 @@ then
         unset LC_ALL;
         exit;
 fi;
-
+VERNODE=$(node -v);
 if [[ "$VERNODE" = "v$NODERECOM" ]];
 then
 echo "Nothing to do, your installed version is the recommended one.";
+echo "You can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
+echo "Please DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can crash your current installation"
 unset LC_ALL;
 exit;
 fi;
@@ -249,7 +251,7 @@ fi;
 if
         [[ "$VERNODE" != "v$NODERECOM" ]] && [[ "$NODERECOM" != [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]];
         then
-        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version tree $NODE_MAJOR ? ";
+        echo -e "\nYou are running nodejs $VERNODE. Do you want to install recommended version v.$NODE_MAJOR ? ";
         echo -e "\nPress <y> to continue or any other key to quit";
         read -r -s -n 1 char;
         if
@@ -331,7 +333,7 @@ fi;
                                 fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
-                        echo -e "\n*** You need to manually restart your container now! *** ";
+                        echo -e "\n*** You need to manually restart your container/virtual machine now! *** ";
                         echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                         unset LC_ALL;
                         exit;
