@@ -329,7 +329,9 @@ fi;
                                 fi;
                                 #else;
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
-                                then $SUDOX "$INSTALL_CMD" upgrade nodejs -yqq;
+                                then 
+                                        $SUDO $INSTALL_CMD update
+                                        $SUDOX "$INSTALL_CMD" upgrade nodejs -yqq;
                                 fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
@@ -338,6 +340,8 @@ fi;
                         unset LC_ALL;
                         exit;
                 else
+                        $SUDO $INSTALL_CMD update -qq;
+                        $SUDOX "$INSTALL_CMD" upgrade nodejs -yqq;
                         echo -e "\nWe tried our best to fix your nodejs. Please run iob diag again to verify.";
                         echo -e "\n*** RESTARTING ioBroker NOW! *** \n Please refresh or restart your browser in a few moments.";
                         iob restart;
