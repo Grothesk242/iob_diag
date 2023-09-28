@@ -33,7 +33,7 @@ SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null);
         "Linux")
                 HOST_PLATFORM="linux"
                 INSTALL_CMD="apt-get"
-                INSTALL_CMD_ARGS="install -yq"
+                INSTALL_CMD_ARGS="install -yqq"
                 if [[ $(which "yum" 2>/dev/null) == *"/yum" ]]; then
                         INSTALL_CMD="yum"
                         # The args -y and -q have to be separate
@@ -55,7 +55,7 @@ SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null);
                 HOST_PLATFORM="freebsd"
                 ROOT_GROUP="wheel"
                 INSTALL_CMD="pkg"
-                INSTALL_CMD_ARGS="install -yq"
+                INSTALL_CMD_ARGS="install -yqq"
                 IOB_DIR="/opt/iobroker"
                 IOB_USER="iobroker"
                 ;;
@@ -318,7 +318,7 @@ fi;
                                 $SUDOX "$INSTALL_CMD" install --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
                                 echo -e "\nUpdating fallback to latest nodejs v$NODE_MAJOR release";
                                 $SUDOX "$INSTALL_CMD" update -qq;
-                                $SUDOX "$INSTALL_CMD" full-upgrade -yq;
+                                $SUDOX "$INSTALL_CMD" full-upgrade -yqq;
                                 VERNODE=$(node -v);
                                 #fi;
                                 #elif
@@ -331,19 +331,19 @@ fi;
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
                                 then 
                                         $SUDOX $INSTALL_CMD update
-                                        $SUDOX $INSTALL_CMD full-upgrade -yq;
+                                        $SUDOX $INSTALL_CMD full-upgrade -yqq;
                                 fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         $SUDOX $INSTALL_CMD update
-                        $SUDOX $INSTALL_CMD full-upgrade -yq;
+                        $SUDOX $INSTALL_CMD full-upgrade -yqq;
                         echo -e "\n*** You need to manually restart your container/virtual machine now! *** ";
                         echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                         unset LC_ALL;
                         exit;
                 else
                         $SUDOX $INSTALL_CMD update -qq;
-                        $SUDOX "$INSTALL_CMD" full-upgrade -yq;
+                        $SUDOX "$INSTALL_CMD" full-upgrade -yqq;
                         echo -e "\nWe tried our best to fix your nodejs. Please run iob diag again to verify.";
                         echo -e "\n*** RESTARTING ioBroker NOW! *** \n Please refresh or restart your browser in a few moments.";
                         iob restart;
