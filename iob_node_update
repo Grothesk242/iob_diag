@@ -224,8 +224,8 @@ VERNODE=$(node -v);
 if [[ "$VERNODE" = "v$NODERECOM" ]];
 then
 echo -e "\033[32mNothing to do\033[0m - Your version is the recommended one.";
-echo "You can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
-echo -e "\nPlease DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They can and will crash your current installation"
+echo -e "\nYou can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
+echo "Please DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They will break your current installation"
 unset LC_ALL;
 exit;
 fi;
