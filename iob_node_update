@@ -319,6 +319,7 @@ fi;
                                 $SUDOX "$INSTALL_CMD" update -qq;
                                 $SUDOX "$INSTALL_CMD" full-upgrade -yqq;
                                 VERNODE=$(node -v);
+                                echo -e "$VERNODE has been installed!
                                 fi;
                                 
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
