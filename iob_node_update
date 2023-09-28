@@ -335,6 +335,8 @@ fi;
                                 fi;
                         #fi;
                 if [ "$SYSTDDVIRT" != "none" ]; then
+                        $SUDOX $INSTALL_CMD update
+                        $SUDOX $INSTALL_CMD full-upgrade -yq;
                         echo -e "\n*** You need to manually restart your container/virtual machine now! *** ";
                         echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                         unset LC_ALL;
