@@ -4,15 +4,15 @@
 VERSION="2023-09-29"
 echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
-DOCKER=/opt/scripts/.docker_config/.thisisdocker
+DOCKER=/opt/scripts/.docker_config/.thisisdocker #used to identify docker
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If succesfull, no fallback required.
-if [[ $NODERECOM != [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]];
+if [[ $NODERECOM != [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]]; #check if a semvered nodejs installation is found
 then
-NODERECOMNF=1;
+NODERECOMNF=1; #marker for 'no recommended version found'
 fi;
-NODEINSTMAJOR=$(nodejs -v | cut -d. -f1 | cut -c 2-3);
-export LC_ALL=C;
+NODEINSTMAJOR=$(nodejs -v | cut -d. -f1 | cut -c 2-3); #truncating installed nodejs version to major version
+export LC_ALL=C; #setting LOCALES temporary to english
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null);
 # ------------------------------
 # functions for ioBroker node-update - Code borrowed from 'iob installer' ;-)
