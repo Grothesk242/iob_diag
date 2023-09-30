@@ -60,7 +60,7 @@ echo -e "Kernel          : $(uname -m)";
 echo -e "Userland        : $(dpkg --print-architecture)";
 echo -e "Docker          : $(cat /opt/scripts/.docker_config/.thisisdocker)"
 else
-        hostnamectl;
+        hostnamectl | grep -v 'Machine\|Boot';
         echo "";
         grep -i model /proc/cpuinfo | tail -1;
         echo -e "Docker          : false";
@@ -130,14 +130,14 @@ HEX_BIN_MAP=( \
 
 THROTTLED_OUTPUT=$(vcgencmd get_throttled)
 IFS='x'
-read -a strarr <<< "$THROTTLED_OUTPUT"
+read -r -a strarr <<< "$THROTTLED_OUTPUT"
 THROTTLED_CODE_HEX=${strarr[1]}
 
 # Display current issues
 echo "Current issues:"
 CURRENT_HEX=${THROTTLED_CODE_HEX:4:1}
 CURRENT_BIN=${HEX_BIN_MAP[$CURRENT_HEX]}
-if [ "$CURRENT_HEX" == "0" ] || [ -z $CURRENT_HEX ]; then
+if [ "$CURRENT_HEX" == "0" ] || [ -z "$CURRENT_HEX" ]; then
   echo "No throttling issues detected."
 else
   bit_n=0
@@ -155,7 +155,7 @@ echo ""
 echo "Previously detected issues:"
 PAST_HEX=${THROTTLED_CODE_HEX:0:1}
 PAST_BIN=${HEX_BIN_MAP[$PAST_HEX]}
-if [ $PAST_HEX = "0" ]; then
+if [ "$PAST_HEX" = "0" ]; then
   echo "No throttling issues detected."
 else
   bit_n=16
@@ -454,7 +454,7 @@ else
 fi;
 
 else
-hostnamectl;
+hostnamectl | grep -v 'Machine\|Boot';
 fi;
 echo "";
 echo -e "Installation: \t\t$INSTENV2";
