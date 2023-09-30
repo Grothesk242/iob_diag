@@ -454,7 +454,7 @@ else
 fi;
 
 else
-hostnamectl | grep -v 'Machine\|Boot';
+hostnamectl | grep -v 'Machine\|Boot\|Icon';
 fi;
 echo "";
 echo -e "Installation: \t\t$INSTENV2";
