@@ -91,6 +91,14 @@ then
         unset LC_ALL;
         exit 1;
 fi;
+
+if [[ $SYSTDDVIRT = "wsl" ]]; 
+        then
+        echo "WSL is not supported."
+        unset LC_ALL;
+        exit 1;
+fi;
+
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
 
