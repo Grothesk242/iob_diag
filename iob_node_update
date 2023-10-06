@@ -296,9 +296,8 @@ fi;
 
         if [ "$SYSTDDVIRT" != "none" ]; then
                 echo -e "\nVirtualization: $SYSTDDVIRT";
-                        #sudo pkill -u iobroker;    #FIX ME! How to shut down iob in LXC without killing the script?
-                                                    #Using 'iob stop' in the meantime.
-                                iob stop;
+                                iob stop
+                                sudo pkill ^io;
                         else
                                 iob stop;
                         fi;
