@@ -297,7 +297,7 @@ fi;
         if [ "$SYSTDDVIRT" != "none" ]; then
                 echo -e "\nVirtualization: $SYSTDDVIRT";
                                 iob stop
-                                sudo pkill ^io;
+                                # sudo pkill ^io;
                         else
                                 iob stop;
                         fi;
