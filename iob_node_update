@@ -331,7 +331,7 @@ fi;
                         echo "";
                         if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ] && [[ "$NODERECOM" == [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]]
                                 then
-                                $SUDOX "$INSTALL_CMD" install -yqq --reinstall --allow-downgrades -y nodejs="$NODERECOM"-1nodesource1 ;
+                                $SUDOX "$INSTALL_CMD" install -yqq --reinstall --allow-downgrades nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
                                 [[ "$NODERECOMNF" -eq 1 ]]
                                 then
