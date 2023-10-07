@@ -363,7 +363,7 @@ fi;
                 else
                         echo "Installing the recommended nodejs version and other updates now!";
                         $SUDOX $INSTALL_CMD -yqq update;
-                        $SUDOX "$INSTALL_CMD" -yqqfull-upgrade;
+                        $SUDOX "$INSTALL_CMD" -yqq full-upgrade;
                         echo -e "\nWe tried our best to fix your nodejs. Please run iob diag again to verify.";
                         echo -e "\n*** RESTARTING ioBroker NOW! *** \n Please refresh or restart your browser in a few moments.";
                         iob restart;
