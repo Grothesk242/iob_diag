@@ -249,8 +249,9 @@ VERNODE=$(node -v);
 if [[ "$VERNODE" = "v$NODERECOM" ]];
 then
 echo -e "\033[32mNothing to do\033[0m - Your version is the recommended one.";
-echo -e "\nYou can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands."
-echo "Please DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They will break your current installation!"
+echo -e "\n***You can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands. ***"
+echo "*** DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They will break your current installation! ***"
+echo -e "\n *** DO NOT use 'nodejs-update' as part of a regular update process! ***";
 unset LC_ALL;
 exit;
 fi;
