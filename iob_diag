@@ -197,9 +197,8 @@ echo -e "\033[34;107m*** User and Groups ***\033[0m";
 echo "";
 
 echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
-XORGTEST=$(pgrep -fc 'Xorg|wayland|X11')
-# XORGTEST=$(ps aux | grep -c 'Xorg')
-if [[ "$XORGTEST" -gt 1 ]];
+XORGTEST=$(pgrep -c 'Xorg|wayland|X11')
+if [[ "$XORGTEST" -gt 0 ]];
         then
                 echo -e "X-Server: \ttrue"
         else
@@ -468,7 +467,7 @@ else
     echo -e "Timezone: \t\t$(timedatectl | grep zone | cut -c28-80)";
 fi;
 echo -e "User-ID: \t\t$EUID";
-echo -e "X-Server: \t\t$(if [[ $XORGTEST -gt 1 ]]; then echo "true";else echo "false";fi)";
+echo -e "X-Server: \t\t$(if [[ $XORGTEST -gt 0 ]]; then echo "true";else echo "false";fi)";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
