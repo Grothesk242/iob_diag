@@ -116,7 +116,7 @@ if [[ -n "$NODERECOM" ]] && [[ "$NODERECOM" = [[:digit:]]*.[[:digit:]]*.[[:digit
         elif
         [[ "$NODERECOM" == CUSTOM ]]
         then
-        echo -e "You requested to intall latest version from nodejs v$1 tree."
+        echo -e "You requested to install latest version from nodejs v$1 tree."
         else
         NODERECOMNF=1;
         echo -e "No recommendation for a nodejs version found on your system. We recommend to install latest version from nodejs v$NODE_MAJOR tree.";
