@@ -224,6 +224,9 @@ if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
         vcgencmd mem_oom;
 fi;
 
+echo -e "\033[34;107m*** top - Table Of Processes  ***\033[0m";
+top -b -n 1 | head -n 6
+
 if [ -f "$DOCKER" ]; then
 echo "";
 else
