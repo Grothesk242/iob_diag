@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2023-11-01"
+VERSION="2023-12-31"
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -253,6 +253,12 @@ echo -e "\n***You can now keep your whole system up-to-date using the usual 'sud
 echo "*** DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They will break your current installation! ***"
 echo -e "\n *** DO NOT use 'nodejs-update' as part of a regular update process! ***";
 unset LC_ALL;
+if [[ -f "/var/run/reboot-required" ]];
+        then
+        echo "";
+        echo "This system needs to be REBOOTED NOW!";
+        echo "";
+fi;
 exit;
 fi;
 if [[ "$VERNODE" != "v$NODERECOM" ]] && [[ "$NODERECOM" == [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]];
@@ -270,6 +276,12 @@ then
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
         else
                 echo "We are not fixing your installation. Exiting.";
+                        if [[ -f "/var/run/reboot-required" ]];
+        then
+        echo "";
+        echo "This system needs to be REBOOTED NOW!";
+        echo "";
+        fi;
         exit;
         fi;
 fi;
@@ -290,6 +302,13 @@ if
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis*;
         else
                 echo "We are not fixing your installation. Exiting.";
+        
+        if [[ -f "/var/run/reboot-required" ]];
+                then
+                echo "";
+                echo "This system needs to be REBOOTED NOW!";
+                echo "";
+        fi;
         exit;
 
         fi;
@@ -321,9 +340,7 @@ fi;
                         echo -e "\n*** Creating new /etc/apt/sources.list.d/nodesource.list and pinning source"
                         echo "";
                         echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | $SUDOX tee /etc/apt/sources.list.d/nodesource.list;
-                        echo "Package: nodejs" | $SUDOX tee /etc/apt/preferences.d/nodejs.pref;
-                        echo "Pin: origin deb.nodesource.com" | $SUDOX tee -a /etc/apt/preferences.d/nodejs.pref;
-                        echo "Pin-Priority: 1001" | $SUDOX tee -a /etc/apt/preferences.d/nodejs.pref;
+                        echo -e "Package: nodejs\nPin: origin deb.nodesource.com\nPin-Priority: 1001" | sudo tee /etc/apt/preferences.d/nodejs.pref
                         echo -e "\n*** These repos are active after the adjustments:"
                         $SUDOX "$INSTALL_CMD" update;
 
@@ -360,6 +377,12 @@ fi;
                         echo -e "\n*** You need to manually restart your container/virtual machine now! *** ";
                         echo -e "\nWe tried our best to fix your nodejs. Please run 'iob diag' again to verify.";
                         unset LC_ALL;
+                        if [[ -f "/var/run/reboot-required" ]];
+                                then
+                                echo "";
+                                echo "This system needs to be REBOOTED NOW!";
+                                echo "";
+                        fi;
                         exit;
                 else
                         echo "Installing the recommended nodejs version!";
