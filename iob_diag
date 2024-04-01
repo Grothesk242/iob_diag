@@ -193,12 +193,12 @@ echo "";
 echo -e "\033[34;107m*** User and Groups ***\033[0m";
         echo "User and its groups that called 'iob diag':";
         whoami;
-        echo "$HOME";
+        env | grep HOME;
         groups;
         echo "";
         echo "Systemuser and its groups that is running 'js-controller':";
         ps -o user= -p `pidof iobroker.js-controller`;
-        sudo -H -u iobroker echo "$HOME";
+        sudo -H -u iobroker env | grep HOME;
         sudo -u iobroker groups
 echo "";
 
