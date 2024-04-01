@@ -476,7 +476,7 @@ else
     echo -e "Timezone: \t\t$(timedatectl | grep zone | cut -c28-80)";
 fi;
 echo -e "User-ID: \t\t$EUID";
-echo -e "Display-Server: \t\t$(if [[ $XORGTEST -gt 0 ]]; then echo "true";else echo "false";fi)";
+echo -e "Display-Server: \t$(if [[ $XORGTEST -gt 0 ]]; then echo "true";else echo "false";fi)";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
