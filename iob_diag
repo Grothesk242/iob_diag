@@ -200,13 +200,13 @@ echo -e "\033[34;107m*** User and Groups ***\033[0m";
         sudo -u iobroker groups
 echo "";
 
-echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
+echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
 XORGTEST=$(pgrep -c 'Xorg|ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
         then
-                echo -e "X-Server: \ttrue"
+                echo -e "Display-Server: \ttrue"
         else
-                echo -e "X-Server: \tfalse"
+                echo -e "Display-Server: \tfalse"
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
 echo -e "Terminal: \t$XDG_SESSION_TYPE";
@@ -282,17 +282,17 @@ echo "";
 
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
-echo -e "$(type -p nodejs) \t$(nodejs -v)";
-echo -e "$(type -p node) \t\t$(node -v)";
-echo -e "$(type -p npm) \t\t$(npm -v)";
-echo -e "$(type -p npx) \t\t$(npx -v)";
-echo -e "$(type -p corepack) \t$(corepack -v)";
-PATHAPT=$(type -p apt);
-PATHNODEJS=$(type -p nodejs);
-PATHNODE=$(type -p node);
-PATHNPM=$(type -p npm);
-PATHNPX=$(type -p npx);
-PATHCOREPACK=$(type -p corepack);
+echo -e "$(type -P nodejs) \t$(nodejs -v)";
+echo -e "$(type -P node) \t\t$(node -v)";
+echo -e "$(type -P npm) \t\t$(npm -v)";
+echo -e "$(type -P npx) \t\t$(npx -v)";
+echo -e "$(type -P corepack) \t$(corepack -v)";
+PATHAPT=$(type -P apt);
+PATHNODEJS=$(type -P nodejs);
+PATHNODE=$(type -P node);
+PATHNPM=$(type -P npm);
+PATHNPX=$(type -P npx);
+PATHCOREPACK=$(type -P corepack);
 VERNODEJS=$(nodejs -v);
 VERNODE=$(node -v);
 VERNPM=$(npm -v);
@@ -474,7 +474,7 @@ else
     echo -e "Timezone: \t\t$(timedatectl | grep zone | cut -c28-80)";
 fi;
 echo -e "User-ID: \t\t$EUID";
-echo -e "X-Server: \t\t$(if [[ $XORGTEST -gt 0 ]]; then echo "true";else echo "false";fi)";
+echo -e "Display-Server: \t\t$(if [[ $XORGTEST -gt 0 ]]; then echo "true";else echo "false";fi)";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
@@ -491,7 +491,7 @@ if [[ -f "/var/run/reboot-required" ]]; then
 fi
 
 echo "";
-echo -e "Nodejs-Installation: \t$( type -p nodejs ) \t$( nodejs -v )";
+echo -e "Nodejs-Installation: \t$( type -P nodejs ) \t$( nodejs -v )";
 echo -e "\t\t\t$(type -P node) \t\t$(node -v)";
 echo -e "\t\t\t$(type -P npm) \t\t$(npm -v)";
 echo -e "\t\t\t$(type -P npx) \t\t$(npx -v)";
@@ -540,9 +540,9 @@ fi
 if [[ $NODENOTCORR -eq 1 ]];
 then
                 echo "";
-                echo "Please check";
-                echo "https://forum.iobroker.net/topic/35090/howto-nodejs-installation-und-upgrades-unter-debian";
-                echo "for more information on how to fix these errors."
+                echo "Please execute";
+                echo "iobroker nodejs-update";
+                echo "to fix these errors."
 fi;
 echo "";
 # echo -e "Total Memory: \t\t`free -h | awk '/^Mem:/{print $2}'`";
