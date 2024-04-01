@@ -195,8 +195,10 @@ echo -e "\033[34;107m*** User and Groups ***\033[0m";
         whoami;
         echo "$HOME";
         groups;
+        echo "";
         echo "Systemuser and its groups that is running 'js-controller':";
         ps -o user= -p `pidof iobroker.js-controller`;
+        sudo -H -u iobroker echo "$HOME";
         sudo -u iobroker groups
 echo "";
 
