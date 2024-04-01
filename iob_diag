@@ -223,12 +223,13 @@ echo -e "\033[34;107m*** MEMORY ***\033[0m";
 echo "";
         vmstat -S M -s | head -n 10;
 
-# RASPBERRY only
-if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
-        echo "";
-        echo "Raspberry only:";
-        vcgencmd mem_oom;
-fi;
+# RASPBERRY only - Code broken for RPi5
+# if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
+#        echo "";
+#        echo "Raspberry only:";
+#        vcgencmd mem_oom;
+#fi;
+
 echo "";
 echo -e "\033[34;107m*** top - Table Of Processes  ***\033[0m";
 top -b -n 1 | head -n 5;
