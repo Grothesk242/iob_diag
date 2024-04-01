@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-04-01.1";      #version of this script
+SKRIPTV="2024-04-01.2";      #version of this script
 NODE_MAJOR=18           #this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname)
@@ -206,9 +206,9 @@ echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
 XORGTEST=$(pgrep -c 'Xorg|ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
         then
-                echo -e "Display-Server: \ttrue"
+                echo -e "Display-Server: true"
         else
-                echo -e "Display-Server: \tfalse"
+                echo -e "Display-Server: false"
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
 echo -e "Terminal: \t$XDG_SESSION_TYPE";
@@ -277,7 +277,7 @@ echo -e "\033[32mThe five largest files in iobroker-data are:\033[0m";
 echo "";
 # Detecting dev-links in /dev/serial/by-id
 echo -e "\033[32mUSB-Devices by-id:\033[0m";
-echo "USB-Sticks -  Avoid direct links to /dev/* in your adapter setups, please always prefer the links 'by-id':";
+echo "USB-Sticks -  Avoid direct links to /dev/tty* in your adapter setups, please always prefer the links 'by-id':";
 echo "";
 find /dev/serial/by-id/ -maxdepth 1 -mindepth 1;
 echo "";
