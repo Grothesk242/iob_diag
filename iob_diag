@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2023-11-04";      #version of this script
+SKRIPTV="2024-04-01";      #version of this script
 NODE_MAJOR=18           #this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname)
@@ -191,9 +191,13 @@ fi;
 
 echo "";
 echo -e "\033[34;107m*** User and Groups ***\033[0m";
+        echo "User and its groups that called 'iob diag':";
         whoami;
         echo "$HOME";
         groups;
+        echo "Systemuser and its groups that is running 'js-controller':";
+        ps -o user= -p `pidof iobroker.js-controller`;
+        sudo -u iobroker groups
 echo "";
 
 echo -e "\033[34;107m*** X-Server-Setup ***\033[0m";
