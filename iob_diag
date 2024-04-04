@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-04-02";      #version of this script
+SKRIPTV="2024-04-04";      #version of this script
 NODE_MAJOR=18           #this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname)
@@ -58,7 +58,7 @@ echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
 if [ -f "$DOCKER" ]; then
 echo -e "Hardware Vendor : $(cat /sys/devices/virtual/dmi/id/sys_vendor)";
 echo -e "Kernel          : $(uname -m)";
-echo -e "Userland        : $(dpkg --print-architecture)";
+echo -e "Userland        : $(getconf LONG_BIT) bit";
 echo -e "Docker          : $(cat /opt/scripts/.docker_config/.thisisdocker)"
 else
         hostnamectl | grep -v 'Machine\|Boot';
@@ -71,7 +71,7 @@ fi;
 # if [ -f /.dockerenv ]; then
 #    echo "I'm inside matrix ;(";
 # else
-#    echo "I'm living in real world!";
+#    echo "I'm living in a real world!";
 # fi
 
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
@@ -81,7 +81,7 @@ else
     echo "Virtualization  : Docker"
 fi;
 echo -e "Kernel          : $(uname -m)";
-echo -e "Userland        : $(dpkg --print-architecture)";
+echo -e "Userland        : $(getconf LONG_BIT) bit";
 echo "";
 echo "Systemuptime and Load:";
         uptime;
@@ -190,16 +190,23 @@ else
 fi;
 
 echo "";
-echo -e "\033[34;107m*** User and Groups ***\033[0m";
-        echo "User and its groups that called 'iob diag':";
+echo -e "\033[34;107m*** Users and Groups ***\033[0m";
+        echo "User that called 'iob diag':";
         whoami;
         env | grep HOME;
-        groups;
+        echo "GROUPS=`groups`";
         echo "";
-        echo "Systemuser and its groups that is running 'js-controller':";
-        ps -o user= -p `pidof iobroker.js-controller`;
-        sudo -H -u iobroker env | grep HOME;
-        sudo -u iobroker groups
+        echo "User that is running 'js-controller':";
+        if [[ `pidof iobroker.js-controller` -gt 0 ]];
+        then
+                IOUSER=$(ps -o user= -p `pidof iobroker.js-controller`)
+                echo $IOUSER;
+                sudo -H -u $IOUSER env | grep HOME;
+                echo "GROUPS=`sudo -u $IOUSER groups`"
+        else
+         echo "js-controller is not running";
+        fi;
+
 echo "";
 
 echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
