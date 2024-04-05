@@ -335,7 +335,7 @@ else
         VERNPX=$(npx -v);
 fi;
 
-if [ "$PATHNCOREPACK" = "" ];
+if [ "$PATHCOREPACK" = "" ];
 then
         echo -e "corepack: \t\tN/A";
 
