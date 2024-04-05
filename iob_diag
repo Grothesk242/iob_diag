@@ -292,7 +292,13 @@ echo "";
 
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
+if
+        type -P nodejs="";
+then
+        echo "N/A";
+else
 echo -e "$(type -P nodejs) \t$(nodejs -v)";
+fi;
 echo -e "$(type -P node) \t\t$(node -v)";
 echo -e "$(type -P npm) \t\t$(npm -v)";
 echo -e "$(type -P npx) \t\t$(npx -v)";
