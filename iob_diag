@@ -340,7 +340,7 @@ then
         echo -e "corepack: \tN/A";
 
 else
-        echo -e "$(type -P corepack) \t\t$(corepack -v)";
+        echo -e "$(type -P corepack) \t$(corepack -v)";
         VERCOREPACK=$(corepack -v);
 fi;
 
@@ -590,7 +590,7 @@ then
         echo -e "corepack: \tN/A";
 
 else
-        echo -e "$(type -P corepack) \t\t$(corepack -v)";
+        echo -e "$(type -P corepack) \t$(corepack -v)";
         VERCOREPACK=$(corepack -v);
 fi;
 
