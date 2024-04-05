@@ -227,8 +227,6 @@ fi;
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
-ACTIVEINSTANCES=$(iob list instances | grep -c ^+)";
-echo -e "Active iob-Instances: \t$ACTIVEINSTANCES";
 echo "";
         vmstat -S M -s | head -n 10;
 
@@ -649,7 +647,7 @@ echo "";
 echo "MEMORY: ";
         free -ht --mega;
 echo "";
-echo -e "Active iob-Instances: \t$ACTIVEINSTANCES";
+echo -e "Active iob-Instances: \t$(iob list instances | grep -c ^+)";
         iob repo list | tail -n1;
 echo "";
 echo -e "ioBroker Core: \t\tjs-controller \t\t$(iob -v)";
