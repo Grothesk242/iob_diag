@@ -305,7 +305,7 @@ if [ "$PATHNODEJS" = "" ];
 then
         echo -e "nodejs: \t\tN/A";
 else
-        echo -e "$(type -P nodejs) \t\t$(nodejs -v)";
+        echo -e "$(type -P nodejs) \t$(nodejs -v)";
         VERNODEJS=$(nodejs -v);
 fi;
 
@@ -337,7 +337,7 @@ fi;
 
 if [ "$PATHCOREPACK" = "" ];
 then
-        echo -e "corepack: \t\tN/A";
+        echo -e "corepack: \tN/A";
 
 else
         echo -e "$(type -P corepack) \t\t$(corepack -v)";
@@ -555,7 +555,7 @@ if [ "$PATHNODEJS" = "" ];
 then
         echo -e "nodejs: \t\tN/A";
 else
-        echo -e "$(type -P nodejs) \t\t$(nodejs -v)";
+        echo -e "$(type -P nodejs) \t$(nodejs -v)";
         VERNODEJS=$(nodejs -v);
 fi;
 
@@ -587,7 +587,7 @@ fi;
 
 if [ "$PATHCOREPACK" = "" ];
 then
-        echo -e "corepack: \t\tN/A";
+        echo -e "corepack: \tN/A";
 
 else
         echo -e "$(type -P corepack) \t\t$(corepack -v)";
