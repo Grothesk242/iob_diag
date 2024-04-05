@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-04-04";      #version of this script
+SKRIPTV="2024-04-05";      #version of this script
 NODE_MAJOR=18           #this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname)
@@ -292,28 +292,58 @@ echo "";
 
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
-if
-        type -P nodejs="";
-then
-        echo "N/A";
-else
-echo -e "$(type -P nodejs) \t$(nodejs -v)";
-fi;
-echo -e "$(type -P node) \t\t$(node -v)";
-echo -e "$(type -P npm) \t\t$(npm -v)";
-echo -e "$(type -P npx) \t\t$(npx -v)";
-echo -e "$(type -P corepack) \t$(corepack -v)";
+
 PATHAPT=$(type -P apt);
 PATHNODEJS=$(type -P nodejs);
 PATHNODE=$(type -P node);
 PATHNPM=$(type -P npm);
 PATHNPX=$(type -P npx);
 PATHCOREPACK=$(type -P corepack);
-VERNODEJS=$(nodejs -v);
-VERNODE=$(node -v);
-VERNPM=$(npm -v);
-VERNPX=$(npx -v);
-#VERCOREPACK=$(corepack -v);
+
+
+if [ "$PATHNODEJS" = "" ];
+then
+        echo -e "nodejs: \t\tN/A";
+else
+        echo -e "$(type -P nodejs) \t\t$(nodejs -v)";
+        VERNODEJS=$(nodejs -v);
+fi;
+
+if [ "$PATHNODE" = "" ];
+then
+        echo -e "node: \t\tN/A";
+
+else
+        echo -e "$(type -P node) \t\t$(node -v)";
+        VERNODE=$(node -v);
+fi;
+
+if [ "$PATHNPM" = "" ];
+then
+        echo -e "npm: \t\t\tN/A";
+else
+        echo -e "$(type -P npm) \t\t$(npm -v)";
+        VERNPM=$(npm -v);
+fi;
+
+if [ "$PATHNPX" = "" ];
+then
+        echo -e "npx: \t\t\tN/A";
+
+else
+        echo -e "$(type -P npx) \t\t$(npx -v)";
+        VERNPX=$(npx -v);
+fi;
+
+if [ "$PATHNCOREPACK" = "" ];
+then
+        echo -e "corepack: \t\tN/A";
+
+else
+        echo -e "$(type -P corepack) \t\t$(corepack -v)";
+        VERCOREPACK=$(corepack -v);
+fi;
+
 
 if
         [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
@@ -355,8 +385,14 @@ else
 fi
 
 echo "";
+if [ -f /usr/bin/apt-cache ]
+then
         apt-cache policy nodejs;
+        echo "";
+else
 echo "";
+fi
+
 # npm doctor can be misleading, deactivated to avoid confusion
 # echo -e "Calling 'npm doctor' for you. \033[32mPlease be patient!\033[0m";
 # echo "";
@@ -418,9 +454,16 @@ IOBSTATES=$(iob list states 2>/dev/null | wc -l);
 echo -e "States: \t$IOBSTATES";
 echo "";
 echo -e "\033[34;107m*** OS-Repositories and Updates ***\033[0m";
+if [ -f /usr/bin/apt-get ]
+then
         sudo apt-get update 1>/dev/null && sudo apt-get update
         APT=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1)
-echo -e "Pending Updates: $APT";
+        echo -e "Pending Updates: $APT";
+else
+        echo "No Debian-based Linux detected."
+fi
+
+
 echo "";
 
 echo -e "\033[34;107m*** Listening Ports ***\033[0m";
@@ -483,7 +526,7 @@ fi;
 echo "";
 echo -e "Installation: \t\t$INSTENV2";
 echo -e "Kernel: \t\t$(uname -m)";
-echo -e "Userland: \t\t$(dpkg --print-architecture)";
+echo -e "Userland: \t\t$(getconf LONG_BIT) bit";
 if [ -f "$DOCKER" ]; then
     echo -e "Timezone: \t\t$(cat /etc/timezone)"
 else
@@ -507,11 +550,50 @@ if [[ -f "/var/run/reboot-required" ]]; then
 fi
 
 echo "";
-echo -e "Nodejs-Installation: \t$( type -P nodejs ) \t$( nodejs -v )";
-echo -e "\t\t\t$(type -P node) \t\t$(node -v)";
-echo -e "\t\t\t$(type -P npm) \t\t$(npm -v)";
-echo -e "\t\t\t$(type -P npx) \t\t$(npx -v)";
-echo -e "\t\t\t$(type -P corepack) \t$(corepack -v)";
+echo -e "Nodejs-Installation:";
+if [ "$PATHNODEJS" = "" ];
+then
+        echo -e "nodejs: \t\tN/A";
+else
+        echo -e "$(type -P nodejs) \t\t$(nodejs -v)";
+        VERNODEJS=$(nodejs -v);
+fi;
+
+if [ "$PATHNODE" = "" ];
+then
+        echo -e "node: \t\tN/A";
+
+else
+        echo -e "$(type -P node) \t\t$(node -v)";
+        VERNODE=$(node -v);
+fi;
+
+if [ "$PATHNPM" = "" ];
+then
+        echo -e "npm: \t\t\tN/A";
+else
+        echo -e "$(type -P npm) \t\t$(npm -v)";
+        VERNPM=$(npm -v);
+fi;
+
+if [ "$PATHNPX" = "" ];
+then
+        echo -e "npx: \t\t\tN/A";
+
+else
+        echo -e "$(type -P npx) \t\t$(npx -v)";
+        VERNPX=$(npx -v);
+fi;
+
+if [ "$PATHNCOREPACK" = "" ];
+then
+        echo -e "corepack: \t\tN/A";
+
+else
+        echo -e "$(type -P corepack) \t\t$(corepack -v)";
+        VERCOREPACK=$(corepack -v);
+fi;
+
 echo -e "";
 echo -e "Recommended versions are nodejs ""$NODERECOM"" and npm ""$NPMRECOM""";
 
