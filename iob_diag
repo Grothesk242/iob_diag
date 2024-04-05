@@ -657,7 +657,7 @@ echo -e "ioBroker Status: \t$(iobroker status)";
 echo "";
 # iobroker status all | grep MULTIHOSTSERVICE/enabled;
 echo "Status admin and web instance:";
-iobroker list instances | grep 'admin.\|system.adapter.web.'
+iobroker list instances | grep 'admin.\|system.adapter.web.';
 echo "";
 echo -e "Objects: \t\t$IOBOBJECTS";
 echo -e "States: \t\t$IOBSTATES";
