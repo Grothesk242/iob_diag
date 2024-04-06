@@ -227,6 +227,7 @@ fi;
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
+echo "";
 echo -e "Active iob-Instances: \t$(iob list instances | grep -c ^+)";
 echo "";
         vmstat -S M -s | head -n 10;
@@ -434,6 +435,7 @@ echo -e "admin: \t\t$(iob version admin)";
 echo -e "javascript: \t$(iob version javascript)";
 echo "";
 echo -e "Adapters from github: \t$( (cd /opt/iobroker && npm ls | grep -c 'git') )";
+(cd /opt/iobroker && mpm ls | grep 'git')
 echo "";
 echo -e "\033[32mAdapter State\033[0m";
 iob list instances;
