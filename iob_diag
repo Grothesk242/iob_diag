@@ -227,6 +227,7 @@ fi;
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
+echo -e "Active iob-Instances: \t$(iob list instances | grep -c ^+)";
 echo "";
         vmstat -S M -s | head -n 10;
 
