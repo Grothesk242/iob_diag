@@ -301,8 +301,11 @@ fi;
 
 if [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
         then
+                if [[ -n "$IOBZIGBEEPORT" ]]
+                then echo ""
+                fi
         echo "";
-        echo "Your ZigBee COM-Ports are matching 'by-id'. Very good!";
+        echo "Your ZigBee COM-Port is matching 'by-id'. Very good!";
         else
         echo;
         echo "HINT:";
