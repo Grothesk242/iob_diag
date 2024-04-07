@@ -299,7 +299,7 @@ if [[ -n "$SYSZIGBEEPORT" ]];
         echo "No Devices found 'by-id'";
 fi;
 
-if  [[ -n "$IOBZIGBEEPORT" ]]
+if  [[ -z "$IOBZIGBEEPORT" ]]
         then
         echo "";
                 elif [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
