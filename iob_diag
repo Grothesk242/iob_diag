@@ -291,13 +291,19 @@ echo "USB-Sticks -  Avoid direct links to /dev/tty* in your adapter setups, plea
 echo "";
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1);
 IOBZIGBEEPORT=$(iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' | cut -c 2-)
-echo $SYSZIGBEEPORT;
+
+if [[ $SYSZIGBEEPORT -ne "" ]]
+        echo $SYSZIGBEEPORT;
+fi;
+
 if [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
         then
-        echo "Your ZigBee COM-Ports are matching. Very good!"
-
+        echo "";
+        echo "Your ZigBee COM-Ports are matching 'by-id'. Very good!";
         else
-        echo "COM-Ports in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that"
+        echo;
+        echo "HINT:";
+        echo "COM-Ports in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that!";
 fi;
         echo "";
 
