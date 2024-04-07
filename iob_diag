@@ -292,7 +292,7 @@ echo "";
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1);
 IOBZIGBEEPORT=$(iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' | cut -c 2-)
 
-if [[ $SYSZIGBEEPORT -ne "" ]]
+if [[ $SYSZIGBEEPORT -ne $"" ]]
         then
         echo $SYSZIGBEEPORT;
         else
