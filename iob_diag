@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-04-06";      #version of this script
+SKRIPTV="2024-04-07";      #version of this script
 NODE_MAJOR=18           #this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname)
@@ -194,15 +194,15 @@ echo -e "\033[34;107m*** Users and Groups ***\033[0m";
         echo "User that called 'iob diag':";
         whoami;
         env | grep HOME;
-        echo "GROUPS=`groups`";
+        echo "GROUPS=$(groups)";
         echo "";
         echo "User that is running 'js-controller':";
-        if [[ `pidof iobroker.js-controller` -gt 0 ]];
+        if [[ $(pidof iobroker.js-controller) -gt 0 ]];
         then
-                IOUSER=$(ps -o user= -p `pidof iobroker.js-controller`)
-                echo $IOUSER;
-                sudo -H -u $IOUSER env | grep HOME;
-                echo "GROUPS=`sudo -u $IOUSER groups`"
+                IOUSER=$(ps -o user= -p "$(pidof iobroker.js-controller)")
+                echo "$IOUSER";
+                sudo -H -u "$IOUSER" env | grep HOME;
+                echo "GROUPS=$(sudo -u "$IOUSER" groups)"
         else
          echo "js-controller is not running";
         fi;
@@ -289,8 +289,18 @@ echo "";
 echo -e "\033[32mUSB-Devices by-id:\033[0m";
 echo "USB-Sticks -  Avoid direct links to /dev/tty* in your adapter setups, please always prefer the links 'by-id':";
 echo "";
-find /dev/serial/by-id/ -maxdepth 1 -mindepth 1;
-echo "";
+SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1);
+IOBZIGBEEPORT=$(iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' | cut -c 2-)
+if [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
+        then
+        echo "Your ZigBee COM-Ports are matching. Very good!"
+
+        else
+        echo "COM-Ports in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that"
+fi;
+        echo "";
+
+
 
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
