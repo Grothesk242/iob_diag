@@ -292,9 +292,9 @@ echo "";
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1);
 IOBZIGBEEPORT=$(iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' | cut -c 2-)
 
-if [[-n "$SYSZIGBEEPORT"]];
+if [[ -n "$SYSZIGBEEPORT" ]];
         then
-        echo $SYSZIGBEEPORT;
+        echo "$SYSZIGBEEPORT";
         else
         echo "No Devices found 'by-id'";
 fi;
