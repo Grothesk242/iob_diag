@@ -305,7 +305,7 @@ if  [[ -z "$IOBZIGBEEPORT" ]]
                 elif [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
                 then
                         echo "";
-                        echo "Your ZigBee COM-Port is matching 'by-id'. Very good! (Or no ZigBee-Adapter installed...)";
+                        echo "Your ZigBee COM-Port is matching 'by-id'. Very good!";
 
         else
         echo;
