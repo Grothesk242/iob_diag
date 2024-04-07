@@ -306,7 +306,7 @@ if [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
         else
         echo;
         echo "HINT:";
-        echo "COM-Ports in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that!";
+        echo "COM-Port in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that!";
 fi;
         echo "";
 
