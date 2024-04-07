@@ -289,7 +289,7 @@ echo "";
 echo -e "\033[32mUSB-Devices by-id:\033[0m";
 echo "USB-Sticks -  Avoid direct links to /dev/tty* in your adapter setups, please always prefer the links 'by-id':";
 echo "";
-SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1);
+SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 IOBZIGBEEPORT=$(iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' | cut -c 2-)
 
 if [[ -n "$SYSZIGBEEPORT" ]];
@@ -302,10 +302,11 @@ fi;
 if [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
         then
                 if [[ -n "$IOBZIGBEEPORT" ]]
-                then echo ""
+                then    echo ""
+                else
+                        echo "";
+                        echo "Your ZigBee COM-Port is matching 'by-id'. Very good!";
                 fi
-        echo "";
-        echo "Your ZigBee COM-Port is matching 'by-id'. Very good!";
         else
         echo;
         echo "HINT:";
