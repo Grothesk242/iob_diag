@@ -292,6 +292,8 @@ echo "";
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 IOBZIGBEEPORT0=$(iob list instances | grep system.adapter.zigbee.0 | awk -F ':' '{print $4}' | cut -c 2-)
 IOBZIGBEEPORT1=$(iob list instances | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
+IOBZIGBEEPORT2=$(iob list instances | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
+
 
 if [[ -n "$SYSZIGBEEPORT" ]];
         then
@@ -306,11 +308,11 @@ if  [[ -z "$IOBZIGBEEPORT0" ]]
         elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]]
         then
                 echo "";
-                echo "Your zigBee.0 COM-Ports are matching 'by-id'. Very good!";
+                echo "Your zigbee.0 COM-Port is matching 'by-id'. Very good!";
         else
                 echo;
                 echo "HINT:";
-                echo "COM-Port in your zigbee.0-Instance is not set to the 'by-id'-Link. Please check your setting:";
+                echo "Your zigbee.0 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT0"
 fi;
 
@@ -320,11 +322,25 @@ if  [[ -z "$IOBZIGBEEPORT1" ]]
         elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
         then
                 echo "";
-                echo "Your zigBee.1 COM-Ports are matching 'by-id'. Very good!";
+                echo "Your zigBee.1 COM-Ports is matching 'by-id'. Very good!";
         else
                 echo;
                 echo "HINT:";
-                echo "COM-Port in your zigbee.1-Instance is not set to the 'by-id'-Link. Please check your setting:";
+                echo "Your zigbee.1 COM-Port is NOT matching 'by-id'. Please check your setting:";
+                echo "$IOBZIGBEEPORT1"
+fi;
+
+if  [[ -z "$IOBZIGBEEPORT2" ]]
+        then
+                echo "";
+        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT2"* ]]
+        then
+                echo "";
+                echo "Your zigBee.2 COM-Ports is matching 'by-id'. Very good!";
+        else
+                echo;
+                echo "HINT:";
+                echo "Your zigbee.2 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT1"
 fi;
 
