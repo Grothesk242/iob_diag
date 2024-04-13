@@ -294,26 +294,33 @@ IOBZIGBEEPORT=$(iob list instances | grep system.adapter.zigbee | awk -F ':' '{p
 
 if [[ -n "$SYSZIGBEEPORT" ]];
         then
-        echo "$SYSZIGBEEPORT";
+                echo "$SYSZIGBEEPORT";
         else
-        echo "No Devices found 'by-id'";
+                echo "No Devices found 'by-id'";
 fi;
+
+
 
 if  [[ -z "$IOBZIGBEEPORT" ]]
         then
-        echo "";
-                elif [ "$SYSZIGBEEPORT" == "$IOBZIGBEEPORT" ]
-                then
-                        echo "";
-                        echo "Your ZigBee COM-Port is matching 'by-id'. Very good!";
-
+                echo "";
+        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT"* ]]
+        then
+                echo "";
+                echo "Your ZigBee COM-Port is matching 'by-id'. Very good!";
         else
-        echo;
-        echo "HINT:";
-        echo "COM-Port in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that!";
+                echo;
+                echo "HINT:";
+                echo "COM-Port in your ZigBee-Instance ist not set to the 'by-id'-Link. Please check that!";
 fi;
 
-        echo "";
+
+
+
+
+
+
+                echo "";
 
 
 
