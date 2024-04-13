@@ -292,7 +292,7 @@ echo "";
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 IOBZIGBEEPORT0=$(iob list instances | grep system.adapter.zigbee.0 | awk -F ':' '{print $4}' | cut -c 2-)
 IOBZIGBEEPORT1=$(iob list instances | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
-IOBZIGBEEPORT2=$(iob list instances | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
+IOBZIGBEEPORT2=$(iob list instances | grep system.adapter.zigbee.2 | awk -F ':' '{print $4}' | cut -c 2-)
 
 
 if [[ -n "$SYSZIGBEEPORT" ]];
