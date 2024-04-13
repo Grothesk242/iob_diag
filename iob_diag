@@ -303,7 +303,7 @@ fi;
 if  [[ -z "$IOBZIGBEEPORT0" ]]
         then
                 echo "";
-        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]] || [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
+        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]] #|| [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
         then
                 echo "";
                 echo "Your ZigBee COM-Ports are matching 'by-id'. Very good!";
@@ -314,15 +314,7 @@ if  [[ -z "$IOBZIGBEEPORT0" ]]
 fi;
 
 
-
-
-
-
-
-                echo "";
-
-
-
+echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
 
