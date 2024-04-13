@@ -303,16 +303,30 @@ fi;
 if  [[ -z "$IOBZIGBEEPORT0" ]]
         then
                 echo "";
-        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]] #|| [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
+        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]]
         then
                 echo "";
-                echo "Your ZigBee COM-Ports are matching 'by-id'. Very good!";
+                echo "Your zigBee.0 COM-Ports are matching 'by-id'. Very good!";
         else
                 echo;
                 echo "HINT:";
-                echo "COM-Ports in your ZigBee-Instances are not set to the 'by-id'-Link. Please check that!";
+                echo "COM-Port in your zigbee.0-Instance is not set to the 'by-id'-Link. Please check your setting:";
+                echo "$IOBZIGBEEPORT0"
 fi;
 
+if  [[ -z "$IOBZIGBEEPORT1" ]]
+        then
+                echo "";
+        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
+        then
+                echo "";
+                echo "Your zigBee.1 COM-Ports are matching 'by-id'. Very good!";
+        else
+                echo;
+                echo "HINT:";
+                echo "COM-Port in your zigbee.1-Instance is not set to the 'by-id'-Link. Please check your setting:";
+                echo "$IOBZIGBEEPORT1"
+fi;
 
 echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
