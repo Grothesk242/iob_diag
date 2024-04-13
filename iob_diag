@@ -300,7 +300,7 @@ if [[ -n "$SYSZIGBEEPORT" ]];
                 echo "No Devices found 'by-id'";
 fi;
 
-if  [[ -z "$IOBZIGBEEPORT0" ]] || [[ -z "$IOBZIGBEEPORT1" ]]
+if  [[ -z "$IOBZIGBEEPORT0" ]]
         then
                 echo "";
         elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]] || [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
