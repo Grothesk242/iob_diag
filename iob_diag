@@ -331,7 +331,6 @@ if  [[ -z "$IOBZIGBEEPORT1" ]]
                 echo "$IOBZIGBEEPORT1";
                 diff -y --left-column <(echo "$IOBZIGBEEPORT1") <(echo "$SYSZIGBEEPORT");
 fi;
-fi;
 
 if  [[ -z "$IOBZIGBEEPORT2" ]]
         then
@@ -346,7 +345,6 @@ if  [[ -z "$IOBZIGBEEPORT2" ]]
                 echo "Your zigbee.2 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT2";
                 diff -y --left-column <(echo "$IOBZIGBEEPORT2") <(echo "$SYSZIGBEEPORT");
-fi;
 fi;
 
 echo "";
