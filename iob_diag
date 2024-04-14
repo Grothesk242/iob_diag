@@ -313,10 +313,8 @@ if  [[ -z "$IOBZIGBEEPORT0" ]]
                 echo;
                 echo "HINT:";
                 echo "Your zigbee.0 COM-Port is NOT matching 'by-id'. Please check your setting:";
-                #echo "$IOBZIGBEEPORT0";
-                # comm -1 $SYSZIGBEEPORT $IOBZIGBEEPORT0;
-                echo "Diff code"
-                diff -u <(echo "$SYSZIGBEEPORT") <(echo "$IOBZIGBEEPORT0")
+                echo "$IOBZIGBEEPORT0";
+                diff -y --left-column <(echo "$IOBZIGBEEPORT0") <(echo "$SYSZIGBEEPORT");
 fi;
 
 if  [[ -z "$IOBZIGBEEPORT1" ]]
@@ -330,7 +328,9 @@ if  [[ -z "$IOBZIGBEEPORT1" ]]
                 echo;
                 echo "HINT:";
                 echo "Your zigbee.1 COM-Port is NOT matching 'by-id'. Please check your setting:";
-                echo "$IOBZIGBEEPORT1"
+                echo "$IOBZIGBEEPORT1";
+                diff -y --left-column <(echo "$IOBZIGBEEPORT1") <(echo "$SYSZIGBEEPORT");
+fi;
 fi;
 
 if  [[ -z "$IOBZIGBEEPORT2" ]]
@@ -344,7 +344,9 @@ if  [[ -z "$IOBZIGBEEPORT2" ]]
                 echo;
                 echo "HINT:";
                 echo "Your zigbee.2 COM-Port is NOT matching 'by-id'. Please check your setting:";
-                echo "$IOBZIGBEEPORT1"
+                echo "$IOBZIGBEEPORT2";
+                diff -y --left-column <(echo "$IOBZIGBEEPORT2") <(echo "$SYSZIGBEEPORT");
+fi;
 fi;
 
 echo "";
