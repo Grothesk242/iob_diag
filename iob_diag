@@ -314,7 +314,9 @@ if  [[ -z "$IOBZIGBEEPORT0" ]]
                 echo "HINT:";
                 echo "Your zigbee.0 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 #echo "$IOBZIGBEEPORT0";
-                comm -1 $SYSZIGBEEPORT $IOBZIGBEEPORT0;
+                # comm -1 $SYSZIGBEEPORT $IOBZIGBEEPORT0;
+                echo "Diff code"
+                diff -u <(echo "$SYSZIGBEEPORT") <(echo "$IOBZIGBEEPORT0")
 fi;
 
 if  [[ -z "$IOBZIGBEEPORT1" ]]
