@@ -30,6 +30,7 @@ INSTENV=0;
 INSTENV2=0;
 SYSTDDVIRT="";
 NODENOTCORR=0;
+IOBLISTINST=$(iob list instances);
 clear;
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
@@ -228,7 +229,7 @@ echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
 echo "";
-echo -e "Active iob-Instances: \t$(iob list instances | grep -c ^+)";
+echo -e "Active iob-Instances: \t$(echo "$IOBLISTINST" | grep -c ^+)";
 echo "";
         vmstat -S M -s | head -n 10;
 
@@ -318,9 +319,9 @@ SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 #
 # echo "";
 # echo "CODE II";
-IOBZIGBEEPORT0=$(iob list instances | grep system.adapter.zigbee.0 | awk -F ':' '{print $4}' | cut -c 2-)
-IOBZIGBEEPORT1=$(iob list instances | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
-IOBZIGBEEPORT2=$(iob list instances | grep system.adapter.zigbee.2 | awk -F ':' '{print $4}' | cut -c 2-)
+IOBZIGBEEPORT0=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.0 | awk -F ':' '{print $4}' | cut -c 2-)
+IOBZIGBEEPORT1=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
+IOBZIGBEEPORT2=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.2 | awk -F ':' '{print $4}' | cut -c 2-)
 
 
 if [[ -n "$SYSZIGBEEPORT" ]];
@@ -522,10 +523,10 @@ echo -e "Adapters from github: \t$( (cd /opt/iobroker && npm ls | grep -c 'git')
 (cd /opt/iobroker && npm ls | grep 'git')
 echo "";
 echo -e "\033[32mAdapter State\033[0m";
-iob list instances;
+echo "$IOBLISTINST";
 echo "";
 echo -e "\033[32mEnabled adapters with bindings\033[0m";
-iob list instances | grep enabled | grep port ;
+echo "$IOBLISTINST" | grep enabled | grep port ;
 echo "";
 echo -e "\033[32mioBroker-Repositories\033[0m";
         iob repo list;
@@ -734,7 +735,7 @@ echo "";
 echo "MEMORY: ";
         free -ht --mega;
 echo "";
-echo -e "Active iob-Instances: \t$(iob list instances | grep -c ^+)";
+echo -e "Active iob-Instances: \t$(echo "$IOBLISTINST" | grep -c ^+)";
         iob repo list | tail -n1;
 echo "";
 echo -e "ioBroker Core: \t\tjs-controller \t\t$(iob -v)";
@@ -744,7 +745,7 @@ echo -e "ioBroker Status: \t$(iobroker status)";
 echo "";
 # iobroker status all | grep MULTIHOSTSERVICE/enabled;
 echo "Status admin and web instance:";
-iobroker list instances | grep 'admin.\|system.adapter.web.';
+echo "$IOBLISTINST" | grep 'admin.\|system.adapter.web.';
 echo "";
 echo -e "Objects: \t\t$IOBOBJECTS";
 echo -e "States: \t\t$IOBSTATES";
