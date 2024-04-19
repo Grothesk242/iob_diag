@@ -292,32 +292,32 @@ echo "";
 
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 
-echo "CODE I ";
-
-
-if [[ -n "$SYSZIGBEEPORT" ]];
-        then
-                echo "$SYSZIGBEEPORT";
-        else
-                echo "No Devices found 'by-id'";
-fi;
-
-readarray IOBZIGBEEPORT < <( iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' );
-for i in  ${IOBZIGBEEPORT[@]}; do
-        if [[ "$SYSZIGBEEPORT" == *"$i"* ]]
-                then
-                echo "";
-                echo "Your zigbee COM-Port is matching 'by-id'. Very good!"
-                else
-                echo;
-                echo "HINT:";
-                echo "Your zigbee COM-Port is NOT matching 'by-id'. Please check your setting:";
-                echo "$IOBZIGBEEPORT0";
-        fi
-                done;
-
-echo "";
-echo "CODE II";
+# echo "CODE I ";
+#
+#
+# if [[ -n "$SYSZIGBEEPORT" ]];
+#         then
+#                 echo "$SYSZIGBEEPORT";
+#         else
+#                 echo "No Devices found 'by-id'";
+# fi;
+#
+# readarray IOBZIGBEEPORT < <( iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' );
+# for i in  ${IOBZIGBEEPORT[@]}; do
+#         if [[ "$SYSZIGBEEPORT" == *"$i"* ]]
+#                 then
+#                 echo "";
+#                 echo "Your zigbee COM-Port is matching 'by-id'. Very good!"
+#                 else
+#                 echo;
+#                 echo "HINT:";
+#                 echo "Your zigbee COM-Port is NOT matching 'by-id'. Please check your setting:";
+#                 echo "$IOBZIGBEEPORT0";
+#         fi
+#                 done;
+#
+# echo "";
+# echo "CODE II";
 IOBZIGBEEPORT0=$(iob list instances | grep system.adapter.zigbee.0 | awk -F ':' '{print $4}' | cut -c 2-)
 IOBZIGBEEPORT1=$(iob list instances | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
 IOBZIGBEEPORT2=$(iob list instances | grep system.adapter.zigbee.2 | awk -F ':' '{print $4}' | cut -c 2-)
