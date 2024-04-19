@@ -290,7 +290,7 @@ echo -e "\033[32mUSB-Devices by-id:\033[0m";
 echo "USB-Sticks -  Avoid direct links to /dev/tty* in your adapter setups, please always prefer the links 'by-id':";
 echo "";
 
-echo "CODE I";
+echo "CODE I ";
 SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 readarray IOBZIGBEEPORT < <( iob list instances | grep system.adapter.zigbee | awk -F ':' '{print $4}' );
 for i in  ${IOBZIGBEEPORT[@]}; do echo $i; done;
