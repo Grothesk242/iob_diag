@@ -521,7 +521,7 @@ echo -e "admin: \t\t$(iob version admin)";
 echo -e "javascript: \t$(iob version javascript)";
 echo "";
 echo -e "nodejs modules from github: \t$(echo "$NPMLS" | grep -c 'github.com')";
-(echo "$NPMLS"  | grep 'github.com');
+echo "$NPMLS" | grep 'github.com';
 echo "";
 echo -e "\033[32mAdapter State\033[0m";
 echo "$IOBLISTINST";
