@@ -30,7 +30,8 @@ INSTENV=0;
 INSTENV2=0;
 SYSTDDVIRT="";
 NODENOTCORR=0;
-IOBLISTINST=$(iob list instances);
+IOBLISTINST=$(iobroker list instances);
+NPMLS=$(cd /opt/iobroker && npm ls -a)
 clear;
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
@@ -504,7 +505,7 @@ fi;
 # echo -e "\033[32m1 - Temp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium'>e;
 echo "";
 echo "Errors in npm tree:";
-cd /opt/iobroker && npm ls -a | grep ERR;
+echo "$NPMLS" | grep ERR;
 echo "";
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
@@ -519,8 +520,8 @@ echo -e "js-controller: \t$(iob -v)";
 echo -e "admin: \t\t$(iob version admin)";
 echo -e "javascript: \t$(iob version javascript)";
 echo "";
-echo -e "Adapters from github: \t$( (cd /opt/iobroker && npm ls | grep -c 'git') )";
-(cd /opt/iobroker && npm ls | grep 'git')
+echo -e "nodejs modules from github: \t$(echo "$NPMLS" | grep -c 'github.com')";
+echo "$NPMLS"  | grep 'github.com')
 echo "";
 echo -e "\033[32mAdapter State\033[0m";
 echo "$IOBLISTINST";
