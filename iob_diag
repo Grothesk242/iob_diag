@@ -212,7 +212,7 @@ echo -e "\033[34;107m*** Users and Groups ***\033[0m";
 echo "";
 
 echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
-XORGTEST=$(pgrep -c 'Xorg|ayland|X11|wayfire')
+XORGTEST=$(pgrep -c '[X]|[w]ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
         then
                 echo -e "Display-Server: true"
