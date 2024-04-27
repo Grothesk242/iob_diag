@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2023-12-31"
+VERSION="2024-04-27"
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -29,6 +29,12 @@ if [[ $SYSTDDVIRT = "wsl" ]];
         exit 1;
 fi;
 
+if [ -n $(type -p apt-get) ]
+        then
+        echo "Non-Debian-Linux is not supported"
+        unset LC_ALL;
+        exit 1;
+fi;
 
 ### Starting the skript
 echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
@@ -106,6 +112,14 @@ fi;
         USER_GROUP="$USER"
         fi
 
+if
+        [[ "$INSTALL_CMD" != "apt-get" ]];
+then
+        echo "Non-Debian-based Systems are not supported, exiting";
+        unset LC_ALL;
+        exit;
+fi;
+
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
 
@@ -121,29 +135,35 @@ if [[ -n "$NODERECOM" ]] && [[ "$NODERECOM" = [[:digit:]]*.[[:digit:]]*.[[:digit
         NODERECOMNF=1;
         echo -e "No recommendation for a nodejs version found on your system. We recommend to install latest version from nodejs v$NODE_MAJOR tree.";
 fi;
-echo "";
-echo "Your current setup is:";
+        echo "";
+        echo "Your current setup is:";
+
 if [[ -f /usr/bin/nodejs ]];
-then
-echo -e "$(type -p nodejs) \t$(nodejs -v)";
+        then
+                echo -e "$(type -p nodejs) \t$(nodejs -v)";
 fi;
-echo -e "$(type -p node) \t\t$(node -v)";
-echo -e "$(type -p npm) \t\t$(npm -v)";
-echo -e "$(type -p npx) \t\t$(npx -v)";
+        echo -e "$(type -p node) \t\t$(node -v)";
+        echo -e "$(type -p npm) \t\t$(npm -v)";
+        echo -e "$(type -p npx) \t\t$(npx -v)";
+
 if [[ -f /usr/bin/corepack ]]
-then
-echo -e "$(type -p corepack) \t$(corepack -v)";
+        then
+                echo -e "$(type -p corepack) \t$(corepack -v)";
 fi;
+
 PATHNODEJS=$(type -p nodejs);
 PATHNODE=$(type -p node);
 PATHNPM=$(type -p npm);
 PATHNPX=$(type -p npx);
+
 if [[ -f /usr/bin/corepack ]]; then
 PATHCOREPACK=$(type -p corepack);
 fi;
+
 if [[ -f /usr/bin/nodejs ]]; then
 VERNODEJS=$(nodejs -v);
 fi;
+
 VERNODE=$(node -v);
 VERNPM=$(npm -v);
 VERNPX=$(npx -v);
@@ -205,7 +225,7 @@ if
                 if
                                 [[ -f /usr/bin/nodejs && "$PATHNODEJS" != "/usr/bin/nodejs" ]];
                         then
-                                echo "*** Deleting $PATHNODEJS ***";
+                                echo -e "*** Deleting $PATHNODEJS ***";
                                 $SUDOX rm "$(type -p nodejs)";
                 fi
                 if
