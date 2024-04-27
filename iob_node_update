@@ -29,7 +29,7 @@ if [[ $SYSTDDVIRT = "wsl" ]];
         exit 1;
 fi;
 
-if [ -n $(type -p apt-get) ]
+if [ -z $(type -P apt-get) ]
         then
         echo "Non-Debian-Linux is not supported"
         unset LC_ALL;
