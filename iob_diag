@@ -617,7 +617,7 @@ echo -e "Installation: \t\t$INSTENV2";
 echo -e "Kernel: \t\t$(uname -m)";
 echo -e "Userland: \t\t$(getconf LONG_BIT) bit";
 if [ -f "$DOCKER" ]; then
-    echo -e "Timezone: \t\t$(cat /etc/timezone)"
+    echo -e "Timezone: \t\t$(date +"%Z %z")"
 else
     echo -e "Timezone: \t\t$(timedatectl | grep zone | cut -c28-80)";
 fi;
