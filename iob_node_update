@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2024-04-27"
+VERSION="2024-05-21"
 NODE_MAJOR=18           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -31,7 +31,7 @@ fi;
 
 if [ -z $(type -P apt-get) ]
         then
-        echo "Non-Debian-Linux is not supported"
+        echo "Only a Debian-based Linux is supported"
         unset LC_ALL;
         exit 1;
 fi;
