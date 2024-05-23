@@ -29,7 +29,7 @@ if [[ $SYSTDDVIRT = "wsl" ]];
         exit 1;
 fi;
 
-if [ -z $(type -P apt-get) ]
+if [ -z "$(type -P apt-get)" ]
         then
         echo "Only a Debian-based Linux is supported"
         unset LC_ALL;
