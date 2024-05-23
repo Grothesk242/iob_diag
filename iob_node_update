@@ -15,9 +15,9 @@ then
         echo "Fixing Docker is not supported, please update your Docker Container";
         unset LC_ALL;
         exit 1;
-        elif [ "$(id -u)" -eq 0 ];
-                 then
-                         echo -e "This script must not be run as root! \nPlease use your standard user!"
+elif [ "$(id -u)" -eq 0 ];
+then
+        echo -e "This script must not be run as root! \nPlease use your standard user!"
         unset LC_ALL;
         exit 1;
 fi;
@@ -39,7 +39,7 @@ fi;
 ### Starting the skript
 echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
 HOST=$(hostname)
-NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If succesfull, no fallback required.
+NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If successful, no fallback required.
 if [[ $NODERECOM != [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]]; #check if a semvered nodejs installation is found
 then
 NODERECOMNF=1; #marker for 'no recommended version found'
@@ -252,7 +252,7 @@ if
                                 echo -e "*** Deleting $PATHCOREPACK ***";
                                 $SUDOX rm "$(type -p corepack)";
                 fi
-                echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-fix' again to check if your installation is fine now";
+                echo -e "\nWrong paths have been fixed. Run 'iob diag' or 'iob node-update' again to check if your installation is fine now";
         fi
                 else
         echo -e "\n\n\033[32mNothing to do\033[0m - Your installation is using the correct paths.";
