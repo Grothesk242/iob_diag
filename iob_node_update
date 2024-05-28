@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2024-05-23"
+VERSION="2024-05-24"
 NODE_MAJOR=20           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -271,7 +271,7 @@ then
 echo -e "\033[32mNothing to do\033[0m - Your version is the recommended one.";
 echo -e "\n***You can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands. ***"
 echo "*** DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They will break your current installation! ***"
-echo -e "\n *** DO NOT use 'nodejs-update' as part of a regular update process! ***";
+echo -e "\n*** DO NOT use 'nodejs-update' as part of a regular update process! ***\n";
 unset LC_ALL;
 if [[ -f "/var/run/reboot-required" ]];
         then
@@ -364,8 +364,7 @@ fi;
                         echo -e "\n*** These repos are active after the adjustments:"
                         $SUDOX "$INSTALL_CMD" update;
 
-                        echo "";
-                        echo "Installing nodejs now!";
+
                         echo "";
                         if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ] && [[ "$NODERECOM" == [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]]
                                 then
@@ -405,7 +404,7 @@ fi;
                         fi;
                         exit;
                 else
-                        echo "Installing the nodejs!";
+                        echo "Installing nodejs!";
                         $SUDOX $INSTALL_CMD update -qq;
                         $SUDOX $INSTALL_CMD -qq --allow-downgrades upgrade nodejs;
                         echo -e "\nWe tried our best to fix your nodejs. Please run iob diag again to verify.";
