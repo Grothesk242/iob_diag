@@ -121,7 +121,7 @@ then
         exit;
 fi;
 
-DFSGREM="$SUDOX $INSTALL_CMD remove libnode* nodejs-doc npm -qqy"; #Deinstall DFSG-Version
+DFSGREM="$SUDOX $INSTALL_CMD remove libnode* node-* nodejs-doc npm -qqy"; #Deinstall DFSG-Version
 
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
