@@ -391,14 +391,12 @@ fi;
 
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
                                 then
-                                        eval "$DFSGREM"
                                         $SUDOX $INSTALL_CMD -qq update;
                                         $SUDOX $INSTALL_CMD -qq --allow-downgrades upgrade nodejs;
                                 fi;
 
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         echo "Installing nodejs now!";
-                        eval "$DFSGREM"
                         $SUDOX $INSTALL_CMD update -qq;
                         $SUDOX $INSTALL_CMD -qq --allow-downgrades upgrade nodejs;
                         echo -e "\n*** You need to manually restart your container/virtual machine now! *** ";
