@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2024-05-24"
+VERSION="2024-06-09"
 NODE_MAJOR=20           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -38,6 +38,7 @@ fi;
 
 ### Starting the skript
 echo -e "ioBroker node-update v$VERSION is starting. Please be patient!";
+
 HOST=$(hostname)
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #reading node version from iob states. If successful, no fallback required.
 if [[ $NODERECOM != [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]]; #check if a semvered nodejs installation is found
@@ -119,6 +120,8 @@ then
         unset LC_ALL;
         exit;
 fi;
+
+DFSGREM="$SUDOX $INSTALL_CMD remove libnode* nodejs-doc npm -qqy"; #Deinstall DFSG-Version
 
 clear;
 echo -e "ioBroker nodejs fixer $VERSION";
@@ -349,6 +352,9 @@ fi;
                         sleep 1                 # wait 1s between "frames"
                 done;
                 echo "";
+                        echo "Removing dfsg-nodejs";
+                        eval "$DFSGREM"
+                        echo "";
                         echo -e "\n*** These repos are active on your system:";
                         $SUDOX "$INSTALL_CMD" update;
                         echo -e "\n*** Installing ca-certificates, curl and gnupg, just in case they are missing.";
@@ -368,14 +374,14 @@ fi;
                         echo "";
                         if [ "$NODEINSTMAJOR" -gt "$NODE_MAJOR" ] && [[ "$NODERECOM" == [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]]
                                 then
-                                $SUDOX $INSTALL_CMD install --reinstall --allow-downgrades -qq nodejs="$NODERECOM"-1nodesource1 ;
+                                        $SUDOX $INSTALL_CMD install --reinstall --allow-downgrades -qq nodejs="$NODERECOM"-1nodesource1 ;
                                 elif
-                                [[ "$NODERECOMNF" -eq 1 ]]
+                                        [[ "$NODERECOMNF" -eq 1 ]]
                                 then
-                                NODERECOM=$NODE_MAJOR.0.0
+                                        NODERECOM=$NODE_MAJOR.0.0
 
                                 echo "Exact recommended version unknown, installing a fallback!";
-                                $SUDOX $INSTALL_CMD install --reinstall --allow-downgrades -qq nodejs="$NODERECOM"-1nodesource1 ;
+                                        $SUDOX $INSTALL_CMD install --reinstall --allow-downgrades -qq nodejs="$NODERECOM"-1nodesource1 ;
                                 echo -e "\nUpdating fallback to latest nodejs v$NODE_MAJOR release";
                                 $SUDOX $INSTALL_CMD -qq update;
                                 $SUDOX $INSTALL_CMD -qq --allow-downgrades upgrade nodejs;
@@ -385,12 +391,14 @@ fi;
 
                                 if [ "$NODEINSTMAJOR" -lt "$NODE_MAJOR" ]
                                 then
+                                        eval "$DFSGREM"
                                         $SUDOX $INSTALL_CMD -qq update;
                                         $SUDOX $INSTALL_CMD -qq --allow-downgrades upgrade nodejs;
                                 fi;
 
                 if [ "$SYSTDDVIRT" != "none" ]; then
                         echo "Installing nodejs now!";
+                        eval "$DFSGREM"
                         $SUDOX $INSTALL_CMD update -qq;
                         $SUDOX $INSTALL_CMD -qq --allow-downgrades upgrade nodejs;
                         echo -e "\n*** You need to manually restart your container/virtual machine now! *** ";
