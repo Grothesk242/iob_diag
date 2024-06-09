@@ -341,7 +341,7 @@ fi;
                                 iob stop &
                                 # sudo pkill ^io;
                         else
-                                iob stop &;
+                                iob stop &
                         fi;
 
                 echo "Waiting for ioBroker to shut down - Give me a minute..."
