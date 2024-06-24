@@ -53,7 +53,7 @@ read -r -n 1 -s
 echo "";
 echo -e "\033[33m======== Start marking the full check here =========\033[0m";
 echo "";
-echo "\`\`\`";
+echo "\`\`\`bash";
 echo "Skript v.$SKRIPTV"
 echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
@@ -581,7 +581,7 @@ echo "";
         clear;
 echo "Copy text starting here:";
 echo "";
-echo "\`\`\`";
+echo "\`\`\`bash";
 echo "======================= SUMMARY =======================";
 echo -e "\t\t\tv.$SKRIPTV"
 echo "";
