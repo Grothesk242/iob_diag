@@ -19,7 +19,7 @@ export LC_ALL=C;
 SKRIPTV="2024-07-04";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
-HOST=$(uname -n)
+HOST=$(uname -n);
 source /etc/os-release
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 NPMRECOM=$(iobroker state getValue system.host."$HOST".versions.npmNewestNext);    #recommended npm version
@@ -377,6 +377,14 @@ if  [[ -z "$IOBZIGBEEPORT2" ]]
                 echo "Your zigbee.2 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT2";
                 # diff -y --left-column <(echo "$IOBZIGBEEPORT2") <(echo "$SYSZIGBEEPORT");
+fi;
+
+SONOFFE=$(lsusb | grep -c "1a86:55d4")
+
+if [[ "$SONOFFE" -gt 0 ]]
+        then
+                echo "HINT:"
+                echo "Your SONOFF Zigbee 3.0 USB Dongle Plus V2 requires the connection type 'Silicon Labs EZSP/EFR32' to be set. Check your settings."
 fi;
 
 echo "";
