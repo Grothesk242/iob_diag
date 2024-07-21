@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2024-06-21"
+VERSION="2024-07-18"
 NODE_MAJOR=20           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -39,7 +39,7 @@ fi;
 
 if [[ $DEBIANRELEASE = *buster* && $1 -ne 18 ]];
         then
-        echo -e "Debian 10 'Buster' has reached End of Life and is not supported anymore.\nRecent versions of nodejs won't install.\nPlease install the current Debian Stable"
+        echo -e "Debian 10 'Buster' (and Distributions that base on Buster, e.g. Ubuntu 18.04) has reached its End of Life and is not supported anymore.\nRecent versions of nodejs won't install.\nPlease install the current Debian Stable"
         unset LC_ALL;
         exit 1;
 fi;
@@ -132,7 +132,7 @@ fi;
 DFSGREM="$SUDOX $INSTALL_CMD remove libnode* node-* nodejs-doc npm -qqy"; #Deinstall DFSG-Version
 
 clear;
-echo -e "ioBroker nodejs fixer $VERSION";
+echo -e "ioBroker nodejs maintenance $VERSION";
 
 if [[ -n "$NODERECOM" ]] && [[ "$NODERECOM" = [[:digit:]]*.[[:digit:]]*.[[:digit:]]* ]];
         then
@@ -282,7 +282,7 @@ then
 echo -e "\033[32mNothing to do\033[0m - Your version is the recommended one.";
 echo -e "\n***You can now keep your whole system up-to-date using the usual 'sudo apt update && sudo apt full-upgrade' commands. ***"
 echo "*** DO NOT USE node version managers like 'nvm', 'n' and others in parallel. They will break your current installation! ***"
-echo -e "\n *** DO NOT use 'nodejs-update' as part of a regular update process! ***";
+echo -e "\n*** DO NOT use 'nodejs-update' as part of a regular update process! ***";
 unset LC_ALL;
 if [[ -f "/var/run/reboot-required" ]];
         then
