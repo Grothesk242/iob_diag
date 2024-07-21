@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2024-07-18"
+VERSION="2024-07-21"
 NODE_MAJOR=20           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -302,7 +302,6 @@ then
         then
                 echo "Trying to fix your installation now. Please be patient."
                 # Finding nodesource.gpg or nodesource.key and deleting. Current key is pulled in later.
-                # $SUDOX rm "$($SUDOX find / \( -path /proc -o -path /dev -o -path /backup -o -path /sys -o -path /lost+found -o -path /mnt -o -path /run \) -prune -false -o -name nodesource.[gk]* -print) 2> /dev/null";
                 $SUDOX find / \( -path /proc -o -path /dev -o -path /backup -o -path /sys -o -path /lost+found -o -path /mnt -o -path /run \) -prune -false -o -name nodesource.[gk]* -exec "$SUDOX rm {} \; -print 2> /dev/null";
                 # Deleting nodesource.list Will be recreated later.
                 $SUDOX rm /etc/apt/sources.list.d/nodesource.lis* 2> /dev/null;
