@@ -222,7 +222,7 @@ if [[ "$XORGTEST" -gt 0 ]];
                 echo -e "Display-Server: false"
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
-echo -e "Terminal: \t$XDG_SESSION_TYPE";
+echo -e "Type: \t$XDG_SESSION_TYPE";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
