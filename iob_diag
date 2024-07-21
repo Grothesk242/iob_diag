@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-07-12";      #version of this script
+SKRIPTV="2024-07-21";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(uname -n);
@@ -214,7 +214,7 @@ echo -e "\033[34;107m*** Users and Groups ***\033[0m";
 echo "";
 
 echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
-XORGTEST=$(pgrep -cf '[X]|[w]ayland|X11|wayfire')
+XORGTEST=$(env | grep -i 'wayland\|xorg')
 if [[ "$XORGTEST" -gt 0 ]];
         then
                 echo -e "Display-Server: true"
