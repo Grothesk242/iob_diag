@@ -566,7 +566,7 @@ fi
 echo "";
 
 echo -e "\033[34;107m*** Listening Ports ***\033[0m";
-        sudo netstat -tulpen #| sed -n '1,2p;/LISTEN/p';
+        sudo netstat -tulpe #| sed -n '1,2p;/LISTEN/p';
 # Alternativ - ss ist nicht ueberall installiert
 # sudo ss -tulwp | grep LISTEN;
 echo "";
