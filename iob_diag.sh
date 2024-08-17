@@ -100,49 +100,49 @@ echo "";
 echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
 
 for x in $EOLDEB; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $EOLUBU; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[31mUbuntu Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $DEBSTABLE; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[32mYour Operating System is the current Debian stable version '$DEBSTABLE'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $UBULTS; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[32mYour Operating System is the current Ubuntu LTS release '$UBULTS'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $OLDLTS; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[1;33mYour Operating System '$OLDLTS' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $TESTING; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $OLDSTABLE; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[1;33mDebian '$OLDSTABLE' is the current oldstable version. Please upgrade to the latest stable release '$DEBSTABLE' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
@@ -840,49 +840,49 @@ then
 fi;
 UNKNOWNRELEASE=1;
 for x in $EOLDEB; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $EOLUBU; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[31mUbuntu Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $DEBSTABLE; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[32mYour Operating System is the current Debian stable version '$DEBSTABLE'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $UBULTS; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[32mYour Operating System is the current Ubuntu LTS release '$UBULTS'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $OLDLTS; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[1;33mYour Operating System '$OLDLTS' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $TESTING; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for x in $OLDSTABLE; do
-    if [ $x = "$CODENAME" ]; then
+    if [ "$x" = "$CODENAME" ]; then
         echo -e "\e[1;33mDebian '$OLDSTABLE' is the current oldstable version. Please upgrade to the latest stable release '$DEBSTABLE' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
