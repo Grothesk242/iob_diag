@@ -82,6 +82,23 @@ else
         grep -i model /proc/cpuinfo | tail -1;
         echo -e "Docker          : false";
 fi;
+
+SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
+if [ "$SYSTDDVIRT" != "" ]; then
+    echo -e "Virtualization  : $(systemd-detect-virt)"
+else
+    echo "Virtualization  : Docker"
+fi;
+echo -e "Kernel          : $(uname -m)";
+echo -e "Userland        : $(getconf LONG_BIT) bit";
+echo "";
+echo "Systemuptime and Load:";
+        uptime;
+echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
+echo "";
+echo "";
+echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
+
 for x in $EOLDEB; do
     if [ $x = "$CODENAME" ]; then
         echo -e "\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
@@ -135,20 +152,6 @@ if [ $UNKNOWNRELEASE -eq 1 ]; then
     echo "Unknown release name: $CODENAME. Please check yourself if your Operating System is maintained."
 fi;
 
-
-SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
-if [ "$SYSTDDVIRT" != "" ]; then
-    echo -e "Virtualization  : $(systemd-detect-virt)"
-else
-    echo "Virtualization  : Docker"
-fi;
-echo -e "Kernel          : $(uname -m)";
-echo -e "Userland        : $(getconf LONG_BIT) bit";
-echo "";
-echo "Systemuptime and Load:";
-        uptime;
-echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
-echo "";
 # RASPBERRY only
 if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
 #        echo "Raspberry only:";
