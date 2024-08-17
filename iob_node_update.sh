@@ -3,7 +3,7 @@
 # written to help updating and fixing nodejs on linux (Debian based Distros)
 
 #To be manually changed:
-VERSION="2024-07-21"
+VERSION="2024-08-08"
 NODE_MAJOR=20           #recommended major nodejs version for ioBroker, please adjust if the recommendation changes. This is only the target for fallback.
 
 ## Excluding systems:
@@ -39,7 +39,7 @@ fi;
 
 if [[ $DEBIANRELEASE = *buster* && $1 -ne 18 ]];
         then
-        echo -e "Debian 10 'Buster' (and Distributions that base on Buster, e.g. Ubuntu 18.04) has reached its End of Life and is not supported anymore.\nRecent versions of nodejs won't install.\nPlease install the current Debian Stable"
+        echo -e "Debian 10 'Buster' (and Distributions that base on Buster, e.g. Ubuntu 18.04) has reached its End of Life and is not supported anymore.\nRecent versions of nodejs won't install.\nPlease install the current Debian Stable Version 12 'Bookworm'"
         unset LC_ALL;
         exit 1;
 fi;

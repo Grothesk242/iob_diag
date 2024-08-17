@@ -8,15 +8,15 @@ then
         echo "";
         elif [ "$(id -u)" = 0 ];
                 then
-                        echo -e "You should not use root directly on your system!\nBetter use your standard user!\n\n";
-                        sleep 5;
+                        echo -e "You should not never be root on your system!\nAlways use a standard user!\nAnd ioBroker commmands are never called with sudo.";
+                        exit;
 
 fi
 clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-07-28";      #version of this script
+SKRIPTV="2024-08-08";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(uname -n);
