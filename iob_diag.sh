@@ -837,10 +837,8 @@ then
         echo -e "Some problems detected, please run \e[031miob fix\e[0m and try to have them fixed";
         echo -e "*********************************************************************";
         echo -e "";
-else
-        echo ""
 fi;
-
+UNKNOWNRELEASE=1;
 for x in $EOLDEB; do
     if [ $x = "$CODENAME" ]; then
         echo -e "\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
@@ -878,7 +876,7 @@ done;
 
 for x in $TESTING; do
     if [ $x = "$CODENAME" ]; then
-        echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is not released yet! Please use it only for testing purposes!\e[0m";
+        echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
@@ -893,7 +891,6 @@ done;
 if [ $UNKNOWNRELEASE -eq 1 ]; then
     echo "Unknown release name: $CODENAME. Please check yourself if your Operating System is maintained."
 fi;
-
 
 echo "=================== END OF SUMMARY ===================="
 echo -e "\`\`\`";
