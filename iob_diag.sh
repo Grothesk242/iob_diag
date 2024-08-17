@@ -8,19 +8,19 @@ then
         echo "";
         elif [ "$(id -u)" = 0 ];
                 then
-                        echo -e "You should not never be root on your system!\nAlways use a standard user!\nAnd ioBroker commmands are never called with sudo.";
-                        exit;
+                        echo -e "You should not be root on your system!\nBetter use your standard user!\n\n";
+                        sleep 15;
 
 fi
 clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-08-08";      #version of this script
+SKRIPTV="2024-08-17";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
-HOST=$(uname -n);
-ID_LIKE=$(grep -oP '(?<=^ID_LIKE=).+' /etc/os-release | tr -d '"')
+HOST=$(hostname)
+source /etc/os-release
 NODERECOM=$(iobroker state getValue system.host."$HOST".versions.nodeNewestNext);  #recommended node version
 NPMRECOM=$(iobroker state getValue system.host."$HOST".versions.npmNewestNext);    #recommended npm version
 #NODEUSED=$(iobroker state getValue system.host."$HOST".versions.nodeCurrent);      #current node version in use
@@ -33,6 +33,18 @@ SYSTDDVIRT="";
 NODENOTCORR=0;
 IOBLISTINST=$(iobroker list instances);
 NPMLS=$(cd /opt/iobroker && npm ls -a)
+
+#Debian and Ubuntu releases and their status
+EOLDEB="buzz rex bo hamm slink potato woody sarge etch lenny squeeze wheezy jessie stretch buster";
+EOLUBU="bionic xenial trusty mantic lunar kinetic impish hirsute groovy eoan disco cosmic artful zesty yakkety wily vivid utopic saucy raring quantal precise oneiric natty maverick lucid karmic jaunty intrepid hardy gutsy feisty edgy dapper breezy hoary warty";
+DEBSTABLE="bookworm";
+UBULTS="noble"
+OLDLTS="jammy focal";
+TESTING="trixie oracular"
+OLDSTABLE="bullseye";
+CODENAME=$(lsb_release -sc);
+UNKNOWNRELEASE=1
+
 clear;
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
@@ -70,13 +82,59 @@ else
         grep -i model /proc/cpuinfo | tail -1;
         echo -e "Docker          : false";
 fi;
-# Alternativer DockerCheck - Nicht getestet:
-#
-# if [ -f /.dockerenv ]; then
-#    echo "I'm inside matrix ;(";
-# else
-#    echo "I'm living in a real world!";
-# fi
+for x in $EOLDEB; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $EOLUBU; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[31mUbuntu Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $DEBSTABLE; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[32mYour Operating System is the current Debian stable version '$DEBSTABLE'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $UBULTS; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[32mYour Operating System is the current Ubuntu LTS release '$UBULTS'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $OLDLTS; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[1;33mYour Operating System '$OLDLTS' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $TESTING; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is not released yet! Please use it only for testing purposes!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $OLDSTABLE; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[1;33mDebian '$OLDSTABLE' is the current oldstable version. Please upgrade to the latest stable release '$DEBSTABLE' in due time!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+if [ $UNKNOWNRELEASE -eq 1 ]; then
+    echo "Unknown release name: $CODENAME. Please check yourself if your Operating System is maintained."
+fi;
+
 
 SYSTDDVIRT=$(systemd-detect-virt 2>/dev/null)
 if [ "$SYSTDDVIRT" != "" ]; then
@@ -193,6 +251,17 @@ else
     timedatectl;
 fi;
 
+if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(command -v apt-get) ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
+echo "Your timezone is probably wrong. Do you want to reconfigure it? (y/n)"
+read -r -s -n 1 char;
+        if
+                                [[ "$char" = "y" ]] || [[ "$char" = "Y" ]]
+        then
+                                sudo dpkg-reconfigure tzdata;
+        fi;
+fi;
+
+
 echo "";
 echo -e "\033[34;107m*** Users and Groups ***\033[0m";
         echo "User that called 'iob diag':";
@@ -214,7 +283,7 @@ echo -e "\033[34;107m*** Users and Groups ***\033[0m";
 echo "";
 
 echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
-XORGTEST=$(env | grep -i 'wayland\|xorg')
+XORGTEST=$(pgrep -cf '[X]|[w]ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
         then
                 echo -e "Display-Server: true"
@@ -222,7 +291,7 @@ if [[ "$XORGTEST" -gt 0 ]];
                 echo -e "Display-Server: false"
 fi
 echo -e "Desktop: \t$DESKTOP_SESSION";
-echo -e "Type: \t$XDG_SESSION_TYPE";
+echo -e "Terminal: \t$XDG_SESSION_TYPE";
 if [ -f "$DOCKER" ]; then
         echo -e "";
 else
@@ -377,14 +446,6 @@ if  [[ -z "$IOBZIGBEEPORT2" ]]
                 echo "Your zigbee.2 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT2";
                 # diff -y --left-column <(echo "$IOBZIGBEEPORT2") <(echo "$SYSZIGBEEPORT");
-fi;
-
-SONOFFE=$(lsusb | grep -c "1a86:55d4")
-
-if [[ "$SONOFFE" -gt 0 ]]
-        then
-                echo "HINT:"
-                echo "Your SONOFF Zigbee 3.0 USB Dongle Plus V2 requires the connection type 'Silicon Labs EZSP/EFR32' to be set. Check your settings."
 fi;
 
 echo "";
@@ -566,7 +627,7 @@ fi
 echo "";
 
 echo -e "\033[34;107m*** Listening Ports ***\033[0m";
-        sudo netstat -tulpe #| sed -n '1,2p;/LISTEN/p';
+        sudo netstat -tulpen #| sed -n '1,2p;/LISTEN/p';
 # Alternativ - ss ist nicht ueberall installiert
 # sudo ss -tulwp | grep LISTEN;
 echo "";
@@ -776,6 +837,60 @@ then
 else
         echo ""
 fi;
+
+for x in $EOLDEB; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $EOLUBU; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[31mUbuntu Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $DEBSTABLE; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[32mYour Operating System is the current Debian stable version '$DEBSTABLE'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $UBULTS; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[32mYour Operating System is the current Ubuntu LTS release '$UBULTS'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $OLDLTS; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[1;33mYour Operating System '$OLDLTS' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $TESTING; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is not released yet! Please use it only for testing purposes!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for x in $OLDSTABLE; do
+    if [ $x = "$CODENAME" ]; then
+        echo -e "\e[1;33mDebian '$OLDSTABLE' is the current oldstable version. Please upgrade to the latest stable release '$DEBSTABLE' in due time!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+if [ $UNKNOWNRELEASE -eq 1 ]; then
+    echo "Unknown release name: $CODENAME. Please check yourself if your Operating System is maintained."
+fi;
+
 
 echo "=================== END OF SUMMARY ===================="
 echo -e "\`\`\`";
