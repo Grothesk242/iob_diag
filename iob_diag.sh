@@ -136,7 +136,7 @@ done;
 
 for x in $TESTING; do
     if [ $x = "$CODENAME" ]; then
-        echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is not released yet! Please use it only for testing purposes!\e[0m";
+        echo -e "\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
