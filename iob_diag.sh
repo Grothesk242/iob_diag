@@ -101,7 +101,7 @@ echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
 
 for x in $EOLDEB; do
     if [ "$x" = "$CODENAME" ]; then
-        RELEASESTATUS="\e[31mDebian Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m"
+        RELEASESTATUS="\e[31mDebian Release '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m"
         echo -e "$RELEASESTATUS";
         UNKNOWNRELEASE=0;
     fi;
@@ -109,7 +109,7 @@ done;
 
 for x in $EOLUBU; do
     if [ "$x" = "$CODENAME" ]; then
-        RELEASESTATUS="\e[31mUbuntu Release '$CODENAME' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
+        RELEASESTATUS="\e[31mUbuntu Release '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
         echo -e "$RELEASESTATUS";
         UNKNOWNRELEASE=0;
     fi;
@@ -133,7 +133,7 @@ done;
 
 for x in $OLDLTS; do
     if [ "$x" = "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System '$CODENAME' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        RELEASESTATUS="\e[1;33mYour Operating System '$(lsb_release -sc)' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         echo -e "$RELEASESTATUS";
         UNKNOWNRELEASE=0;
     fi;
@@ -141,7 +141,7 @@ done;
 
 for x in $TESTING; do
     if [ "$x" = "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
+        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$(lsb_release -sc)' is a testing release! Please use it only for testing purposes!\e[0m";
         echo -e "$RELEASESTATUS";
         UNKNOWNRELEASE=0;
     fi;
@@ -156,7 +156,7 @@ for x in $OLDSTABLE; do
 done;
 
 if [ $UNKNOWNRELEASE -eq 1 ]; then
-    echo "Unknown release name: $CODENAME. Please check yourself if your Operating System is maintained."
+    echo "Unknown release name: $(lsb_release -sc). Please check yourself if your Operating System is maintained."
 fi;
 
 # RASPBERRY only
