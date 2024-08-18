@@ -846,6 +846,7 @@ then
         echo -e "*********************************************************************";
         echo -e "";
 fi;
+echo "DEBUG: "$CODENAME"";
 echo -e $RELEASESTATUS;
 echo "";
 
