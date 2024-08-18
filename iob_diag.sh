@@ -846,8 +846,6 @@ then
         echo -e "*********************************************************************";
         echo -e "";
 fi;
-CODENAME=$(lsb_release -sc);
-echo "DEBUG $CODENAME";
 echo -e "$RELEASESTATUS";
 echo "";
 
