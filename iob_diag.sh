@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-08-18_4";      #version of this script
+SKRIPTV="2024-08-18_5";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname);
@@ -156,7 +156,8 @@ for xyz in $OLDSTABLE; do
 done;
 
 if [ $UNKNOWNRELEASE -eq 1 ]; then
-    echo "Unknown release name: $(lsb_release -sc). Please check yourself if your Operating System is maintained."
+    RELEASESTATUS="Unknown release name: $(lsb_release -sc). Please check yourself if your Operating System is maintained."
+    echo -e "$RELEASESTATUS";
 fi;
 
 # RASPBERRY only
