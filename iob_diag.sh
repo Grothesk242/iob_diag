@@ -129,7 +129,7 @@ done;
 
 for x in $OLDLTS; do
     if [ "$x" = "$CODENAME" ]; then
-        echo -e "\e[1;33mYour Operating System '$OLDLTS' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        echo -e "\e[1;33mYour Operating System '$CODENAME' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
@@ -869,7 +869,7 @@ done;
 
 for x in $OLDLTS; do
     if [ "$x" = "$CODENAME" ]; then
-        echo -e "\e[1;33mYour Operating System '$OLDLTS' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        echo -e "\e[1;33mYour Operating System '$CODENAME' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
