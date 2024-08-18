@@ -847,7 +847,7 @@ then
         echo -e "";
 fi;
 CODENAME=$(lsb_release -sc);
-echo -e $RELEASESTATUS;
+echo  $RELEASESTATUS;
 echo "";
 
 echo "=================== END OF SUMMARY ===================="
