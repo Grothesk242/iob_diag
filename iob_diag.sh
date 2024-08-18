@@ -99,7 +99,7 @@ echo "";
 echo "";
 echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
 
-for x in $EOLDEB; do
+for xyz in $EOLDEB; do
     if [ "$x" = "$CODENAME" ]; then
         RELEASESTATUS="\e[31mDebian Release '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m"
         echo -e "$RELEASESTATUS";
@@ -107,7 +107,7 @@ for x in $EOLDEB; do
     fi;
 done;
 
-for x in $EOLUBU; do
+for xyz in $EOLUBU; do
     if [ "$x" == "$CODENAME" ]; then
         RELEASESTATUS="\e[31mUbuntu Release '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
         echo -e "$RELEASESTATUS";
@@ -115,7 +115,7 @@ for x in $EOLUBU; do
     fi;
 done;
 
-for x in $DEBSTABLE; do
+for xyz in $DEBSTABLE; do
     if [ "$x" == "$CODENAME" ]; then
         RELEASESTATUS="\e[32mYour Operating System is the current Debian stable version '$DEBSTABLE'!\e[0m";
         echo -e "$RELEASESTATUS";
@@ -123,7 +123,7 @@ for x in $DEBSTABLE; do
     fi;
 done;
 
-for x in $UBULTS; do
+for xyz in $UBULTS; do
     if [ "$x" == "$CODENAME" ]; then
         RELEASESTATUS="\e[32mYour Operating System is the current Ubuntu LTS release '$UBULTS'!\e[0m";
         echo -e "$RELEASESTATUS";
@@ -131,7 +131,7 @@ for x in $UBULTS; do
     fi;
 done;
 
-for x in $OLDLTS; do
+for xyz in $OLDLTS; do
     if [ "$x" == "$CODENAME" ]; then
         RELEASESTATUS="\e[1;33mYour Operating System '$(lsb_release -sc)' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         echo -e "$RELEASESTATUS";
@@ -139,7 +139,7 @@ for x in $OLDLTS; do
     fi;
 done;
 
-for x in $TESTING; do
+for xyz in $TESTING; do
     if [ "$x" == "$CODENAME" ]; then
         RELEASESTATUS="\e[1;33mYour Operating System codenamed '$(lsb_release -sc)' is a testing release! Please use it only for testing purposes!\e[0m";
         echo -e "$RELEASESTATUS";
@@ -147,7 +147,7 @@ for x in $TESTING; do
     fi;
 done;
 
-for x in $OLDSTABLE; do
+for xyz in $OLDSTABLE; do
     if [ "$x" == "$CODENAME" ]; then
         RELEASESTATUS="\e[1;33mDebian '$OLDSTABLE' is the current oldstable version. Please upgrade to the latest stable release '$DEBSTABLE' in due time!\e[0m";
         echo -e "$RELEASESTATUS";
