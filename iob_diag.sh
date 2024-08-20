@@ -101,48 +101,42 @@ echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
 
 for RELEASE in $EOLDEB; do
     if [ "$RELEASE" = "$CODENAME" ]; then
-        RELEASESTATUS="\e[31mDebian Release $(lsb_release -sc) reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m"
-        echo -e "$RELEASESTATUS";
+        RELEASESTATUS="\e[31mDebian Release codenamed '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $EOLUBU; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[31mUbuntu Release $(lsb_release -sc) reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
-        echo -e "$RELEASESTATUS";
+        RELEASESTATUS="\e[31mUbuntu Release codenamed '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $DEBSTABLE; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[32mYour Operating System is the current Debian stable version '$DEBSTABLE'!\e[0m";
-        echo -e "$RELEASESTATUS";
+        RELEASESTATUS="\e[32mYour Operating System is the current Debian stable version codenamed '$DEBSTABLE'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $UBULTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[32mYour Operating System is the current Ubuntu LTS release '$UBULTS'!\e[0m";
-        echo -e "$RELEASESTATUS";
+        RELEASESTATUS="\e[32mYour Operating System is the current Ubuntu LTS release codenamed '$UBULTS'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $OLDLTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System $(lsb_release -sc) is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
-        echo -e "$RELEASESTATUS";
+        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$(lsb_release -sc)' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $TESTING; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System codenamed $(lsb_release -sc) is a testing release! Please use it only for testing purposes!\e[0m";
-        echo -e "$RELEASESTATUS";
+        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$(lsb_release -sc)' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
@@ -150,15 +144,15 @@ done;
 for RELEASE in $OLDSTABLE; do
     if [ "$RELEASE" == "$CODENAME" ]; then
         RELEASESTATUS="\e[1;33mDebian '$OLDSTABLE' is the current oldstable version. Please upgrade to the latest stable release '$DEBSTABLE' in due time!\e[0m";
-        echo -e "$RELEASESTATUS";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 if [ $UNKNOWNRELEASE -eq 1 ]; then
-    RELEASESTATUS="Unknown release name: $(lsb_release -sc). Please check yourself if your Operating System is maintained."
-    echo -e "$RELEASESTATUS";
+    RELEASESTATUS="Unknown release codenamed '$(lsb_release -sc)'. Please check yourself if your Operating System is maintained."
 fi;
+
+echo -e "$RELEASESTATUS";
 
 # RASPBERRY only
 if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
