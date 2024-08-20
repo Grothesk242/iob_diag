@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-08-18_5";      #version of this script
+SKRIPTV="2024-08-21";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname);
