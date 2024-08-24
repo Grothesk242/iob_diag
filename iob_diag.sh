@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-08-21";      #version of this script
+SKRIPTV="2024-08-24";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname);
@@ -101,14 +101,14 @@ echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
 
 for RELEASE in $EOLDEB; do
     if [ "$RELEASE" = "$CODENAME" ]; then
-        RELEASESTATUS="\e[31mDebian Release codenamed '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
+        RELEASESTATUS="\e[31mDebian Release codenamed '$CODENAME' reached its END OF LIFE and needs to be updated to the latest stable release '$DEBSTABLE' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $EOLUBU; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[31mUbuntu Release codenamed '$(lsb_release -sc)' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
+        RELEASESTATUS="\e[31mUbuntu Release codenamed '$CODENAME' reached its END OF LIFE and needs to be updated to the latest LTS release '$UBULTS' NOW!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
@@ -129,14 +129,14 @@ done;
 
 for RELEASE in $OLDLTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$(lsb_release -sc)' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$CODENAME' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $TESTING; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$(lsb_release -sc)' is a testing release! Please use it only for testing purposes!\e[0m";
+        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
@@ -149,7 +149,7 @@ for RELEASE in $OLDSTABLE; do
 done;
 
 if [ $UNKNOWNRELEASE -eq 1 ]; then
-    RELEASESTATUS="Unknown release codenamed '$(lsb_release -sc)'. Please check yourself if your Operating System is maintained."
+    RELEASESTATUS="Unknown release codenamed '$CODENAME'. Please check yourself if your Operating System is maintained."
 fi;
 
 echo -e "$RELEASESTATUS";
@@ -567,12 +567,12 @@ fi
 # echo "";
 
 ANZNPMTMP=$(find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l);
-echo -e "\033[32mTemp directories causing npm8 problem:\033[0m ""$ANZNPMTMP""";
-if [[ $ANZNPMTMP -gt 0 ]]
+echo -e "\033[32mTemp directories causing deletion problem:\033[0m ""$ANZNPMTMP""";
+if [[ $ANZNPMTMP -gt 0 ]];
 then
         echo -e "Some problems detected, please run \e[031miob fix\e[0m";
 else
-        echo "No problems detected"
+        echo "No problems detected";
 fi;
 
 # echo "";
@@ -580,9 +580,16 @@ fi;
 # find /opt/iobroker/node_modules -type d -iname ".*-????????" ! -iname ".local-chromium" -exec rm -rf {} \ &> /dev/null;
 # echo -e "\033[32m1 - Temp directories causing npm8 problem:\033[0m `find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium'>e;
 echo "";
-echo "Errors in npm tree:";
-echo "$NPMLS" | grep ERR;
-echo "";
+if [[ $(echo "$NPMLS" | grep ERR -wc -l) -gt 0 ]];
+then
+        echo -e "\033[322mErrors in npm tree:\033[0m";
+        echo "$NPMLS" | grep ERR;
+        echo "";
+else
+        echo -e "\033[32mErrors in npm tree:\033[0m 0";
+        echo "No problems detected";
+        echo "";
+fi;
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
 echo -e "\033[32mioBroker Status\033[0m";
@@ -804,7 +811,7 @@ if [[ $NODENOTCORR -eq 1 ]];
 then
                 echo "";
                 echo "Please execute";
-                echo "iobroker nodejs-update";
+                echo -e "\e[031miob nodejs-update\e[0m";
                 echo "to fix these errors."
 fi;
 echo "";
