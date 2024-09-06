@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-08-24";      #version of this script
+SKRIPTV="2024-09-06";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname);
@@ -256,13 +256,26 @@ else
     timedatectl;
 fi;
 
-if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(command -v apt-get) ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
+if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
 echo "Your timezone is probably wrong. Do you want to reconfigure it? (y/n)"
 read -r -s -n 1 char;
         if
-                                [[ "$char" = "y" ]] || [[ "$char" = "Y" ]]
+                [[ "$char" = "y" ]] || [[ "$char" = "Y" ]]
         then
-                                sudo dpkg-reconfigure tzdata;
+                if command -v dpkg-reconfigure > /dev/null; then
+                sudo dpkg-reconfigure tzdata;
+                else
+                # Setup the timezone for the server (Default value is "Europe/Berlin")
+                echo "Setting up timezone";
+                read -p "Enter the timezone for the server (default is Europe/Berlin): " TIMEZONE;
+                TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
+                timedatectl set-timezone $TIMEZONE;
+                fi;
+                # Set up time synchronization with systemd-timesyncd
+                echo "Setting up time synchronization with systemd-timesyncd"
+                systemctl enable systemd-timesyncd
+                systemctl start systemd-timesyncd
+
         fi;
 fi;
 
@@ -286,6 +299,35 @@ echo -e "\033[34;107m*** Users and Groups ***\033[0m";
         fi;
 
 echo "";
+
+if [ ! -f "$DOCKER" ] && [[ "$(whoami)" = "root" || "$(whoami)" = "iobroker" ]]; then
+
+# Prompt for username
+read -p "Enter the username for the a new user (Not 'root' and not 'iobroker'!): " USERNAME
+
+# Check if the user already exists
+if id "$USERNAME" &>/dev/null; then
+    echo "User $USERNAME already exists. Skipping user creation."
+else
+    # Prompt for password
+    read -s -p "Enter the password for the new user: " PASSWORD
+    echo
+    read -s -p "Confirm the password for the new user: " PASSWORD_CONFIRM
+    echo
+
+    # Check if passwords match
+    if [ "$PASSWORD" != "$PASSWORD_CONFIRM" ]; then
+        echo "Passwords do not match. Exiting."
+        exit 1
+    fi
+
+    # Add a new user account with sudo access and set the password
+    echo "Adding new user account..."
+    useradd -m -s /bin/bash -G adm,dialout,sudo,audio,video,plugdev,users,iobroker $USERNAME
+    echo "$USERNAME:$PASSWORD" | chpasswd
+fi
+
+fi;
 
 echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
 XORGTEST=$(pgrep -cf '[X]|[w]ayland|X11|wayfire')
