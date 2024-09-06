@@ -16,7 +16,7 @@ clear;
 echo "*** iob diag is starting up, please wait ***";
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-08-24-TEST";      #version of this script
+SKRIPTV="2024-08-24";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname);
@@ -330,6 +330,13 @@ echo "";
 systemctl list-units --failed --no-pager;
 echo "";
 fi;
+
+echo "";
+echo -e "\033[34;107m*** DMESG CRITICAL ERRORS ***\033[0m";
+echo "";
+sudo dmesg --level=emerg,alert,crit -T;
+echo "";
+
 echo -e "\033[34;107m*** FILESYSTEM ***\033[0m";
         df -PTh;
 echo "";
