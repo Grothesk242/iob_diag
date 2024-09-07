@@ -3,15 +3,11 @@
 # written to help getting information about the environment the ioBroker installation is running in
 DOCKER=/opt/scripts/.docker_config/.thisisdocker
 #if [[ -f "/opt/scripts/.docker_config/.thisisdocker" ]]
-if [ -f "$DOCKER" ]
-then
-        echo "";
-        elif [ "$(id -u)" = 0 ];
-                then
-                        echo -e "You should not be root on your system!\nBetter use your standard user!\n\n";
-                        sleep 15;
-
-fi
+if [ "$(id -u)" = 0 ] && [ ! -f "$DOCKER" ];
+        then
+                echo -e "You should not be root on your system!\nBetter use your standard user!\n\n";
+                sleep 15;
+fi;
 clear;
 SKRPTLANG=$1;
 if [[ "$SKRPTLANG" = "--de" ]]; then
@@ -55,13 +51,13 @@ if [[ "$SKRPTLANG" == "--de" ]]; then
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnose ***\033[0m";
 echo "";
-echo "Bitte ziehe das Fenster deines Terminalprogramm (puTTY) so groß wie möglich oder verwende den Vollbildmodus.";
+echo "Das Fenster des Terminalprogramm (puTTY) bitte so groß ziehen oder den Vollbildmodus verwenden.";
 echo "";
-echo "Die nachfolgenden Prüfungen liefern Hinweise zu etwaigen Fehlern, bitte lade sie im Forum hoch:";
+echo "Die nachfolgenden Prüfungen liefern Hinweise zu etwaigen Fehlern, bitte im Forum hochladen:";
 echo "";
 echo "https://forum.iobroker.net";
 echo "";
-echo "Markiere und kopiere einfach die vollständige Ausgabe, einschließlich der \`\`\` Zeichen am Anfang und am Ende.";
+echo "Bitte die vollständige Ausgabe, einschließlich der \`\`\` Zeichen am Anfang und am Ende markieren und kopieren.";
 echo "Es hilft beim helfen!"
 echo "";
      # read -p "Press <Enter> to continue";
@@ -153,41 +149,41 @@ done;
 
 for RELEASE in $DEBSTABLE; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[32mDein Betriebssystem ist das aktuelle stabile Debian '$DEBSTABLE'!\e[0m";
+        RELEASESTATUS="\e[32mDas Betriebssystem ist das aktuelle, stabile Debian '$DEBSTABLE'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $UBULTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[32mDein Betriebssystem ist die aktuelle  Ubuntu LTS Version '$UBULTS'!\e[0m";
+        RELEASESTATUS="\e[32mDas Betriebssystem ist die aktuelle  Ubuntu LTS Version '$UBULTS'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $OLDLTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mDie Unterstützung für dein Betriebssystem mit dem Codenamen '$CODENAME' läuft in nächster Zeit aus. Bitte bringe es in nächster Zeit auf die aktuelle Version '$UBULTS' mit Langzeitunterstützung\e[0m";
+        RELEASESTATUS="\e[1;33mDie Unterstützung für das Betriebssystem mit dem Codenamen '$CODENAME' läuft aus. Es sollte in nächster Zeit auf die aktuelle Version '$UBULTS' mit Langzeitunterstützung gebracht werden.\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $TESTING; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mDein Betriebssystem mit dem Codenamen '$CODENAME' ist eine Testversion! Bitte setze es nur zu Testzwecken ein!\e[0m";
+        RELEASESTATUS="\e[1;33mDas Betriebssystem mit dem Codenamen '$CODENAME' ist eine Testversion! Es sollte nur zu Testzwecken eingesetzt werden!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $OLDSTABLE; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mDebian '$OLDSTABLE' ist eine veraltete Version. Bitte bringe es in nächster Zeit auf die aktuelle stabile Version '$DEBSTABLE'!\e[0m";
+        RELEASESTATUS="\e[1;33mDebian '$OLDSTABLE' ist eine veraltete Version. Es sollte in nächster Zeit auf die aktuelle stabile Version '$DEBSTABLE' gebracht werden!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 if [ $UNKNOWNRELEASE -eq 1 ]; then
-    RELEASESTATUS="Dein Betriebssystem mit dem Codenamen '$CODENAME' ist unbekannt. Bitte prüfe den Status der Unterstützung eigenständig."
+    RELEASESTATUS="Das Betriebssystem mit dem Codenamen '$CODENAME' ist unbekannt. Bitte den Status der Unterstützung eigenständig prüfen."
 fi;
 
 echo -e "$RELEASESTATUS";
@@ -211,28 +207,28 @@ done;
 
 for RELEASE in $DEBSTABLE; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[32mYour Operating System is the current Debian stable version codenamed '$DEBSTABLE'!\e[0m";
+        RELEASESTATUS="\e[32mOperating System is the current Debian stable version codenamed '$DEBSTABLE'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $UBULTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[32mYour Operating System is the current Ubuntu LTS release codenamed '$UBULTS'!\e[0m";
+        RELEASESTATUS="\e[32mOperating System is the current Ubuntu LTS release codenamed '$UBULTS'!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $OLDLTS; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$CODENAME' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
+        RELEASESTATUS="\e[1;33mOperating System codenamed '$CODENAME' is an aging Ubuntu LTS release! Please upgrade to the latest LTS release '$UBULTS' in due time!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
 
 for RELEASE in $TESTING; do
     if [ "$RELEASE" == "$CODENAME" ]; then
-        RELEASESTATUS="\e[1;33mYour Operating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
+        RELEASESTATUS="\e[1;33mOperating System codenamed '$CODENAME' is a testing release! Please use it only for testing purposes!\e[0m";
         UNKNOWNRELEASE=0;
     fi;
 done;
@@ -245,7 +241,7 @@ for RELEASE in $OLDSTABLE; do
 done;
 
 if [ $UNKNOWNRELEASE -eq 1 ]; then
-    RELEASESTATUS="Unknown release codenamed '$CODENAME'. Please check yourself if your Operating System is maintained."
+    RELEASESTATUS="Unknown release codenamed '$CODENAME'. Please check yourself if the Operating System is actively maintained."
 fi;
 
 echo -e "$RELEASESTATUS";
@@ -350,7 +346,7 @@ fi;
 echo "";
 
 if [[ "$SKRPTLANG" = "--de" ]]; then
-echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
+echo -e "\033[34;107m*** ZEIT UND ZEITZONEN ***\033[0m";
 
         if [ -f "$DOCKER" ]; then
                 date -u;
@@ -362,7 +358,7 @@ echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
         fi;
 
         if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
-                echo "Die gesetzte Zeitzone ist vermutlich falsch. Möchtest du sie jetzt einstellen? (j/n)"
+                echo "Die gesetzte Zeitzone ist vermutlich falsch. Soll sie jetzt geändert werden? (j/n)"
                 read -r -s -n 1 char;
                 if
                 [[ "$char" = "j" ]] || [[ "$char" = "J" ]]
@@ -371,20 +367,20 @@ echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
                         sudo dpkg-reconfigure tzdata;
                         else
                 # Setup the timezone for the server (Default value is "Europe/Berlin")
-                echo "Setze die Zeitzone";
-                read -p "Gib die Zeitzone für den Server ein. (Voreinstellung ist Europe/Berlin): " TIMEZONE;
+                echo "Setzen der Zeitzone";
+                read -p "Eingabe der Zeitzone (Voreinstellung ist Europe/Berlin): " TIMEZONE;
                 TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
-                timedatectl set-timezone $TIMEZONE;
+                sudo timedatectl set-timezone $TIMEZONE;
                         fi;
                 # Set up time synchronization with systemd-timesyncd
                 echo "Zeitsynchronisierung mittels systemd-timesyncd wird eingerichtet"
-                systemctl enable systemd-timesyncd
-                systemctl start systemd-timesyncd
+                sudo systemctl enable systemd-timesyncd
+                sudo systemctl start systemd-timesyncd
                 fi;
         fi;
 else
 
-echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
+echo -e "\033[34;107m*** TIME AND TIMEZONES ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
         date -u;
@@ -396,7 +392,7 @@ else
 fi;
 
 if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
-echo "Your timezone is probably wrong. Do you want to reconfigure it? (y/n)"
+echo "Timezone is probably wrong. Do you want to reconfigure it? (y/n)"
 read -r -s -n 1 char;
         if
                 [[ "$char" = "y" ]] || [[ "$char" = "Y" ]]
@@ -408,12 +404,12 @@ read -r -s -n 1 char;
                 echo "Setting up timezone";
                 read -p "Enter the timezone for the server (default is Europe/Berlin): " TIMEZONE;
                 TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
-                timedatectl set-timezone $TIMEZONE;
+                sudo timedatectl set-timezone $TIMEZONE;
                 fi;
                 # Set up time synchronization with systemd-timesyncd
                 echo "Setting up time synchronization with systemd-timesyncd"
-                systemctl enable systemd-timesyncd
-                systemctl start systemd-timesyncd
+                sudo systemctl enable systemd-timesyncd
+                sudo systemctl start systemd-timesyncd
 
         fi;
 fi;
@@ -443,16 +439,18 @@ echo "";
 if [ ! -f "$DOCKER" ] && [[ "$(whoami)" = "root" || "$(whoami)" = "iobroker" ]]; then
 
 # Prompt for username
-read -p "Gib einen Username für einen neuen User an (Nicht 'root' und nicht 'iobroker'!): " USERNAME
+echo "Es sollte ein Standarduser angelegt werden! Dieser user kann dann auch mittels 'sudo' temporär root-Rechte erlangen!"
+echo "Ein permanentes Login als root ist nicht vorgesehen."
+read -p "Neuer Nutzername (Nicht 'root' und nicht 'iobroker'!): " USERNAME
 
 # Check if the user already exists
 if id "$USERNAME" &>/dev/null; then
     echo "Nutzer $USERNAME existiert bereits. Überspringe die Neuanlage."
 else
     # Prompt for password
-    read -s -p "Gib ein Passwort für den neuen Nutzer an: " PASSWORD
+    read -s -p "Passwort für den neuen Nutzer: " PASSWORD
     echo
-    read -s -p "Wiederhole das Passwort für den neuen Nutzer: " PASSWORD_CONFIRM
+    read -s -p "Passwort für den neuen Nutzer nochmal eingeben: " PASSWORD_CONFIRM
     echo
 
     # Check if passwords match
@@ -491,7 +489,9 @@ echo "";
 if [ ! -f "$DOCKER" ] && [[ "$(whoami)" = "root" || "$(whoami)" = "iobroker" ]]; then
 
 # Prompt for username
-read -p "Enter the username for the a new user (Not 'root' and not 'iobroker'!): " USERNAME
+echo "A default user should be created! This user will be enabled to temporarily switch to root via 'sudo'!"
+echo "A root login is not required in most Linux Distributions."
+read -p "Enter the username for a new user (Not 'root' and not 'iobroker'!): " USERNAME
 
 # Check if the user already exists
 if id "$USERNAME" &>/dev/null; then
@@ -517,7 +517,7 @@ fi
 
 fi;
 fi;
-echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
+echo -e "\033[34;107m*** DISPLAY-SERVER SETUP ***\033[0m";
 XORGTEST=$(pgrep -cf '[X]|[w]ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
         then
@@ -585,9 +585,7 @@ echo "";
 echo -e  "\033[32m/var:\033[0m";
         sudo du -h /var/ | sort -rh | head -5;
 echo -e "";
-if [ -f "$DOCKER" ]; then
-    echo -e ""
-else
+if [ ! -f "$DOCKER" ]; then
     journalctl --disk-usage;
 fi;
 echo "";
@@ -645,10 +643,8 @@ if [[ -n "$SYSZIGBEEPORT" ]];
                 echo "No Devices found 'by-id'";
 fi;
 
-if  [[ -z "$IOBZIGBEEPORT0" ]]
-        then
-                echo "";
-        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]]
+if  [[ -n "$IOBZIGBEEPORT0" ]]; then
+        if [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT0"* ]]
         then
                 echo "";
                 echo "Your zigbee.0 COM-Port is matching 'by-id'. Very good!";
@@ -658,38 +654,34 @@ if  [[ -z "$IOBZIGBEEPORT0" ]]
                 echo "Your zigbee.0 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT0";
                 # diff -y --left-column <(echo "$IOBZIGBEEPORT0") <(echo "$SYSZIGBEEPORT");
+        fi;
 fi;
-
-if  [[ -z "$IOBZIGBEEPORT1" ]]
+if  [[ -n "$IOBZIGBEEPORT1" ]]; then
+        if [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
         then
                 echo "";
-        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT1"* ]]
-        then
-                echo "";
-                echo "Your zigBee.1 COM-Ports is matching 'by-id'. Very good!";
+                echo "Your zigBee.1 COM-Port is matching 'by-id'. Very good!";
         else
                 echo;
                 echo "HINT:";
                 echo "Your zigbee.1 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT1";
                 # diff -y --left-column <(echo "$IOBZIGBEEPORT1") <(echo "$SYSZIGBEEPORT");
+        fi;
 fi;
-
-if  [[ -z "$IOBZIGBEEPORT2" ]]
+if  [[ -n "$IOBZIGBEEPORT2" ]]; then
+        if [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT2"* ]]
         then
                 echo "";
-        elif [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT2"* ]]
-        then
-                echo "";
-                echo "Your zigBee.2 COM-Ports is matching 'by-id'. Very good!";
+                echo "Your zigBee.2 COM-Port is matching 'by-id'. Very good!";
         else
                 echo;
                 echo "HINT:";
                 echo "Your zigbee.2 COM-Port is NOT matching 'by-id'. Please check your setting:";
                 echo "$IOBZIGBEEPORT2";
                 # diff -y --left-column <(echo "$IOBZIGBEEPORT2") <(echo "$SYSZIGBEEPORT");
+        fi;
 fi;
-
 echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
@@ -702,7 +694,7 @@ PATHNPX=$(type -P npx);
 PATHCOREPACK=$(type -P corepack);
 
 
-if [ "$PATHNODEJS" = "" ];
+if [[ -z "$PATHNODEJS" ]];
 then
         echo -e "nodejs: \t\tN/A";
 else
@@ -710,7 +702,7 @@ else
         VERNODEJS=$(nodejs -v);
 fi;
 
-if [ "$PATHNODE" = "" ];
+if [[ -z "$PATHNODE"  ]];
 then
         echo -e "node: \t\tN/A";
 
@@ -719,7 +711,7 @@ else
         VERNODE=$(node -v);
 fi;
 
-if [ "$PATHNPM" = "" ];
+if [[ -z "$PATHNPM" ]];
 then
         echo -e "npm: \t\t\tN/A";
 else
@@ -727,7 +719,7 @@ else
         VERNPM=$(npm -v);
 fi;
 
-if [ "$PATHNPX" = "" ];
+if [[ -z "$PATHNPX" ]];
 then
         echo -e "npx: \t\t\tN/A";
 
@@ -736,7 +728,7 @@ else
         VERNPX=$(npx -v);
 fi;
 
-if [ "$PATHCOREPACK" = "" ];
+if [[ -z "$PATHCOREPACK" ]];
 then
         echo -e "corepack: \tN/A";
 
@@ -786,22 +778,11 @@ else
 fi
 
 echo "";
-if [ -f /usr/bin/apt-cache ]
+if [ -f /usr/bin/apt-cache ];
 then
         apt-cache policy nodejs;
         echo "";
-else
-echo "";
-fi
-
-# npm doctor can be misleading, deactivated to avoid confusion
-# echo -e "Calling 'npm doctor' for you. \033[32mPlease be patient!\033[0m";
-# echo "";
-# (cd /opt/iobroker && sudo -H -u iobroker npm doctor);
-# echo "";
-# echo "The recommended versions for ioBroker are nodeJS v$NODERECOM / npm v$NPMRECOM!";
-# echo "Don't trust the doctor if he recommends different versions!"
-# echo "";
+fi;
 
 ANZNPMTMP=$(find /opt/iobroker/node_modules -type d -iname '.*-????????' ! -iname '.local-chromium' | wc -l);
 echo -e "\033[32mTemp directories causing deletion problem:\033[0m ""$ANZNPMTMP""";
@@ -830,7 +811,9 @@ fi;
 echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
 echo -e "\033[32mioBroker Status\033[0m";
-iobroker status;
+iob status;
+echo "";
+iob list hosts;
 echo "";
 # multihost detection - wip
 # iobroker multihost status
@@ -863,14 +846,22 @@ IOBSTATES=$(iob list states 2>/dev/null | wc -l);
 echo -e "States: \t$IOBSTATES";
 echo "";
 echo -e "\033[34;107m*** OS-Repositories and Updates ***\033[0m";
-if [ -f /usr/bin/apt-get ]
+if [ -f /usr/bin/apt-get ];
 then
         sudo apt-get update 1>/dev/null && sudo apt-get update
         APT=$(apt-get upgrade -s |grep -P '^\d+ upgraded'|cut -d" " -f1)
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+        echo -e "Offene Systemupdates: $APT";
+        else
         echo -e "Pending Updates: $APT";
+        fi;
 else
-        echo "No Debian-based Linux detected."
-fi
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+        echo "Es wurde kein auf Debian basierendes System erkannt";
+        else
+        echo "No Debian-based Linux detected.";
+        fi;
+fi;
 
 
 echo "";
