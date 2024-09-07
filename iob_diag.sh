@@ -941,7 +941,7 @@ if [[ "$SKRPTLANG" = "--de" ]]; then
        echo "Zusammfassung ab hier markieren und kopieren:";
 echo "";
 echo "\`\`\`bash";
-echo "=================== ZUSAMMENFASSUNG ===================";
+echo "===================== ZUSAMMENFASSUNG =====================";
 echo -e "\t\t\tv.$SKRIPTV"
 echo "";
 echo "";
