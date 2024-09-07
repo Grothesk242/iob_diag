@@ -51,7 +51,7 @@ if [[ "$SKRPTLANG" == "--de" ]]; then
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnose ***\033[0m";
 echo "";
-echo "Das Fenster des Terminalprogramm (puTTY) bitte so groß wie möglich ziehen oder den Vollbildmodus verwenden.";
+echo "Das Fenster des Terminalprogramms (puTTY) bitte so groß wie möglich ziehen oder den Vollbildmodus verwenden.";
 echo "";
 echo "Die nachfolgenden Prüfungen liefern Hinweise zu etwaigen Fehlern, bitte im Forum hochladen:";
 echo "";
@@ -86,7 +86,7 @@ echo "";
 fi;
 
 if [[ "$SKRPTLANG" == "--de" ]]; then
-echo -e "\033[33m========== Markiere die Langfassung ab hier ===========\033[0m";
+echo -e "\033[33m========== Langfassung ab hier markieren und kopieren ===========\033[0m";
 echo "";
 echo "\`\`\`bash";
 echo "Skript v.$SKRIPTV"
@@ -1016,8 +1016,8 @@ if [[ -f "/var/run/reboot-required" ]]; then
                 echo "";
         fi;
 fi;
-echo "Nodejs-Installation:";
-if [ "$PATHNODEJS" = "" ];
+echo -e "\nNodejs-Installation:";
+if [[ -n "$PATHNODEJS" ]];
 then
         echo -e "nodejs: \t\tN/A";
 else
@@ -1025,7 +1025,7 @@ else
         VERNODEJS=$(nodejs -v);
 fi;
 
-if [ "$PATHNODE" = "" ];
+if [[ -n "$PATHNODE" ]];
 then
         echo -e "node: \t\tN/A";
 
@@ -1034,7 +1034,7 @@ else
         VERNODE=$(node -v);
 fi;
 
-if [ "$PATHNPM" = "" ];
+if [[ -n "$PATHNPM" ]];
 then
         echo -e "npm: \t\t\tN/A";
 else
@@ -1042,7 +1042,7 @@ else
         VERNPM=$(npm -v);
 fi;
 
-if [ "$PATHNPX" = "" ];
+if [[ -n "$PATHNPX" ]];
 then
         echo -e "npx: \t\t\tN/A";
 
@@ -1051,13 +1051,12 @@ else
         VERNPX=$(npx -v);
 fi;
 
-if [ "$PATHCOREPACK" = "" ];
+if [[ -n "$PATHCOREPACK" ]];
 then
         echo -e "corepack: \tN/A";
 
 else
         echo -e "$(type -P corepack) \t$(corepack -v)";
-        # VERCOREPACK=$(corepack -v);
 fi;
 if [[ "$SKRPTLANG" = "--de" ]]; then
 echo -e "\nEmpfohlene Versionen sind zur Zeit nodejs ""$NODERECOM"" und npm ""$NPMRECOM""";
