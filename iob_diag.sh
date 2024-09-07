@@ -634,6 +634,7 @@ SYSZIGBEEPORT=$(find /dev/serial/by-id/ -maxdepth 1 -mindepth 1 2>/dev/null);
 IOBZIGBEEPORT0=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.0 | awk -F ':' '{print $4}' | cut -c 2-)
 IOBZIGBEEPORT1=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.1 | awk -F ':' '{print $4}' | cut -c 2-)
 IOBZIGBEEPORT2=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.2 | awk -F ':' '{print $4}' | cut -c 2-)
+IOBZIGBEEPORT3=$(echo "$IOBLISTINST" | grep system.adapter.zigbee.3 | awk -F ':' '{print $4}' | cut -c 2-)
 
 
 if [[ -n "$SYSZIGBEEPORT" ]];
@@ -682,6 +683,20 @@ if  [[ -n "$IOBZIGBEEPORT2" ]]; then
                 # diff -y --left-column <(echo "$IOBZIGBEEPORT2") <(echo "$SYSZIGBEEPORT");
         fi;
 fi;
+if  [[ -n "$IOBZIGBEEPORT3" ]]; then
+        if [[ "$SYSZIGBEEPORT" == *"$IOBZIGBEEPORT3"* ]]
+        then
+                echo "";
+                echo "Your zigbee.3 COM-Port is matching 'by-id'. Very good!";
+        else
+                echo;
+                echo "HINT:";
+                echo "Your zigbee.3 COM-Port is NOT matching 'by-id'. Please check your setting:";
+                echo "$IOBZIGBEEPORT3";
+                # diff -y --left-column <(echo "$IOBZIGBEEPORT0") <(echo "$SYSZIGBEEPORT");
+        fi;
+fi;
+
 echo "";
 echo -e "\033[34;107m*** NodeJS-Installation ***\033[0m";
 echo "";
@@ -742,40 +757,66 @@ if
         [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                fi;
         elif
         [[ $PATHNODE != "/usr/bin/node" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                fi;
         elif
         [[ $PATHNPM != "/usr/bin/npm" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                fi;
         elif
         [[ $PATHNPX != "/usr/bin/npx" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                fi;
         elif
         [[ $VERNODEJS != "$VERNODE" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                fi;
         elif
         [[ $VERNPM != "$VERNPX" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
+                fi;
         elif
         [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
         then
                 NODENOTCORR=1
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
-else
-                echo "";
-fi
+                fi;
+fi;
 
 echo "";
 if [ -f /usr/bin/apt-cache ];
@@ -1107,7 +1148,7 @@ then
                 echo "";
                 echo "Bitte den Befehl";
                 echo -e "\e[031miob nodejs-update\e[0m";
-                echo "zur Korrektur des Fehlers ausführen."
+                echo "zur Korrektur der Installation ausführen."
                 else
                 echo "";
                 echo "Please execute";
