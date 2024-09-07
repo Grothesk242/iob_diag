@@ -13,7 +13,12 @@ then
 
 fi
 clear;
-echo "*** iob diag is starting up, please wait ***";
+SKRPTLANG=$1;
+if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo "*** iog diag startet, bitte etwas warten ***"
+        else
+                echo "*** iob diag is starting up, please wait ***";
+fi;
 # VARIABLES
 export LC_ALL=C;
 SKRIPTV="2024-09-06";      #version of this script
@@ -46,6 +51,25 @@ CODENAME=$(lsb_release -sc);
 UNKNOWNRELEASE=1
 
 clear;
+if [[ "$SKRPTLANG" == "--de" ]]; then
+echo "";
+echo -e "\033[34;107m*** ioBroker Diagnose ***\033[0m";
+echo "";
+echo "Bitte ziehe das Fenster deines Terminalprogramm (puTTY) so groß wie möglich oder verwende den Vollbildmodus.";
+echo "";
+echo "Die nachfolgenden Prüfungen liefern Hinweise zu etwaigen Fehlern, bitte lade sie im Forum hoch:";
+echo "";
+echo "https://forum.iobroker.net";
+echo "";
+echo "Markiere und kopiere einfach die vollständige Ausgabe, einschließlich der \`\`\` Zeichen am Anfang und am Ende.";
+echo "Es hilft beim helfen!"
+echo "";
+     # read -p "Press <Enter> to continue";
+echo "Bitte eine Taste drücken";
+read -r -n 1 -s
+        clear;
+echo "";
+else
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnosis ***\033[0m";
 echo "";
@@ -63,12 +87,23 @@ echo "Press any key to continue";
 read -r -n 1 -s
         clear;
 echo "";
-echo -e "\033[33m======== Start marking the full check here =========\033[0m";
+fi;
+
+if [[ "$SKRPTLANG" == "--de" ]]; then
+echo -e "\033[33m========== Markiere die Langfassung ab hier ===========\033[0m";
 echo "";
 echo "\`\`\`bash";
 echo "Skript v.$SKRIPTV"
 echo "";
+echo -e "\033[34;107m*** GRUNDSYSTEM ***\033[0m";
+else
+echo -e "\033[33m========== Start marking the full check here ===========\033[0m";
+echo "";
+echo "\`\`\`bash";
+echo "Script v.$SKRIPTV"
+echo "";
 echo -e "\033[34;107m*** BASE SYSTEM ***\033[0m";
+fi;
 
 if [ -f "$DOCKER" ]; then
 echo -e "Hardware Vendor : $(cat /sys/devices/virtual/dmi/id/sys_vendor)";
@@ -97,6 +132,67 @@ echo "Systemuptime and Load:";
 echo "CPU threads: $(grep -c processor /proc/cpuinfo)"
 echo "";
 echo "";
+
+if [[ "$SKRPTLANG" == "--de" ]]; then
+
+echo -e "\033[34;107m*** LEBENSZYKLUS STATUS ***\033[0m";
+
+for RELEASE in $EOLDEB; do
+    if [ "$RELEASE" = "$CODENAME" ]; then
+        RELEASESTATUS="\e[31mDas Debian Release '$CODENAME' hat sein Lebensende erreicht und muss JETZT auf die aktuelle stabile Veröffentlichung '$DEBSTABLE' gebracht werden!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for RELEASE in $EOLUBU; do
+    if [ "$RELEASE" == "$CODENAME" ]; then
+        RELEASESTATUS="\e[31mDas Ubuntu Release '$CODENAME' hat sein Lebensende erreicht und muss JETZT auf die aktuelle Version '$UBULTS' mit Langzeitunterstützung gebracht werden.\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for RELEASE in $DEBSTABLE; do
+    if [ "$RELEASE" == "$CODENAME" ]; then
+        RELEASESTATUS="\e[32mDein Betriebssystem ist das aktuelle stabile Debian '$DEBSTABLE'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for RELEASE in $UBULTS; do
+    if [ "$RELEASE" == "$CODENAME" ]; then
+        RELEASESTATUS="\e[32mDein Betriebssystem ist die aktuelle  Ubuntu LTS Version '$UBULTS'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for RELEASE in $OLDLTS; do
+    if [ "$RELEASE" == "$CODENAME" ]; then
+        RELEASESTATUS="\e[1;33mDie Unterstützung für dein Betriebssystem mit dem Codenamen '$CODENAME' läuft in nächster Zeit aus. Bitte bringe es in nächster Zeit auf die aktuelle Version '$UBULTS' mit Langzeitunterstützung\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for RELEASE in $TESTING; do
+    if [ "$RELEASE" == "$CODENAME" ]; then
+        RELEASESTATUS="\e[1;33mDein Betriebssystem mit dem Codenamen '$CODENAME' ist eine Testversion! Bitte setze es nur zu Testzwecken ein!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+for RELEASE in $OLDSTABLE; do
+    if [ "$RELEASE" == "$CODENAME" ]; then
+        RELEASESTATUS="\e[1;33mDebian '$OLDSTABLE' ist eine veraltete Version. Bitte bringe es in nächster Zeit auf die aktuelle stabile Version '$DEBSTABLE'!\e[0m";
+        UNKNOWNRELEASE=0;
+    fi;
+done;
+
+if [ $UNKNOWNRELEASE -eq 1 ]; then
+    RELEASESTATUS="Dein Betriebssystem mit dem Codenamen '$CODENAME' ist unbekannt. Bitte prüfe den Status der Unterstützung eigenständig."
+fi;
+
+echo -e "$RELEASESTATUS";
+
+else
 echo -e "\033[34;107m*** LIFE CYCLE STATUS ***\033[0m";
 
 for RELEASE in $EOLDEB; do
@@ -153,7 +249,7 @@ if [ $UNKNOWNRELEASE -eq 1 ]; then
 fi;
 
 echo -e "$RELEASESTATUS";
-
+fi;
 # RASPBERRY only
 if [[ $(type -P "vcgencmd" 2>/dev/null) = *"/vcgencmd" ]]; then
 #        echo "Raspberry only:";
@@ -237,14 +333,57 @@ fi
 
 fi
 
-if [[ -f "/var/run/reboot-required" ]]; then
-        echo "";
-        echo "This system needs to be REBOOTED!";
-        echo "";
-fi
-
+if [[ "$SKRPTLANG" = "--de" ]]; then
+        if [[ -f "/var/run/reboot-required" ]]; then
+                echo "";
+                echo "This system needs to be REBOOTED!";
+                echo "";
+        fi
+        else
+        if [[ -f "/var/run/reboot-required" ]]; then
+                echo "";
+                echo "Dieses System benötigt einen NEUSTART!";
+                echo "";
+        fi
+fi;
 
 echo "";
+
+if [[ "$SKRPTLANG" = "--de" ]]; then
+echo -e "\033[34;107m*** Zeit und Zeitzonen ***\033[0m";
+
+        if [ -f "$DOCKER" ]; then
+                date -u;
+                date;
+                date +"%Z %z";
+                cat /etc/timezone;
+        else
+                timedatectl;
+        fi;
+
+        if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
+                echo "Die gesetzte Zeitzone ist vermutlich falsch. Möchtest du sie jetzt einstellen? (j/n)"
+                read -r -s -n 1 char;
+                if
+                [[ "$char" = "j" ]] || [[ "$char" = "J" ]]
+                then
+                        if command -v dpkg-reconfigure > /dev/null; then
+                        sudo dpkg-reconfigure tzdata;
+                        else
+                # Setup the timezone for the server (Default value is "Europe/Berlin")
+                echo "Setze die Zeitzone";
+                read -p "Gib die Zeitzone für den Server ein. (Voreinstellung ist Europe/Berlin): " TIMEZONE;
+                TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
+                timedatectl set-timezone $TIMEZONE;
+                        fi;
+                # Set up time synchronization with systemd-timesyncd
+                echo "Zeitsynchronisierung mittels systemd-timesyncd wird eingerichtet"
+                systemctl enable systemd-timesyncd
+                systemctl start systemd-timesyncd
+                fi;
+        fi;
+else
+
 echo -e "\033[34;107m*** Time and Time Zones ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
@@ -278,7 +417,7 @@ read -r -s -n 1 char;
 
         fi;
 fi;
-
+fi;
 
 echo "";
 echo -e "\033[34;107m*** Users and Groups ***\033[0m";
