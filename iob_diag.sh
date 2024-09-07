@@ -17,7 +17,7 @@ if [[ "$SKRPTLANG" = "--de" ]]; then
 fi;
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-09-06";      #version of this script
+SKRIPTV="2024-09-07";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(hostname);
@@ -51,7 +51,7 @@ if [[ "$SKRPTLANG" == "--de" ]]; then
 echo "";
 echo -e "\033[34;107m*** ioBroker Diagnose ***\033[0m";
 echo "";
-echo "Das Fenster des Terminalprogramm (puTTY) bitte so groß ziehen oder den Vollbildmodus verwenden.";
+echo "Das Fenster des Terminalprogramm (puTTY) bitte so groß wie möglich ziehen oder den Vollbildmodus verwenden.";
 echo "";
 echo "Die nachfolgenden Prüfungen liefern Hinweise zu etwaigen Fehlern, bitte im Forum hochladen:";
 echo "";
@@ -812,7 +812,7 @@ echo -e "\033[34;107m*** ioBroker-Installation ***\033[0m";
 echo "";
 echo -e "\033[32mioBroker Status\033[0m";
 iob status;
-echo "";
+echo -e "\nHosts:";
 iob list hosts;
 echo "";
 # multihost detection - wip
@@ -878,16 +878,33 @@ tail -n 25 /opt/iobroker/log/iobroker.current.log;
 echo "";
 echo "\`\`\`";
 echo "";
+ if [[ "$SKRPTLANG" = "--de" ]]; then
+ echo -e "\033[33m============ Langfassung bis hier markieren =============\033[0m";
+echo "";
+echo "iob diag hat das System inspiziert.";
+echo "";
+echo "";
+echo "Beliebige Taste für eine Zusammenfassung drücken";
+ else
 echo -e "\033[33m============ Mark until here for C&P =============\033[0m";
 echo "";
 echo "iob diag has finished.";
 echo "";
 echo "";
-       # read -p "For a Summary please press <Enter>";
 echo "Press any key for a summary";
+fi;
         read -r -n 1 -s
 echo "";
         clear;
+if [[ "$SKRPTLANG" = "--de" ]]; then
+       echo "Zusammfassung ab hier markieren und kopieren:";
+echo "";
+echo "\`\`\`bash";
+echo "=================== ZUSAMMENFASSUNG ===================";
+echo -e "\t\t\tv.$SKRIPTV"
+echo "";
+echo "";
+else
 echo "Copy text starting here:";
 echo "";
 echo "\`\`\`bash";
@@ -895,6 +912,7 @@ echo "======================= SUMMARY =======================";
 echo -e "\t\t\tv.$SKRIPTV"
 echo "";
 echo "";
+fi;
 if [ -f "$DOCKER" ]; then
         INSTENV=2
 elif [ "$SYSTDDVIRT" != "none" ]; then
@@ -941,16 +959,23 @@ else
 fi;
 
 echo "";
+if [[ "$SKRPTLANG" = "--de" ]]; then
+echo -e "Offene OS-Updates: \t$APT";
+echo -e "Offene iob updates: \t$(iob update -u | grep -c 'Updatable\|Updateable')";
+else
 echo -e "Pending OS-Updates: \t$APT";
 echo -e "Pending iob updates: \t$(iob update -u | grep -c 'Updatable\|Updateable')";
+fi;
 if [[ -f "/var/run/reboot-required" ]]; then
-        echo "";
-        echo "This system needs to be REBOOTED NOW!";
-        echo "";
-fi
-
-echo "";
-echo -e "Nodejs-Installation:";
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\nDas System muss JETZT neugestartet werden!";
+                echo "";
+        else
+                echo -e "\nThis system needs to be REBOOTED NOW!";
+                echo "";
+        fi;
+fi;
+echo "Nodejs-Installation:";
 if [ "$PATHNODEJS" = "" ];
 then
         echo -e "nodejs: \t\tN/A";
@@ -993,54 +1018,102 @@ else
         echo -e "$(type -P corepack) \t$(corepack -v)";
         # VERCOREPACK=$(corepack -v);
 fi;
-
-echo -e "";
-echo -e "Recommended versions are nodejs ""$NODERECOM"" and npm ""$NPMRECOM""";
-
+if [[ "$SKRPTLANG" = "--de" ]]; then
+echo -e "\nEmpfohlene Versionen sind zur Zeit nodejs ""$NODERECOM"" und npm ""$NPMRECOM""";
+else
+echo -e "\nRecommended versions are nodejs ""$NODERECOM"" and npm ""$NPMRECOM""";
+fi;
 if
         [[ $PATHNODEJS != "/usr/bin/nodejs" ]];
         then
-                echo "*** nodejs is NOT correctly installed ***";
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Falsche Installationspfade erkannt. Dies muss korrigiert werden.";
+                else
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
                 echo "Wrong installation path detected. This needs to be fixed.";
+                fi;
         elif
         [[ $PATHNODE != "/usr/bin/node" ]];
         then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Falsche Installationspfade erkannt. Dies muss korrigiert werden.";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
                 echo "Wrong installation path detected. This needs to be fixed.";
+                fi;
         elif
         [[ $PATHNPM != "/usr/bin/npm" ]];
         then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Falsche Installationspfade erkannt. Dies muss korrigiert werden.";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
                 echo "Wrong installation path detected. This needs to be fixed.";
+                fi;
         elif
         [[ $PATHNPX != "/usr/bin/npx" ]];
         then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Falsche Installationspfade erkannt. Dies muss korrigiert werden.";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
                 echo "Wrong installation path detected. This needs to be fixed.";
+                fi;
          elif
         [[ $PATHCOREPACK != "/usr/bin/corepack" ]];
         then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Falsche Installationspfade erkannt. Dies muss korrigiert werden.";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
-                echo "Wrong installation path detected. This needs to be fixed";
+                echo "Wrong installation path detected. This needs to be fixed.";
+                fi;
         elif
         [[ $VERNODEJS != "$VERNODE" ]];
         then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Die Versionen von nodejs und node stimmen nicht überein. Dies muss korrigiert werden.";
+                else
                 echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
                 echo "nodejs and node versions do not match. This needs to be fixed.";
+                fi;
+
         elif
         [[ $VERNPM != "$VERNPX" ]];
         then
-                echo -e "\033[0;31mnodejs is NOT correctly installed\033[0m";
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "\033[0;31m*** nodejs ist NICHT korrekt installiert ***\033[0m";
+                echo "Die Versionen von npm und npx stimmen nicht überein. Dies muss korrigiert werden.";
+                else
+                echo -e "\033[0;31m*** nodejs is NOT correctly installed ***\033[0m";
                 echo "npm and npx versions do not match. This needs to be fixed.";
+                fi;
         else
-                echo "Your nodejs installation is correct";
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo "nodeJS ist korrekt installiert"
+                else
+                echo "nodeJS installation is correct";
+                fi;
 fi
 if [[ $NODENOTCORR -eq 1 ]];
 then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo "";
+                echo "Bitte den Befehl";
+                echo -e "\e[031miob nodejs-update\e[0m";
+                echo "zur Korrektur des Fehlers ausführen."
+                else
                 echo "";
                 echo "Please execute";
                 echo -e "\e[031miob nodejs-update\e[0m";
                 echo "to fix these errors."
+                fi;
 fi;
 echo "";
 # echo -e "Total Memory: \t\t`free -h | awk '/^Mem:/{print $2}'`";
@@ -1070,16 +1143,29 @@ echo "";
 echo "";
 if [[ $ANZNPMTMP -gt 0 ]]
 then
-        echo -e "*********************************************************************";
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+        echo "**********************************************************************";
+        echo -e "Probleme wurden erkannt, bitte \e[031miob fix\e[0m ausführen";
+        echo "**********************************************************************";
+        echo "";
+        else
+        echo "**********************************************************************";
         echo -e "Some problems detected, please run \e[031miob fix\e[0m and try to have them fixed";
-        echo -e "*********************************************************************";
-        echo -e "";
+        echo "**********************************************************************";
+        echo "";
+        fi;
 fi;
 echo -e "$RELEASESTATUS";
 echo "";
-
-echo "=================== END OF SUMMARY ===================="
+if [[ "$SKRPTLANG" = "--de" ]]; then
+echo "=================== ENDE DER ZUSAMMENFASSUNG ====================";
+echo -e "\`\`\`";
+echo "";
+echo "=== Ausgabe bis hier markieren und kopieren ===";
+else
+echo "=================== END OF SUMMARY ====================";
 echo -e "\`\`\`";
 echo "";
 echo "=== Mark text until here for copying ===";
+fi;
 exit;
