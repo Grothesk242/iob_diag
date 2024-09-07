@@ -1017,7 +1017,7 @@ if [[ -f "/var/run/reboot-required" ]]; then
         fi;
 fi;
 echo -e "\nNodejs-Installation:";
-if [[ -n "$PATHNODEJS" ]];
+if [[ -z "$PATHNODEJS" ]];
 then
         echo -e "nodejs: \t\tN/A";
 else
@@ -1025,16 +1025,16 @@ else
         VERNODEJS=$(nodejs -v);
 fi;
 
-if [[ -n "$PATHNODE" ]];
+if [[ -z "$PATHNODE" ]];
 then
-        echo -e "node: \t\tN/A";
+        echo -e "node: \t\t\tN/A";
 
 else
         echo -e "$(type -P node) \t\t$(node -v)";
         VERNODE=$(node -v);
 fi;
 
-if [[ -n "$PATHNPM" ]];
+if [[ -z "$PATHNPM" ]];
 then
         echo -e "npm: \t\t\tN/A";
 else
@@ -1042,7 +1042,7 @@ else
         VERNPM=$(npm -v);
 fi;
 
-if [[ -n "$PATHNPX" ]];
+if [[ -z "$PATHNPX" ]];
 then
         echo -e "npx: \t\t\tN/A";
 
@@ -1051,7 +1051,7 @@ else
         VERNPX=$(npx -v);
 fi;
 
-if [[ -n "$PATHCOREPACK" ]];
+if [[ -z "$PATHCOREPACK" ]];
 then
         echo -e "corepack: \tN/A";
 
