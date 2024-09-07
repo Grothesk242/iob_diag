@@ -420,6 +420,55 @@ fi;
 fi;
 
 echo "";
+if [[ "$SKRPTLANG" = "--de" ]]; then
+echo -e "\033[34;107m*** User und Gruppen ***\033[0m";
+        echo "User der 'iob diag' aufgerufen hat:";
+        whoami;
+        env | grep HOME;
+        echo "GROUPS=$(groups)";
+        echo "";
+        echo "User der den 'js-controller' ausführt:";
+        if [[ $(pidof iobroker.js-controller) -gt 0 ]];
+        then
+                IOUSER=$(ps -o user= -p "$(pidof iobroker.js-controller)")
+                echo "$IOUSER";
+                sudo -H -u "$IOUSER" env | grep HOME;
+                echo "GROUPS=$(sudo -u "$IOUSER" groups)"
+        else
+         echo "js-controller läuft nicht";
+        fi;
+
+echo "";
+
+if [ ! -f "$DOCKER" ] && [[ "$(whoami)" = "root" || "$(whoami)" = "iobroker" ]]; then
+
+# Prompt for username
+read -p "Gib einen Username für einen neuen User an (Nicht 'root' und nicht 'iobroker'!): " USERNAME
+
+# Check if the user already exists
+if id "$USERNAME" &>/dev/null; then
+    echo "Nutzer $USERNAME existiert bereits. Überspringe die Neuanlage."
+else
+    # Prompt for password
+    read -s -p "Gib ein Passwort für den neuen Nutzer an: " PASSWORD
+    echo
+    read -s -p "Wiederhole das Passwort für den neuen Nutzer: " PASSWORD_CONFIRM
+    echo
+
+    # Check if passwords match
+    if [ "$PASSWORD" != "$PASSWORD_CONFIRM" ]; then
+        echo "Passwort stimmt nicht überein. Breche ab."
+        exit 1
+    fi
+
+    # Add a new user account with sudo access and set the password
+    echo "Neuer Nutzer wird angelegt. Bitte künftig nur noch diesen Nutzer verwenden."
+    useradd -m -s /bin/bash -G adm,dialout,sudo,audio,video,plugdev,users,iobroker $USERNAME
+    echo "$USERNAME:$PASSWORD" | chpasswd
+fi
+
+fi;
+else
 echo -e "\033[34;107m*** Users and Groups ***\033[0m";
         echo "User that called 'iob diag':";
         whoami;
@@ -467,7 +516,7 @@ else
 fi
 
 fi;
-
+fi;
 echo -e "\033[34;107m*** Display-Server-Setup ***\033[0m";
 XORGTEST=$(pgrep -cf '[X]|[w]ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
