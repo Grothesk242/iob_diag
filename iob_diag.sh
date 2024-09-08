@@ -565,6 +565,13 @@ echo "";
 echo -e "\033[34;107m*** DMESG CRITICAL ERRORS ***\033[0m";
 echo "";
 sudo dmesg --level=emerg,alert,crit -T;
+
+
+if [[ -z "$?" ]]; then
+  echo "CRITICAL ERRORS DETECTED!"
+else
+  echo "No critical errors detected"
+fi
 echo "";
 
 echo -e "\033[34;107m*** FILESYSTEM ***\033[0m";
