@@ -1059,7 +1059,7 @@ else
         echo -e "$(type -P corepack) \t$(corepack -v)";
 fi;
 if [[ "$SKRPTLANG" = "--de" ]]; then
-echo -e "\nEmpfohlene Versionen sind zur Zeit nodejs ""$NODERECOM"" und npm ""$NPMRECOM""";
+echo -e "\nEmpfohlene Versionen sind zurzeit nodejs ""$NODERECOM"" und npm ""$NPMRECOM""";
 else
 echo -e "\nRecommended versions are nodejs ""$NODERECOM"" and npm ""$NPMRECOM""";
 fi;
