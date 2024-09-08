@@ -567,7 +567,7 @@ echo "";
 CRITERROR=$(sudo dmesg --level=emerg,alert,crit -T | wc -l);
 if [[ "$CRITERROR" -gt 0 ]]; then
         if [[ "$SKRPTLANG" = "--de" ]]; then
-                echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. Siehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
+                echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. \nSiehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
         else
                 echo -e ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
         fi;
@@ -1206,6 +1206,13 @@ then
         echo -e "Some problems detected, please run \e[031miob fix\e[0m and try to have them fixed";
         echo "**********************************************************************";
         echo "";
+        fi;
+fi;
+if [[ "$CRITERROR" -gt 0 ]]; then
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. \nSiehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
+        else
+                echo -e ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
         fi;
 fi;
 echo -e "$RELEASESTATUS";
