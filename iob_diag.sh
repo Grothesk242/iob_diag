@@ -565,7 +565,7 @@ echo "";
 echo -e "\033[34;107m*** DMESG CRITICAL ERRORS ***\033[0m";
 echo "";
 CRITERROR=$(sudo dmesg --level=emerg,alert,crit -T | wc -l);
-if [[ -n "$CRITERROR" ]]; then
+if [[ "$CRITERROR" -gt 0 ]]; then
         if [[ "$SKRPTLANG" = "--de" ]]; then
                 echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. Siehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
         else
