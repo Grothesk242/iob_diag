@@ -564,12 +564,20 @@ fi;
 echo "";
 echo -e "\033[34;107m*** DMESG CRITICAL ERRORS ***\033[0m";
 echo "";
-CRITERROR=$(sudo dmesg --level=emerg,alert,crit,err -T | wc -l);
+CRITERROR=$(sudo dmesg --level=emerg,alert,crit -T | wc -l);
 if [[ -n "$CRITERROR" ]]; then
-  echo -e ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. Siehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
+        else
+                echo -e ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
+        fi;
 else
-  echo "No critical errors detected"
-fi
+        if [[ "$SKRPTLANG" = "--de" ]]; then
+                echo "Es wurden keine kritischen Fehler gefunden"
+        else
+                echo "No critical errors detected"
+        fi;
+fi;
 echo "";
 
 echo -e "\033[34;107m*** FILESYSTEM ***\033[0m";
