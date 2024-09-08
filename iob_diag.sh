@@ -564,11 +564,9 @@ fi;
 echo "";
 echo -e "\033[34;107m*** DMESG CRITICAL ERRORS ***\033[0m";
 echo "";
-sudo dmesg --level=emerg,alert,crit -T;
-
-
-if [[ -z "$?" ]]; then
-  echo "CRITICAL ERRORS DETECTED!"
+CRITERROR=$(sudo dmesg --level=emerg,alert,crit,err -T | wc -l);
+if [[ -z "$CRITERROR" ]]; then
+  echo ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck with 'sudo dmesg --level=emerg,alert,crit -T' for details";
 else
   echo "No critical errors detected"
 fi
