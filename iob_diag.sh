@@ -17,7 +17,7 @@ if [[ "$SKRPTLANG" = "--de" ]]; then
 fi;
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-09-07";      #version of this script
+SKRIPTV="2024-09-15";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(uname -n);
@@ -41,7 +41,7 @@ EOLUBU="bionic xenial trusty mantic lunar kinetic impish hirsute groovy eoan dis
 DEBSTABLE="bookworm";
 UBULTS="noble"
 OLDLTS="jammy focal";
-TESTING="trixie oracular"
+TESTING="forky trixie oracular"
 OLDSTABLE="bullseye";
 CODENAME=$(lsb_release -sc);
 UNKNOWNRELEASE=1
@@ -370,7 +370,7 @@ echo -e "\033[34;107m*** ZEIT UND ZEITZONEN ***\033[0m";
                 echo "Setzen der Zeitzone";
                 read -p "Eingabe der Zeitzone (Voreinstellung ist Europe/Berlin): " TIMEZONE;
                 TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
-                sudo timedatectl set-timezone $TIMEZONE;
+                sudo timedatectl set-timezone "$TIMEZONE";
                         fi;
                 # Set up time synchronization with systemd-timesyncd
                 echo "Zeitsynchronisierung mittels systemd-timesyncd wird eingerichtet"
@@ -380,36 +380,36 @@ echo -e "\033[34;107m*** ZEIT UND ZEITZONEN ***\033[0m";
         fi;
 else
 
-echo -e "\033[34;107m*** TIME AND TIMEZONES ***\033[0m";
+                echo -e "\033[34;107m*** TIME AND TIMEZONES ***\033[0m";
 
 if [ -f "$DOCKER" ]; then
-        date -u;
-        date;
-        date +"%Z %z";
-        cat /etc/timezone;
+                date -u;
+                date;
+                date +"%Z %z";
+                cat /etc/timezone;
 else
-    timedatectl;
+                timedatectl;
 fi;
 
 if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
-echo "Timezone is probably wrong. Do you want to reconfigure it? (y/n)"
-read -r -s -n 1 char;
+                echo "Timezone is probably wrong. Do you want to reconfigure it? (y/n)"
+                read -r -s -n 1 char;
         if
                 [[ "$char" = "y" ]] || [[ "$char" = "Y" ]]
         then
                 if command -v dpkg-reconfigure > /dev/null; then
-                sudo dpkg-reconfigure tzdata;
+                        sudo dpkg-reconfigure tzdata;
                 else
-                # Setup the timezone for the server (Default value is "Europe/Berlin")
-                echo "Setting up timezone";
-                read -p "Enter the timezone for the server (default is Europe/Berlin): " TIMEZONE;
-                TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
-                sudo timedatectl set-timezone $TIMEZONE;
+                        # Setup the timezone for the server (Default value is "Europe/Berlin")
+                        echo "Setting up timezone";
+                        read -p "Enter the timezone for the server (default is Europe/Berlin): " TIMEZONE;
+                        TIMEZONE=${TIMEZONE:-"Europe/Berlin"};
+                        sudo timedatectl set-timezone "$TIMEZONE";
                 fi;
-                # Set up time synchronization with systemd-timesyncd
-                echo "Setting up time synchronization with systemd-timesyncd"
-                sudo systemctl enable systemd-timesyncd
-                sudo systemctl start systemd-timesyncd
+                        # Set up time synchronization with systemd-timesyncd
+                        echo "Setting up time synchronization with systemd-timesyncd"
+                        sudo systemctl enable systemd-timesyncd
+                        sudo systemctl start systemd-timesyncd
 
         fi;
 fi;
@@ -417,23 +417,22 @@ fi;
 
 echo "";
 if [[ "$SKRPTLANG" = "--de" ]]; then
-echo -e "\033[34;107m*** User und Gruppen ***\033[0m";
-        echo "User der 'iob diag' aufgerufen hat:";
-        whoami;
-        env | grep HOME;
-        echo "GROUPS=$(groups)";
-        echo "";
-        echo "User der den 'js-controller' ausführt:";
-        if [[ $(pidof iobroker.js-controller) -gt 0 ]];
-        then
-                IOUSER=$(ps -o user= -p "$(pidof iobroker.js-controller)")
-                echo "$IOUSER";
-                sudo -H -u "$IOUSER" env | grep HOME;
-                echo "GROUPS=$(sudo -u "$IOUSER" groups)"
-        else
-         echo "js-controller läuft nicht";
-        fi;
-
+                echo -e "\033[34;107m*** User und Gruppen ***\033[0m";
+                echo "User der 'iob diag' aufgerufen hat:";
+                whoami;
+                env | grep HOME;
+                echo "GROUPS=$(groups)";
+                echo "";
+                echo "User der den 'js-controller' ausführt:";
+                        if [[ $(pidof iobroker.js-controller) -gt 0 ]];
+                        then
+                        IOUSER=$(ps -o user= -p "$(pidof iobroker.js-controller)")
+                        echo "$IOUSER";
+                        sudo -H -u "$IOUSER" env | grep HOME;
+                        echo "GROUPS=$(sudo -u "$IOUSER" groups)"
+                        else
+                        echo "js-controller läuft nicht";
+                        fi;
 echo "";
 
 if [ ! -f "$DOCKER" ] && [[ "$(whoami)" = "root" || "$(whoami)" = "iobroker" ]]; then
@@ -441,17 +440,17 @@ if [ ! -f "$DOCKER" ] && [[ "$(whoami)" = "root" || "$(whoami)" = "iobroker" ]];
 # Prompt for username
 echo "Es sollte ein Standarduser angelegt werden! Dieser user kann dann auch mittels 'sudo' temporär root-Rechte erlangen!"
 echo "Ein permanentes Login als root ist nicht vorgesehen."
-read -p "Neuer Nutzername (Nicht 'root' und nicht 'iobroker'!): " USERNAME
+read -p "Neuer Nutzername (Nicht 'root' und nicht 'iobroker'!): " USERNAME;
 
 # Check if the user already exists
 if id "$USERNAME" &>/dev/null; then
     echo "Nutzer $USERNAME existiert bereits. Überspringe die Neuanlage."
 else
     # Prompt for password
-    read -s -p "Passwort für den neuen Nutzer: " PASSWORD
-    echo
-    read -s -p "Passwort für den neuen Nutzer nochmal eingeben: " PASSWORD_CONFIRM
-    echo
+    read -s -p "Passwort für den neuen Nutzer: " PASSWORD;
+    echo;
+    read -s -p "Passwort für den neuen Nutzer nochmal eingeben: " PASSWORD_CONFIRM;
+    echo;
 
     # Check if passwords match
     if [ "$PASSWORD" != "$PASSWORD_CONFIRM" ]; then
@@ -461,7 +460,7 @@ else
 
     # Add a new user account with sudo access and set the password
     echo "Neuer Nutzer wird angelegt. Bitte künftig nur noch diesen Nutzer verwenden."
-    useradd -m -s /bin/bash -G adm,dialout,sudo,audio,video,plugdev,users,iobroker $USERNAME
+    useradd -m -s /bin/bash -G adm,dialout,sudo,audio,video,plugdev,users,iobroker "$USERNAME"
     echo "$USERNAME:$PASSWORD" | chpasswd
 fi
 
@@ -511,7 +510,7 @@ else
 
     # Add a new user account with sudo access and set the password
     echo "Adding new user account..."
-    useradd -m -s /bin/bash -G adm,dialout,sudo,audio,video,plugdev,users,iobroker $USERNAME
+    useradd -m -s /bin/bash -G adm,dialout,sudo,audio,video,plugdev,users,iobroker "$USERNAME"
     echo "$USERNAME:$PASSWORD" | chpasswd
 fi
 
@@ -532,6 +531,31 @@ if [ -f "$DOCKER" ]; then
 else
         echo -e "Boot Target: \t$(systemctl get-default)";
 fi;
+
+
+        if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(systemctl get-default) == "graphical.target" ]]; then
+                if [[ "$SKRPTLANG" = "--de" ]]; then
+                        echo -e "\nDas System bootet in eine graphische Oberfläche. Im Serverbetrieb wird keine GUI verwendet. Soll das boot target jetzt auf 'multi-user.target'geändert werden? (j/n)";
+                        read -r -s -n 1 char;
+                        if
+                                [[ "$char" = "j" ]] || [[ "$char" = "J" ]];
+                        then
+                                # Set up multi-user.target
+                                echo "Das boot target wird auf multi-user gesetzt. Das System muss im Anschluß neugestartet werden.";
+                                sudo systemctl set-default multi-user.target;
+                        fi;
+                else
+                        echo -e "\nSystem is booting into 'graphical.target'. Usually a server is running in 'multi-user.target'. Do you want to switch to 'multi-user.target'? (y/n)";
+                        read -r -s -n 1 char;
+                        if
+                                [[ "$char" = "y" ]] || [[ "$char" = "Y" ]];
+                                then
+                                # Set up multi-user.target
+                                echo "New boot target is multi-user now! The system needs to be restarted.";
+                                sudo systemctl set-default multi-user.target;
+                        fi;
+                fi;
+        fi;
 echo "";
 echo -e "\033[34;107m*** MEMORY ***\033[0m";
         free -th --mega;
@@ -567,9 +591,9 @@ echo "";
 CRITERROR=$(sudo dmesg --level=emerg,alert,crit -T | wc -l);
 if [[ "$CRITERROR" -gt 0 ]]; then
         if [[ "$SKRPTLANG" = "--de" ]]; then
-                echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. \nSiehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
+                echo -e "Es wurden $CRITERROR KRITISCHE FEHLER gefunden. \nSiehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
         else
-                echo -e ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
+                echo -e "$CRITERROR CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
         fi;
 else
         if [[ "$SKRPTLANG" = "--de" ]]; then
@@ -1210,9 +1234,9 @@ then
 fi;
 if [[ "$CRITERROR" -gt 0 ]]; then
         if [[ "$SKRPTLANG" = "--de" ]]; then
-                echo -e "Es wurden "$CRITERROR" KRITISCHE FEHLER gefunden. \nSiehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
+                echo -e "Es wurden $CRITERROR KRITISCHE FEHLER gefunden. \nSiehe 'sudo dmesg --level=emerg,alert,crit -T' für Details"
         else
-                echo -e ""$CRITERROR" CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
+                echo -e "$CRITERROR CRITICAL ERRORS DETECTED! \nCheck 'sudo dmesg --level=emerg,alert,crit -T' for details";
         fi;
 fi;
 echo -e "$RELEASESTATUS";
