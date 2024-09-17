@@ -17,7 +17,7 @@ if [[ "$SKRPTLANG" = "--de" ]]; then
 fi;
 # VARIABLES
 export LC_ALL=C;
-SKRIPTV="2024-09-16";      #version of this script
+SKRIPTV="2024-09-17";      #version of this script
 #NODE_MAJOR=20           this is the recommended major nodejs version for ioBroker, please adjust accordingly if the recommendation changes
 
 HOST=$(uname -n);
@@ -519,7 +519,7 @@ fi
 fi;
 fi;
 echo -e "\033[34;107m*** DISPLAY-SERVER SETUP ***\033[0m";
-XORGTEST=$(pgrep -cf '[X]|[w]ayland|X11|wayfire')
+XORGTEST=$(pgrep -cf 'ayland|X11|wayfire')
 if [[ "$XORGTEST" -gt 0 ]];
         then
                 echo -e "Display-Server: true"
