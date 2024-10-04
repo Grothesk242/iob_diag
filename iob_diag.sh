@@ -357,7 +357,7 @@ echo -e "\033[34;107m*** ZEIT UND ZEITZONEN ***\033[0m";
                 timedatectl;
         fi;
 
-        if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
+        if [[ $(ps -p 1 -o comm=) == "systemd" ]] && [[ $(timedatectl show --property=Timezone --value) == "Etc/UTC" ]] || [[ $(timedatectl show --property=Timezone --value) == "Europe/London" ]]; then
                 echo "Die gesetzte Zeitzone ist vermutlich falsch. Soll sie jetzt geändert werden? (j/n)"
                 read -r -s -n 1 char;
                 if
@@ -392,7 +392,7 @@ else
 fi;
 
 if [[ $(ps -p 1 -o comm=) == "systemd" ]]; then
-        if [[ $(timedatectl show) == *Etc/UTC* ]] || [[ $(timedatectl show) == *Europe/London* ]]; then
+        if [[ $(timedatectl show --property=Timezone --value) == "Etc/UTC" ]] || [[ $(timedatectl show --property=Timezone --value) == "Europe/London" ]]; then
                 echo "Timezone is probably wrong. Do you want to reconfigure it? (y/n)"
                 read -r -s -n 1 char;
                 if
